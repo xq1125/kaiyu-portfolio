@@ -27,6 +27,7 @@
 
   let menuOpen = false;
   let lightboxOpen = false;
+  let gameOpen = false;
   let lastFocusedElement = null;
   let toastTimer = 0;
   let collageZ = 10;
@@ -362,7 +363,7 @@
 
   function initScrollSpy() {
     const links = $$("[data-nav]");
-    const sections = ["works", "play", "about", "contact"]
+    const sections = ["works", "about", "contact"]
       .map((id) => doc.getElementById(id))
       .filter(Boolean);
     if (!links.length || !sections.length) return;
@@ -471,19 +472,17 @@
         cursor.style.top = `${y}px`;
 
         const viewTarget = event.target.closest(
-          ".work-card, .chapter-card, [data-cursor='翻开'], .lightbox-stage"
+          ".work-card, .chapter-card, [data-cursor], .lightbox-stage"
         );
-        const hoverTarget = event.target.closest(
-          "a, button, .collage-card, .ink-dot, .tool-btn, .shade"
-        );
-        const overCanvas = event.target.closest("#playCanvas");
+        const hoverTarget = event.target.closest("a, button, .collage-card");
 
-        doc.body.classList.toggle("cursor-canvas", Boolean(overCanvas));
         doc.body.classList.toggle("cursor-view", Boolean(viewTarget));
         doc.body.classList.toggle("cursor-hover", Boolean(hoverTarget) && !viewTarget);
 
         if (viewTarget) {
-          tag.textContent = viewTarget.classList.contains("lightbox-stage") ? "放大" : "翻开";
+          tag.textContent =
+            viewTarget.dataset.cursor ||
+            (viewTarget.classList.contains("lightbox-stage") ? "放大" : "翻开");
         }
       },
       { passive: true }
@@ -494,7 +493,7 @@
     moveTag();
 
     doc.addEventListener("pointerleave", () => {
-      doc.body.classList.remove("cursor-hover", "cursor-view", "cursor-canvas");
+      doc.body.classList.remove("cursor-hover", "cursor-view");
     });
   }
 
@@ -744,258 +743,255 @@
   }
 
   /* ------------------------------------------------------------------ */
-  /* Doodle corner                                                      */
+  /* ------------------------------------------------------------------ */
+  /* Work fragment game                                                 */
   /* ------------------------------------------------------------------ */
 
-  function initDoodle() {
-    const canvas = $("#playCanvas");
-    const wrap = canvas?.parentElement;
-    if (!canvas || !wrap) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+  function initFragmentGame() {
+    const game = $("#fragmentGame");
+    if (!game) return;
 
-    const hint = $("#playHint");
-    const modeReadout = $("#playMode");
-    let width = 0;
-    let height = 0;
-    let dpr = 1;
-    let color = "#24211c";
-    let mode = "pen";
-    let drawing = false;
-    let lastX = 0;
-    let lastY = 0;
-    let hintHidden = false;
+    const choices = $("#gameChoices");
+    const crop = $("#gameCrop");
+    const result = $("#gameResult");
+    const summary = $("#gameSummary");
+    const nextButton = $("#gameNext");
+    const roundLabel = $("#gameRound");
+    const scoreLabel = $("#gameScore");
+    const fragmentNum = $("#gameFragmentNum");
+    const prompt = $("#gamePrompt");
+    const title = $("#gameTitle");
+    const closeButton = $("#gameClose");
+    const openButton = $("#gameOpen");
+    const ROUNDS = 5;
 
-    const paintPaper = () => {
-      ctx.globalAlpha = 1;
-      ctx.globalCompositeOperation = "source-over";
-      ctx.fillStyle = "#fbf7ee";
-      ctx.fillRect(0, 0, width, height);
+    const state = {
+      open: false,
+      round: 0,
+      score: 0,
+      answered: false,
+      finished: false,
+      deck: [],
+      current: null,
+      lastFocus: null
+    };
 
-      ctx.fillStyle = "rgba(37, 33, 27, .11)";
-      for (let x = 22; x < width; x += 26) {
-        for (let y = 22; y < height; y += 26) {
-          ctx.beginPath();
-          ctx.arc(x, y, 0.65, 0, Math.PI * 2);
-          ctx.fill();
-        }
+    const shuffle = (items) => {
+      const next = items.slice();
+      for (let i = next.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [next[i], next[j]] = [next[j], next[i]];
       }
-
-      ctx.font = '6px "Courier New", monospace';
-      ctx.fillStyle = "rgba(37, 33, 27, .35)";
-      ctx.fillText("KAIYU / DOODLE CORNER", 12, height - 12);
+      return next;
     };
 
-    const resize = () => {
-      const rect = wrap.getBoundingClientRect();
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      width = Math.max(1, rect.width);
-      height = Math.max(1, rect.height);
-      canvas.width = Math.round(width * dpr);
-      canvas.height = Math.round(height * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      paintPaper();
-    };
-
-    const hideHint = () => {
-      if (hintHidden) return;
-      hintHidden = true;
-      hint?.classList.add("is-hidden");
-    };
-
-    const pointFromEvent = (event) => {
-      const rect = canvas.getBoundingClientRect();
-      return {
-        x: event.clientX - rect.left,
-        y: event.clientY - rect.top
-      };
-    };
-
-    const drawPen = (from, to) => {
-      ctx.globalAlpha = 1;
-      ctx.strokeStyle = color;
-      ctx.lineWidth = 2.4;
-      ctx.lineCap = "round";
-      ctx.lineJoin = "round";
-      ctx.beginPath();
-      ctx.moveTo(from.x, from.y);
-      ctx.lineTo(to.x, to.y);
-      ctx.stroke();
-    };
-
-    const drawCrayon = (from, to) => {
-      ctx.globalAlpha = 0.28;
-      ctx.strokeStyle = color;
-      ctx.lineWidth = 7;
-      ctx.lineCap = "round";
-      ctx.lineJoin = "round";
-      for (let i = 0; i < 4; i += 1) {
-        const jitter = (Math.random() - 0.5) * 5;
-        ctx.beginPath();
-        ctx.moveTo(from.x + jitter, from.y + jitter);
-        ctx.lineTo(to.x + jitter, to.y + jitter);
-        ctx.stroke();
-      }
-      ctx.globalAlpha = 1;
-    };
-
-    const drawStamp = (x, y) => {
-      const scale = 0.7 + Math.random() * 0.8;
-      const kind = Math.floor(Math.random() * 3);
-      ctx.save();
-      ctx.translate(x, y);
-      ctx.rotate((Math.random() - 0.5) * 0.5);
-      ctx.fillStyle = color;
-      ctx.strokeStyle = color;
-      ctx.lineWidth = 2;
-      ctx.globalAlpha = 0.86;
-
-      if (kind === 0) {
-        for (let i = 0; i < 5; i += 1) {
-          const angle = (i / 5) * Math.PI * 2;
-          ctx.beginPath();
-          ctx.ellipse(
-            Math.cos(angle) * 8 * scale,
-            Math.sin(angle) * 8 * scale,
-            5.5 * scale,
-            3.2 * scale,
-            angle,
-            0,
-            Math.PI * 2
-          );
-          ctx.fill();
-        }
-        ctx.fillStyle = "rgba(37, 33, 27, .75)";
-        ctx.beginPath();
-        ctx.arc(0, 0, 3 * scale, 0, Math.PI * 2);
-        ctx.fill();
-      } else if (kind === 1) {
-        ctx.beginPath();
-        for (let i = 0; i < 8; i += 1) {
-          const angle = (i / 8) * Math.PI * 2 - Math.PI / 2;
-          const radius = i % 2 === 0 ? 14 * scale : 6 * scale;
-          const px = Math.cos(angle) * radius;
-          const py = Math.sin(angle) * radius;
-          if (i === 0) ctx.moveTo(px, py);
-          else ctx.lineTo(px, py);
-        }
-        ctx.closePath();
-        ctx.fill();
-      } else {
-        ctx.beginPath();
-        ctx.moveTo(0, 10 * scale);
-        ctx.bezierCurveTo(-18 * scale, -2 * scale, -9 * scale, -17 * scale, 0, -7 * scale);
-        ctx.bezierCurveTo(9 * scale, -17 * scale, 18 * scale, -2 * scale, 0, 10 * scale);
-        ctx.fill();
-      }
-      ctx.restore();
-      ctx.globalAlpha = 1;
-    };
-
-    canvas.addEventListener("pointerdown", (event) => {
-      if (event.pointerType === "mouse" && event.button !== 0) return;
-      const point = pointFromEvent(event);
-      drawing = true;
-      hideHint();
-      lastX = point.x;
-      lastY = point.y;
-      try {
-        canvas.setPointerCapture?.(event.pointerId);
-      } catch (error) {
-        /* synthetic or already-released pointers */
-      }
-      if (event.cancelable) event.preventDefault();
-      if (mode === "stamp") {
-        drawStamp(point.x, point.y);
-        drawing = false;
-      } else if (mode === "pen") {
-        ctx.beginPath();
-        ctx.fillStyle = color;
-        ctx.arc(point.x, point.y, 1.5, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    });
-
-    canvas.addEventListener("pointermove", (event) => {
-      if (!drawing || mode === "stamp") return;
-      const point = pointFromEvent(event);
-      if (mode === "crayon") drawCrayon({ x: lastX, y: lastY }, point);
-      else drawPen({ x: lastX, y: lastY }, point);
-      lastX = point.x;
-      lastY = point.y;
-    });
-
-    const stopDrawing = () => {
-      drawing = false;
-    };
-    canvas.addEventListener("pointerup", stopDrawing);
-    canvas.addEventListener("pointercancel", stopDrawing);
-    canvas.addEventListener("pointerleave", stopDrawing);
-
-    $$(".ink-dot").forEach((button) => {
-      button.addEventListener("click", () => {
-        color = button.dataset.color || "#24211c";
-        $$(".ink-dot").forEach((item) => {
-          const active = item === button;
-          item.classList.toggle("is-active", active);
-          item.setAttribute("aria-pressed", String(active));
+    const makeDeck = () => {
+      const deck = [];
+      categories.forEach((category) => {
+        category.plates.forEach((plate, index) => {
+          deck.push({ category, plate, index });
         });
+      });
+      return shuffle(deck);
+    };
+
+    const renderRound = () => {
+      if (!state.deck.length) state.deck = makeDeck();
+      state.current = state.deck.pop();
+      state.round += 1;
+      state.answered = false;
+      state.finished = false;
+
+      const { category, plate } = state.current;
+
+      result.hidden = true;
+      summary.hidden = true;
+      title.hidden = false;
+      prompt.hidden = false;
+      choices.hidden = false;
+      nextButton.hidden = true;
+      nextButton.innerHTML = "下一张 <span>→</span>";
+
+      roundLabel.textContent = `ROUND ${pad(state.round)} / ${pad(ROUNDS)}`;
+      scoreLabel.textContent = `SCORE ${state.score} / ${ROUNDS}`;
+      fragmentNum.textContent = `FRAGMENT ${pad(state.round)}`;
+      prompt.textContent = "从作品里裁下的一角。认得它属于哪个世界吗？";
+
+      choices.innerHTML = categories
+        .map(
+          (item) => `
+            <button type="button" class="game-choice" data-cat="${item.id}"
+                    style="--choice:${item.accent}" aria-pressed="false">
+              <span class="game-choice-num">${item.num}</span>
+              <b>${item.title}</b>
+              <em>${item.en}</em>
+            </button>
+          `
+        )
+        .join("");
+
+      crop.classList.remove("is-revealed");
+      crop.style.backgroundImage = `url("assets/img/thumb/${plate.id}.webp")`;
+      crop.style.backgroundSize = `auto ${135 + Math.round(Math.random() * 55)}%`;
+      crop.style.backgroundPosition = `${14 + Math.round(Math.random() * 72)}% ${14 + Math.round(Math.random() * 72)}%`;
+      crop.setAttribute("aria-label", `作品局部，第 ${state.round} 题，请猜所属章节`);
+      $("#gameWorkTitle").textContent = "";
+      $("#gameWorkRole").textContent = "";
+    };
+
+    const answer = (pickedId) => {
+      if (!state.open || state.answered || !state.current) return;
+
+      state.answered = true;
+      const { category, plate } = state.current;
+      const correct = category.id === pickedId;
+      if (correct) state.score += 1;
+
+      scoreLabel.textContent = `SCORE ${state.score} / ${ROUNDS}`;
+      $$(".game-choice", choices).forEach((button) => {
+        const isCorrect = button.dataset.cat === category.id;
+        const isPicked = button.dataset.cat === pickedId;
+        button.disabled = true;
+        button.setAttribute("aria-pressed", String(isPicked));
+        button.classList.toggle("is-correct", isCorrect);
+        button.classList.toggle("is-wrong", isPicked && !correct);
+      });
+
+      result.hidden = false;
+      $("#gameVerdict").textContent = correct ? "猜对了，就是这一章。" : "差一点，这块碎片来自——";
+      $("#gameWorkTitle").textContent = `《${plate.title}》`;
+      $("#gameWorkRole").textContent = `${category.title} / ${plate.role}`;
+      nextButton.hidden = false;
+      nextButton.innerHTML =
+        state.round >= ROUNDS ? "看看结果 <span>→</span>" : "下一张 <span>→</span>";
+
+      crop.classList.add("is-revealed");
+      crop.style.backgroundSize = "contain";
+      crop.style.backgroundPosition = "center";
+      prompt.textContent = correct ? "这块细节已经回到它的章节。" : "翻到全图，就认出来了。";
+
+      window.setTimeout(() => nextButton.focus({ preventScroll: true }), 120);
+    };
+
+    const showSummary = () => {
+      state.finished = true;
+      choices.hidden = true;
+      result.hidden = true;
+      title.hidden = true;
+      prompt.hidden = true;
+      nextButton.hidden = true;
+      summary.hidden = false;
+
+      roundLabel.textContent = "COMPLETE";
+      scoreLabel.textContent = `SCORE ${state.score} / ${ROUNDS}`;
+      $("#gameSummaryScore").textContent = `${state.score} / ${ROUNDS}`;
+
+      let message = "五个碎片，全部归位。你比索引更了解这些作品。";
+      if (state.score <= 1) message = "没关系，好作品值得再多翻几遍。";
+      else if (state.score === 2) message = "你认出了两个世界。有些章节，确实藏得很深。";
+      else if (state.score === 3) message = "三个世界。再多看几眼，碎片就会有归属。";
+      else if (state.score === 4) message = "只差一块。也许下一轮就能认全六章。";
+      $("#gameSummaryText").textContent = message;
+
+      window.setTimeout(() => $("#gameReplay")?.focus({ preventScroll: true }), 100);
+    };
+
+    const start = () => {
+      state.score = 0;
+      state.round = 0;
+      state.answered = false;
+      state.finished = false;
+      state.deck = makeDeck();
+      summary.hidden = true;
+      renderRound();
+    };
+
+    const openGame = () => {
+      if (state.open) return;
+      state.lastFocus = doc.activeElement;
+      state.open = true;
+      gameOpen = true;
+      game.hidden = false;
+      doc.body.classList.add("game-open");
+      window.requestAnimationFrame(() => game.classList.add("is-open"));
+      start();
+      window.setTimeout(() => closeButton?.focus({ preventScroll: true }), 100);
+    };
+
+    const closeGame = (restoreFocus = true) => {
+      if (!state.open) return;
+      state.open = false;
+      gameOpen = false;
+      game.classList.remove("is-open");
+      doc.body.classList.remove("game-open");
+      window.setTimeout(() => {
+        if (!state.open) game.hidden = true;
+      }, 320);
+      if (restoreFocus) state.lastFocus?.focus?.({ preventScroll: true });
+    };
+
+    openButton?.addEventListener("click", openGame);
+    closeButton?.addEventListener("click", () => closeGame());
+
+    game.addEventListener("click", (event) => {
+      if (event.target === game) closeGame();
+    });
+
+    choices.addEventListener("click", (event) => {
+      const button = event.target.closest(".game-choice");
+      if (!button || button.disabled) return;
+      answer(button.dataset.cat);
+    });
+
+    nextButton?.addEventListener("click", () => {
+      if (!state.answered) return;
+      if (state.round >= ROUNDS) showSummary();
+      else renderRound();
+    });
+
+    $("#gameReplay")?.addEventListener("click", start);
+
+    $("#gameBack")?.addEventListener("click", () => {
+      closeGame();
+      doc.getElementById("works")?.scrollIntoView({
+        behavior: prefersReduced ? "auto" : "smooth",
+        block: "start"
       });
     });
 
-    $$(".tool-btn").forEach((button) => {
-      button.addEventListener("click", () => {
-        mode = button.dataset.mode || "pen";
-        $$(".tool-btn").forEach((item) => {
-          const active = item === button;
-          item.classList.toggle("is-active", active);
-          item.setAttribute("aria-pressed", String(active));
-        });
-        if (modeReadout) {
-          const names = { pen: "PEN / 钢笔", crayon: "CRAYON / 蜡笔", stamp: "STAMP / 盖章" };
-          modeReadout.textContent = names[mode] || "PEN / 钢笔";
-        }
-      });
+    $("#gameOpenWork")?.addEventListener("click", () => {
+      if (!state.current) return;
+      const { category, index } = state.current;
+      closeGame(false);
+      window.setTimeout(() => openLightbox(category.id, index), 300);
     });
 
-    $("#playClear")?.addEventListener("click", () => {
-      paintPaper();
-      drawing = false;
-      hintHidden = false;
-      hint?.classList.remove("is-hidden");
-      showToast("换一张新纸 / fresh paper");
+    doc.addEventListener("keydown", (event) => {
+      if (!state.open) return;
+
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeGame();
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+      const focusable = $$("button:not([disabled]), a[href]", game).filter(
+        (node) => node.offsetParent !== null
+      );
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && doc.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && doc.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     });
-
-    $("#playSave")?.addEventListener("click", () => {
-      canvas.toBlob((blob) => {
-        if (!blob) return;
-        const link = doc.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = `kaiyu-doodle-${new Date().toISOString().slice(0, 10)}.png`;
-        doc.body.appendChild(link);
-        link.click();
-        link.remove();
-        window.setTimeout(() => URL.revokeObjectURL(link.href), 1500);
-        showToast("这一页存下来了 / saved as PNG");
-      }, "image/png");
-    });
-
-    if ("ResizeObserver" in window) {
-      let lastWidth = 0;
-      new ResizeObserver(() => {
-        const widthNow = wrap.getBoundingClientRect().width;
-        if (Math.abs(widthNow - lastWidth) < 2) return;
-        lastWidth = widthNow;
-        resize();
-      }).observe(wrap);
-    } else {
-      window.addEventListener("resize", resize, { passive: true });
-    }
-
-    resize();
   }
 
-  /* ------------------------------------------------------------------ */
   /* Utilities                                                          */
   /* ------------------------------------------------------------------ */
 
@@ -1075,7 +1071,7 @@
 
   function initKeyboard() {
     doc.addEventListener("keydown", (event) => {
-      if (lightboxOpen || menuOpen) return;
+      if (lightboxOpen || menuOpen || gameOpen) return;
       if (event.metaKey || event.ctrlKey || event.altKey) return;
       const target = event.target;
       if (target instanceof HTMLElement && target.matches("input, textarea, select")) return;
@@ -1165,14 +1161,14 @@
   initCollage();
   initCursor();
   initLightbox();
-  initDoodle();
+  initFragmentGame();
   initEmailCopy();
   initAnchors();
   initKeyboard();
   initReveal();
 
   console.info(
-    `%cKAIYU / PAPER PORTFOLIO%c  ${totalPlates} pieces · ${categories.length} chapters · 1 sketchbook`,
+    `%cKAIYU / PAPER PORTFOLIO%c  ${totalPlates} pieces · ${categories.length} chapters · 1 fragment game`,
     "background:#cf4b32;color:#fcf8ef;padding:3px 6px;font-weight:700",
     "color:#746c60"
   );

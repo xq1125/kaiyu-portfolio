@@ -51,9 +51,8 @@
 
     <nav class="site-nav" id="siteNav" aria-label="主导航">
       <a href="#works" data-nav="works"><span>01</span>作品</a>
-      <a href="#play" data-nav="play"><span>02</span>涂鸦</a>
-      <a href="#about" data-nav="about"><span>03</span>关于</a>
-      <a href="#contact" data-nav="contact"><span>04</span>联系</a>
+      <a href="#about" data-nav="about"><span>02</span>关于</a>
+      <a href="#contact" data-nav="contact"><span>03</span>联系</a>
     </nav>
 
     <div class="header-side">
@@ -72,9 +71,8 @@
     </div>
     <nav class="menu-links" aria-label="移动端导航">
       <a href="#works"><span>01</span>作品<em>selected works</em></a>
-      <a href="#play"><span>02</span>涂鸦<em>doodle corner</em></a>
-      <a href="#about"><span>03</span>关于<em>a little about</em></a>
-      <a href="#contact"><span>04</span>联系<em>say hi</em></a>
+      <a href="#about"><span>02</span>关于<em>a little about</em></a>
+      <a href="#contact"><span>03</span>联系<em>say hi</em></a>
     </nav>
     <div class="menu-bottom">
       <a href="mailto:13554191868@163.com">13554191868@163.com</a>
@@ -174,7 +172,17 @@
           <p class="eyebrow">SIX LITTLE WORLDS</p>
           <h2>六本<br><em>小书</em></h2>
         </div>
-        <p class="index-intro">不是六个文件夹，是六个我反复回去的世界。每一本里，都藏着一些我做过的梦、玩过的游戏，和没舍得删掉的草稿。</p>
+        <div class="index-intro-block">
+          <p class="index-intro">不是六个文件夹，是六个我反复回去的世界。每一本里，都藏着一些我做过的梦、玩过的游戏，和没舍得删掉的草稿。</p>
+          <button class="game-invite" id="gameOpen" type="button" data-cursor="开玩" aria-haspopup="dialog" aria-controls="fragmentGame">
+            <span class="game-invite-mark" aria-hidden="true">✳</span>
+            <span class="game-invite-copy">
+              <b>玩一下：这是哪一章的碎片？</b>
+              <em>5 ROUNDS / REAL WORK DETAILS</em>
+            </span>
+            <span class="game-invite-arrow" aria-hidden="true">↗</span>
+          </button>
+        </div>
         <div class="index-stamp" aria-hidden="true"><b>06</b><span>CHAPTERS</span><i>✳</i></div>
       </div>
 
@@ -182,68 +190,6 @@
     </section>
 
     <div id="chapters"></div>
-
-    <section class="play-section" id="play" data-section="play">
-      <div class="section-label section-label--play">
-        <span>( 06.5 ) — DOODLE CORNER</span>
-        <span>没有任何评审</span>
-        <span>JUST PLAY</span>
-      </div>
-
-      <div class="play-head">
-        <div>
-          <p class="eyebrow">A PAGE FROM MY SKETCHBOOK</p>
-          <h2>随手画<span class="scribble" aria-hidden="true"></span></h2>
-        </div>
-        <div class="play-lead">
-          <p class="hand">不用画得好看。<br>真的。</p>
-          <p>拿一支笔，随便涂点什么。画坏了也没关系，纸不会生气。</p>
-        </div>
-      </div>
-
-      <div class="sketchbook" data-reveal>
-        <div class="spiral" aria-hidden="true">
-          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-        </div>
-        <div class="sketch-paper">
-          <div class="sketch-toolbar">
-            <div class="ink-picker" aria-label="选择颜色">
-              <span class="tool-label">INK</span>
-              <button type="button" class="ink-dot is-active" data-color="#24211c" aria-label="墨黑" aria-pressed="true" style="--dot:#24211c"></button>
-              <button type="button" class="ink-dot" data-color="#d24b33" aria-label="朱砂" aria-pressed="false" style="--dot:#d24b33"></button>
-              <button type="button" class="ink-dot" data-color="#3d6b53" aria-label="苔绿" aria-pressed="false" style="--dot:#3d6b53"></button>
-              <button type="button" class="ink-dot" data-color="#c1922f" aria-label="姜黄" aria-pressed="false" style="--dot:#c1922f"></button>
-              <button type="button" class="ink-dot" data-color="#4a6f97" aria-label="靛蓝" aria-pressed="false" style="--dot:#4a6f97"></button>
-            </div>
-            <div class="mode-picker" aria-label="选择笔触">
-              <span class="tool-label">TOOL</span>
-              <button type="button" class="tool-btn is-active" data-mode="pen" aria-pressed="true">钢笔</button>
-              <button type="button" class="tool-btn" data-mode="crayon" aria-pressed="false">蜡笔</button>
-              <button type="button" class="tool-btn" data-mode="stamp" aria-pressed="false">盖章</button>
-            </div>
-            <div class="sketch-actions">
-              <button type="button" class="text-btn" id="playClear">清空 <span>⌫</span></button>
-              <button type="button" class="stamp-btn" id="playSave">保存这一页 <span>↓</span></button>
-            </div>
-          </div>
-
-          <div class="canvas-wrap">
-            <canvas id="playCanvas" aria-label="可以自由涂鸦的画布">你的浏览器不支持 Canvas。</canvas>
-            <div class="sketch-hint" id="playHint">
-              <span>按住拖动 / DRAG TO DRAW</span>
-              <em>画吧，没有人在看。</em>
-            </div>
-            <span class="canvas-note" id="playMode">PEN / 钢笔</span>
-          </div>
-
-          <div class="sketch-bottom">
-            <span>纸不会生气 · paper has no ego</span>
-            <span>✳</span>
-            <span>SAVE AS PNG</span>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <section class="about-section" id="about" data-section="about">
       <div class="section-label section-label--about">
@@ -413,6 +359,66 @@
       <div class="lightbox-foot">
         <a id="lightboxFull" href="#" target="_blank" rel="noopener">OPEN FULL IMAGE ↗</a>
         <span>点击图片放大 · 拖动平移 · ← → 翻页 · ESC 合上</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="fragment-game" id="fragmentGame" role="dialog" aria-modal="true" aria-label="作品碎片猜章节" aria-labelledby="gameTitle" hidden>
+    <div class="game-sheet" id="gameSheet">
+      <div class="game-top">
+        <div>
+          <span class="game-kicker">BETWEEN PAGES / 书页之间</span>
+          <span class="game-sub">A LITTLE GUESSING GAME</span>
+        </div>
+        <button class="game-close" id="gameClose" type="button">合上 <span>×</span></button>
+      </div>
+
+      <div class="game-body">
+        <div class="game-left">
+          <div class="game-fragment" id="gameFragment">
+            <span class="tape tape-tl" aria-hidden="true"></span>
+            <div class="game-crop" id="gameCrop" role="img" aria-label="作品局部"></div>
+            <span class="game-fragment-num" id="gameFragmentNum">FRAGMENT 01</span>
+            <span class="game-fragment-stamp" aria-hidden="true">DETAIL<br>ONLY</span>
+          </div>
+          <p class="game-micro">A CLOSE-UP FROM ONE OF 30 PLATES</p>
+        </div>
+
+        <div class="game-right">
+          <div class="game-meta">
+            <span id="gameRound">ROUND 01 / 05</span>
+            <span id="gameScore">SCORE 0 / 5</span>
+          </div>
+          <h3 class="game-title" id="gameTitle">这是哪一章的<br><em>碎片？</em></h3>
+          <p class="game-prompt" id="gamePrompt">从作品里裁下的一角。认得它属于哪个世界吗？</p>
+          <div class="game-choices" id="gameChoices" aria-label="选择作品章节"></div>
+
+          <div class="game-result" id="gameResult" hidden>
+            <p class="game-verdict" id="gameVerdict"></p>
+            <p class="game-work"><b id="gameWorkTitle"></b><em id="gameWorkRole"></em></p>
+            <button class="game-work-link" id="gameOpenWork" type="button">翻开这张作品 <span>↗</span></button>
+          </div>
+
+          <div class="game-actions">
+            <button class="game-next" id="gameNext" type="button" hidden>下一张 <span>→</span></button>
+            <span class="game-key">鼠标 / 手指都行 · 没有分数压力</span>
+          </div>
+
+          <div class="game-summary" id="gameSummary" hidden>
+            <p class="game-summary-kicker">FIVE FRAGMENTS LATER</p>
+            <p class="game-summary-score" id="gameSummaryScore">0 / 5</p>
+            <p class="game-summary-text" id="gameSummaryText">你已经翻过五个世界的一角。</p>
+            <div class="game-summary-actions">
+              <button class="game-replay" id="gameReplay" type="button">再玩一次 ↻</button>
+              <button class="game-back" id="gameBack" type="button">回到索引 ↑</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="game-foot">
+        <span>真实作品局部 · 无奖无罚</span>
+        <span>ESC / 合上</span>
       </div>
     </div>
   </div>

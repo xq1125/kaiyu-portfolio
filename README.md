@@ -4,7 +4,7 @@ Live site: **https://xq1125.github.io/kaiyu-portfolio/**
 
 A hand-built, dependency-free portfolio for game visual, AIGC film, UI/UX, 3D, IP and personal experiments. The art direction is a paper scrapbook: warm stock, vermilion seals, torn tape, handwritten notes and a little Chinese editorial typography. No dark-neon template, no external fonts, no tracking.
 
-**30 pieces · 6 chapters · 1 sketchbook.**
+**30 pieces · 6 chapters · 1 fragment game.**
 
 ## Run locally
 
@@ -22,7 +22,7 @@ Or double-click `index.html`; every asset uses a relative path. A local server i
 index.html                 Page shell and static copy
 assets/css/style.css       Paper-collage styling and responsive layout
 assets/js/data.js          Categories, plate captions, facts, contact data
-assets/js/main.js          Collage, lightbox, sketchbook, menus, copy, clocks
+assets/js/main.js          Collage, fragment game, lightbox, menus, copy, clocks
 assets/img/thumb/          900px WebP plates (mobile / card thumbnails)
 assets/img/wide/           1800px WebP plates (desktop grid + srcset)
 assets/img/full/           2800px WebP plates (lightbox)
@@ -36,7 +36,7 @@ assets/img/og-cover.jpg    1200 × 630 social card
 - **Paper collage** — drag the four hero cards, or press `S` / “把桌子弄乱” to shuffle the desk.
 - **Chapter index** — six tilted paper cards that open the six chapters, with a hand-drawn active section tab.
 - **Work sheets** — hover-lift plates open a paper lightbox with prev/next, zoom (`+` / `−` / `0`), drag-to-pan and arrow-key navigation.
-- **Sketchbook** — draw with pen or crayon, stamp little flowers/stars/hearts, clear the page, and save the sheet as a PNG. Five ink colours; no review committee.
+- **Fragment game** — “这是哪一章的碎片？” A five-round game built from real close-ups of the 30 plates. Guess the chapter, reveal the full work, then open it directly in the lightbox. It lives inside the index, as a small paper invitation — not a separate section.
 - **Contact postcard** — click the email to copy it, or use the mailto link.
 - **Small things** — custom red cursor labels, live Hangzhou clock, scroll reveals, mobile paper menu, keyboard focus states.
 - **Keyboard** — `S` shuffle; `←` `→` flip lightbox; `Esc` close; `+` `−` `0` zoom the lightbox.
