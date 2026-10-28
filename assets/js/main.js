@@ -671,7 +671,7 @@
       lightboxFull.textContent = "OPEN VIDEO ↗";
     }
     if (lightboxHint) {
-      lightboxHint.textContent = `正在播放「${video.label || "影像"}」 · 可控制音量 · ESC 合上`;
+      lightboxHint.textContent = `按播放器开始「${video.label || "影像"}」 · 可控制音量 · ESC 合上`;
     }
     renderFilmStrip(videos);
   }
