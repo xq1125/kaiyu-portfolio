@@ -34,13 +34,13 @@ assets/img/og-cover.jpg    1200 × 630 social card
 
 ## Interactions
 
-- **Paper collage** — drag the four hero cards, or press `S` / “把桌子弄乱” to shuffle the desk.
-- **Chapter index** — six tilted paper cards that open the six chapters, with a hand-drawn active section tab.
+- **Opening spread** — one large IP artwork against a quiet editorial hero, with a short statement and a single link into the work.
+- **Chapter index** — six flat, full-bleed image cards in a strict two-column contact sheet; no overlapping scraps.
 - **Work sheets** — hover-lift plates open a paper lightbox with prev/next, zoom (`+` / `−` / `0`), drag-to-pan and arrow-key navigation.
 - **Fragment game** — “这是哪一章的碎片？” A five-round game built from real close-ups of the 30 plates. Guess the chapter, reveal the full work, then open it directly in the lightbox. It opens from a small “猜碎片” tab in the header into a compact paper popup, not a page section.
 - **Contact postcard** — click the email to copy it, or use the mailto link.
 - **Small things** — custom red cursor labels, live Hangzhou clock, scroll reveals, mobile paper menu, keyboard focus states.
-- **Keyboard** — `S` shuffle; `←` `→` flip lightbox; `Esc` close; `+` `−` `0` zoom the lightbox.
+- **Keyboard** — `←` `→` flip lightbox; `Esc` close; `+` `−` `0` zoom the lightbox.
 
 ## GitHub Pages
 
