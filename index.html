@@ -146,7 +146,7 @@
       <div class="section-label">
         <span>( 01 ) — INDEX</span>
         <span>挑一本，慢慢翻</span>
-        <span>30 PIECES / 2023—2026</span>
+        <span>32 PIECES / 2023—2026</span>
       </div>
 
       <div class="index-head">
@@ -157,7 +157,7 @@
         <div class="index-aside">
           <p class="index-intro">不是六个文件夹，是六个我反复回去的世界。每一本里，都藏着一些我做过的梦、玩过的游戏，和没舍得删掉的草稿。</p>
           <div class="index-facts">
-            <span>30 PIECES</span>
+            <span>32 PIECES</span>
             <span>06 CHAPTERS</span>
             <span>2023—2026</span>
           </div>
@@ -306,7 +306,7 @@
     <div class="lightbox-sheet" id="lightboxSheet">
       <div class="lightbox-top">
         <div>
-          <span class="lightbox-kicker">WORK SHEET / 作品页</span>
+          <span class="lightbox-kicker" id="lightboxKicker">WORK SHEET / 作品页</span>
           <span id="lightboxCat">CHAPTER</span>
         </div>
         <button class="lightbox-close" id="lightboxClose" type="button">合上 <span>×</span></button>
@@ -315,6 +315,8 @@
       <div class="lightbox-stage" id="lightboxStage">
         <div class="lightbox-loader" id="lightboxLoader" aria-hidden="true"></div>
         <img id="lightboxImage" alt="作品图片">
+        <video id="lightboxVideo" controls playsinline preload="metadata" aria-label="作品影像"></video>
+        <div class="lightbox-film-strip" id="lightboxFilmStrip" hidden></div>
       </div>
 
       <div class="lightbox-bottom">
@@ -324,6 +326,7 @@
           <p id="lightboxRole">ROLE</p>
         </div>
         <div class="lightbox-controls">
+          <button class="lightbox-film" id="lightboxFilm" type="button" hidden><span aria-hidden="true">▶</span> 看影像</button>
           <button type="button" id="lightboxPrev" aria-label="上一张作品">←</button>
           <div class="lightbox-zoom">
             <button type="button" id="zoomOut" aria-label="缩小">−</button>
@@ -336,7 +339,7 @@
 
       <div class="lightbox-foot">
         <a id="lightboxFull" href="#" target="_blank" rel="noopener">OPEN FULL IMAGE ↗</a>
-        <span>点击图片放大 · 拖动平移 · ← → 翻页 · ESC 合上</span>
+        <span id="lightboxHint">点击图片放大 · 拖动平移 · ← → 翻页 · ESC 合上</span>
       </div>
     </div>
   </div>

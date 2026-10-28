@@ -94,6 +94,7 @@
         const plates = category.plates
           .map((plate, index) => {
             const number = pad(index + 1);
+            const videoCount = Array.isArray(plate.videos) ? plate.videos.length : 0;
             const sizes =
               index === 0
                 ? "(max-width: 600px) 92vw, (max-width: 900px) 88vw, 88vw"
@@ -107,6 +108,7 @@
                        srcset="assets/img/thumb/${plate.id}.webp 900w, assets/img/wide/${plate.id}.webp 1800w"
                        sizes="${sizes}" width="1800" height="636"
                        alt="${plate.title} — ${plate.role}" loading="lazy" decoding="async">
+                  ${videoCount ? `<span class="work-film-badge" aria-hidden="true"><i>▶</i> FILM${videoCount > 1 ? ` × ${videoCount}` : ""}</span>` : ""}
                 </span>
                 <span class="work-caption">
                   <span class="work-num">${number}/${pad(total)}</span>
@@ -504,17 +506,24 @@
   const lightbox = $("#lightbox");
   const lightboxSheet = $("#lightboxSheet");
   const lightboxImage = $("#lightboxImage");
+  const lightboxVideo = $("#lightboxVideo");
   const lightboxStage = $("#lightboxStage");
   const lightboxCat = $("#lightboxCat");
+  const lightboxKicker = $("#lightboxKicker");
   const lightboxCount = $("#lightboxCount");
   const lightboxTitle = $("#lightboxTitle");
   const lightboxRole = $("#lightboxRole");
   const lightboxFull = $("#lightboxFull");
+  const lightboxHint = $("#lightboxHint");
+  const lightboxFilm = $("#lightboxFilm");
+  const lightboxFilmStrip = $("#lightboxFilmStrip");
   const lightboxClose = $("#lightboxClose");
 
   const lbState = {
     category: null,
     index: 0,
+    mode: "image",
+    videoIndex: 0,
     zoom: 1,
     panX: 0,
     panY: 0,
@@ -560,20 +569,149 @@
     });
   }
 
+  function activePlate() {
+    return lbState.category?.plates[lbState.index] || null;
+  }
+
+  function plateVideos(plate) {
+    if (!plate || !Array.isArray(plate.videos)) return [];
+    return plate.videos.filter((video) => video && video.src);
+  }
+
+  function stopLightboxVideo() {
+    if (!lightboxVideo) return;
+    lightboxVideo.pause();
+  }
+
+  function clearLightboxVideo() {
+    if (!lightboxVideo) return;
+    lightboxVideo.pause();
+    lightboxVideo.removeAttribute("src");
+    lightboxVideo.removeAttribute("poster");
+    lightboxVideo.load();
+  }
+
+  function renderFilmStrip(videos) {
+    if (!lightboxFilmStrip) return;
+    lightboxFilmStrip.replaceChildren();
+    if (videos.length < 2) {
+      lightboxFilmStrip.hidden = true;
+      return;
+    }
+    videos.forEach((video, index) => {
+      const button = doc.createElement("button");
+      button.type = "button";
+      button.className = "lightbox-film-chip";
+      button.textContent = `${video.label || `影像 ${index + 1}`}${video.duration ? ` · ${video.duration}` : ""}`;
+      button.classList.toggle("is-active", index === lbState.videoIndex);
+      button.addEventListener("click", () => showFilmMode(index));
+      lightboxFilmStrip.append(button);
+    });
+    lightboxFilmStrip.hidden = false;
+  }
+
+  function updateFilmButton(videos) {
+    if (!lightboxFilm) return;
+    lightboxFilm.hidden = !videos.length;
+    lightboxFilm.classList.remove("is-playing");
+    lightboxFilm.innerHTML = `<span aria-hidden="true">▶</span> 看影像${videos.length > 1 ? ` · ${videos.length}` : ""}`;
+  }
+
+  function resetFilmUi() {
+    lbState.mode = "image";
+    lbState.videoIndex = 0;
+    stopLightboxVideo();
+    clearLightboxVideo();
+    lightboxStage?.classList.remove("is-film");
+    lightboxSheet?.classList.remove("is-film");
+    if (lightboxVideo) lightboxVideo.hidden = true;
+    if (lightboxFilmStrip) {
+      lightboxFilmStrip.hidden = true;
+      lightboxFilmStrip.replaceChildren();
+    }
+    if (lightboxKicker) lightboxKicker.textContent = "WORK SHEET / 作品页";
+    if (lightboxHint) {
+      lightboxHint.textContent = "点击图片放大 · 拖动平移 · ← → 翻页 · ESC 合上";
+    }
+  }
+
+  function showFilmMode(index = 0) {
+    const videos = plateVideos(activePlate());
+    if (!videos.length) return;
+    const active = clamp(Number(index) || 0, 0, videos.length - 1);
+    const video = videos[active];
+    lbState.mode = "film";
+    lbState.videoIndex = active;
+    resetLightboxZoom();
+
+    lightboxStage?.classList.add("is-film");
+    lightboxSheet?.classList.add("is-film");
+    if (lightboxImage) lightboxImage.hidden = true;
+    if (lightboxVideo) {
+      lightboxVideo.hidden = false;
+      lightboxVideo.poster = video.poster || "";
+      lightboxVideo.src = video.src;
+      lightboxVideo.setAttribute("aria-label", `${activePlate()?.title || "作品"} — ${video.label || "影像"}`);
+      const playAttempt = lightboxVideo.play();
+      if (playAttempt && typeof playAttempt.catch === "function") {
+        playAttempt.catch(() => {
+          /* Native controls remain available if autoplay is blocked. */
+        });
+      }
+    }
+
+    if (lightboxFilm) {
+      lightboxFilm.hidden = false;
+      lightboxFilm.classList.add("is-playing");
+      lightboxFilm.innerHTML = '<span aria-hidden="true">❚❚</span> 回到静帧';
+    }
+    if (lightboxKicker) lightboxKicker.textContent = "FILM / 影像";
+    if (lightboxFull) {
+      lightboxFull.href = video.src;
+      lightboxFull.textContent = "OPEN VIDEO ↗";
+    }
+    if (lightboxHint) {
+      lightboxHint.textContent = `正在播放「${video.label || "影像"}」 · 可控制音量 · ESC 合上`;
+    }
+    renderFilmStrip(videos);
+  }
+
+  function hideFilmMode() {
+    const videos = plateVideos(activePlate());
+    resetFilmUi();
+    resetLightboxZoom();
+    updateFilmButton(videos);
+    if (lightboxImage) lightboxImage.hidden = false;
+    if (lightboxFull) {
+      const plate = activePlate();
+      lightboxFull.href = plate ? `assets/img/full/${plate.id}.webp` : "#";
+      lightboxFull.textContent = "OPEN FULL IMAGE ↗";
+    }
+  }
+
   function updateLightboxImage() {
     const category = lbState.category;
     if (!category) return;
     const plate = category.plates[lbState.index];
     const token = ++lbState.loadToken;
+    const videos = plateVideos(plate);
 
+    resetFilmUi();
+    updateFilmButton(videos);
     resetLightboxZoom();
     lightboxStage?.classList.add("is-loading");
-    if (lightboxImage) lightboxImage.alt = `${plate.title} — ${plate.role}`;
+    if (lightboxImage) {
+      lightboxImage.hidden = false;
+      lightboxImage.alt = `${plate.title} — ${plate.role}`;
+    }
     if (lightboxCat) lightboxCat.textContent = `${category.num} / ${category.en}`;
     if (lightboxCount) lightboxCount.textContent = `${pad(lbState.index + 1)} / ${pad(category.plates.length)}`;
     if (lightboxTitle) lightboxTitle.textContent = plate.title;
     if (lightboxRole) lightboxRole.textContent = plate.role;
-    if (lightboxFull) lightboxFull.href = `assets/img/full/${plate.id}.webp`;
+    if (lightboxFull) {
+      lightboxFull.href = `assets/img/full/${plate.id}.webp`;
+      lightboxFull.textContent = "OPEN FULL IMAGE ↗";
+    }
 
     const loader = new Image();
     loader.onload = () => {
@@ -609,10 +747,14 @@
   function closeLightbox() {
     if (!lightboxOpen || !lightbox) return;
     lightboxOpen = false;
+    stopLightboxVideo();
     lightbox.classList.remove("is-open");
     doc.body.classList.remove("lightbox-open");
     window.setTimeout(() => {
-      if (!lightboxOpen) lightbox.hidden = true;
+      if (!lightboxOpen) {
+        lightbox.hidden = true;
+        resetFilmUi();
+      }
     }, 320);
     lastFocusedElement?.focus?.({ preventScroll: true });
   }
@@ -651,6 +793,23 @@
     });
 
     lightboxClose?.addEventListener("click", closeLightbox);
+    lightboxFilm?.addEventListener("click", () => {
+      if (lbState.mode === "film") hideFilmMode();
+      else showFilmMode(0);
+    });
+    lightboxVideo?.addEventListener("play", () => {
+      if (lbState.mode !== "film" || !lightboxHint) return;
+      const video = plateVideos(activePlate())[lbState.videoIndex];
+      lightboxHint.textContent = `正在播放「${video?.label || "影像"}」 · 可控制音量 · ESC 合上`;
+    });
+    lightboxVideo?.addEventListener("pause", () => {
+      if (lbState.mode !== "film" || !lightboxHint) return;
+      lightboxHint.textContent = "影像已暂停 · 按播放器继续 · ESC 合上";
+    });
+    lightboxVideo?.addEventListener("ended", () => {
+      if (lbState.mode !== "film" || !lightboxHint) return;
+      lightboxHint.textContent = "播放完毕 · 可重播或回到静帧 · ESC 合上";
+    });
     $("#lightboxPrev")?.addEventListener("click", () => stepLightbox(-1));
     $("#lightboxNext")?.addEventListener("click", () => stepLightbox(1));
     $("#zoomIn")?.addEventListener("click", () => setLightboxZoom(lbState.zoom + 0.5));
@@ -662,7 +821,7 @@
     });
 
     lightboxStage?.addEventListener("click", (event) => {
-      if (!lightboxOpen || event.target.closest("button, a")) return;
+      if (!lightboxOpen || lbState.mode === "film" || event.target.closest("button, a, video")) return;
       if (lbState.panned) {
         lbState.panned = false;
         return;
@@ -673,7 +832,7 @@
     lightboxStage?.addEventListener(
       "wheel",
       (event) => {
-        if (!lightboxOpen) return;
+        if (!lightboxOpen || lbState.mode === "film") return;
         event.preventDefault();
         setLightboxZoom(lbState.zoom * (event.deltaY < 0 ? 1.16 : 0.86));
       },
@@ -681,7 +840,7 @@
     );
 
     lightboxStage?.addEventListener("pointerdown", (event) => {
-      if (!lightboxOpen || lbState.zoom <= 1.01 || event.button !== 0) return;
+      if (!lightboxOpen || lbState.mode === "film" || lbState.zoom <= 1.01 || event.button !== 0) return;
       lbState.dragging = true;
       lbState.panned = false;
       lbState.panStart = {
@@ -720,6 +879,13 @@
     doc.addEventListener("keydown", (event) => {
       if (!lightboxOpen) return;
       trapLightboxFocus(event);
+      if (lbState.mode === "film") {
+        if (event.key === "Escape") {
+          event.preventDefault();
+          closeLightbox();
+        }
+        return;
+      }
       if (event.key === "Escape") {
         event.preventDefault();
         closeLightbox();

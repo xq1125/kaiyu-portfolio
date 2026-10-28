@@ -14,13 +14,17 @@ window.PORTFOLIO = (() => {
       noteTitle: "先把世界搭好",
       note: "再让人物在里面犯错。好玩的游戏，都是从一个不太讲道理的世界开始的。",
       plates: [
-        { id: "1-1", title: "深渊恶魔：狱界破笼", role: "主视觉 / KEY ART · 2026" },
+        { id: "1-1", title: "深渊恶魔：狱界破笼", role: "主视觉 / KEY ART · 2026", videos: [
+          { label: "游戏 Demo", src: "assets/video/unity-demo.mp4", poster: "assets/img/video/unity-demo.webp", duration: "3:08" }
+        ] },
         { id: "1-2", title: "深渊恶魔：狱界破笼", role: "世界观与游戏系统 / SYSTEM" },
         { id: "1-3", title: "深渊恶魔：狱界破笼", role: "角色图鉴与界面 / CODEX & UI" },
         { id: "1-4", title: "深渊恶魔：狱界破笼", role: "界面、道具与视觉资产 / UI & PROPS" },
         { id: "1-5", title: "东方异闻录", role: "东方幻想企划 / EASTERN FANTASY · 2026" },
         { id: "1-6", title: "东方异闻录", role: "场景与界面系统 / SCENE & UI" },
-        { id: "1-7", title: "游戏视觉企划", role: "版本活动视觉 / EVENT VISUAL" },
+        { id: "1-7", title: "游戏视觉企划", role: "版本活动视觉 / EVENT VISUAL", videos: [
+          { label: "游戏特效", src: "assets/video/game-vfx.mp4", poster: "assets/img/video/game-vfx.webp", duration: "0:11" }
+        ] },
         { id: "1-8", title: "游戏视觉企划", role: "角色与宣发 / CHARACTER & KEY VISUAL" },
         { id: "1-9", title: "魔兽世界 · 直播宣发", role: "平台 Campaign Mockup / 2026" }
       ]
@@ -38,10 +42,20 @@ window.PORTFOLIO = (() => {
       noteTitle: "镜头是新的毛笔",
       note: "生成工具会给我很多答案。我要做的，是从里面挑出那个真正会呼吸的。",
       plates: [
-        { id: "2-1", title: "山海 · 一念", role: "AI 水墨短片 / 3′20″ · 2026" },
+        { id: "2-1", title: "山海 · 一念", role: "AI 水墨短片 / 3′20″ · 2026", videos: [
+          { label: "正片", src: "assets/video/shanhai.mp4", poster: "assets/img/video/shanhai.webp", duration: "3:19" }
+        ] },
         { id: "2-2", title: "山海 · 一念", role: "角色设定与制作流程 / CHARACTER & PROCESS" },
-        { id: "2-3", title: "未发送", role: "A-01 记忆工程 / SCI-FI SHORT FILM" },
-        { id: "2-4", title: "非遗系列短片", role: "剪纸 · 打铁花 · 苏绣 / DOCUMENTARY" }
+        { id: "2-3", title: "未发送", role: "A-01 记忆工程 / SCI-FI SHORT FILM", videos: [
+          { label: "正片", src: "assets/video/weifasong.mp4", poster: "assets/img/video/weifasong.webp", duration: "3:17" }
+        ] },
+        { id: "2-4", title: "非遗系列短片", role: "剪纸 · 打铁花 · 苏绣 / DOCUMENTARY", videos: [
+          { label: "剪纸", src: "assets/video/jianzhi.mp4", poster: "assets/img/video/jianzhi.webp", duration: "2:13" },
+          { label: "打铁花", src: "assets/video/datiehua.mp4", poster: "assets/img/video/datiehua.webp", duration: "3:15" }
+        ] },
+        { id: "2-5", title: "AI 漫剧", role: "都市异能 · AI 短剧 / AI SERIES · 2026", videos: [
+          { label: "正片", src: "assets/video/aimanju.mp4", poster: "assets/img/video/aimanju.webp", duration: "1:57" }
+        ] }
       ]
     },
     {
@@ -61,7 +75,9 @@ window.PORTFOLIO = (() => {
         { id: "3-2", title: "星承 HRM SaaS", role: "用户画像与产品结构 / PERSONA & IA" },
         { id: "3-3", title: "星承 HRM SaaS", role: "设计规范与情绪色彩 / DESIGN SYSTEM" },
         { id: "3-4", title: "星承 HRM SaaS", role: "核心内页解析 / INTERFACE" },
-        { id: "3-5", title: "星承 HRM SaaS", role: "交互演示与智能分析 / AI INTERACTION" },
+        { id: "3-5", title: "星承 HRM SaaS", role: "交互演示与智能分析 / AI INTERACTION", videos: [
+          { label: "交互演示", src: "assets/video/uiux-demo.mp4", poster: "assets/img/video/uiux-demo.webp", duration: "0:40" }
+        ] },
         { id: "3-6", title: "星承 HRM SaaS", role: "原型推演与页面总览 / PROTOTYPE" }
       ]
     },
@@ -78,7 +94,9 @@ window.PORTFOLIO = (() => {
       noteTitle: "先捏一个软软的宇宙",
       note: "建模像做手工。先有一个团块，再慢慢把它捏成有表情的东西。",
       plates: [
-        { id: "4-1", title: "3D 课堂练习", role: "IP 场景与产品视觉 / BLENDER · C4D · MAYA" },
+        { id: "4-1", title: "3D 课堂练习", role: "IP 场景与产品视觉 / BLENDER · C4D · MAYA", videos: [
+          { label: "课堂练习", src: "assets/video/three-d.mp4", poster: "assets/img/video/three-d.webp", duration: "0:07" }
+        ] },
         { id: "4-2", title: "立体视觉实验", role: "海报 · 空间 · 建模 / SPATIAL STUDY" }
       ]
     },
@@ -116,9 +134,16 @@ window.PORTFOLIO = (() => {
       noteTitle: "草稿里藏着最好玩的部分",
       note: "这些作品不一定“完整”，但它们都很诚实。是我在正式项目之外，自己跟自己玩的证据。",
       plates: [
-        { id: "6-1", title: "动画研讨会", role: "分镜与动画练习 / STORYBOARD" },
-        { id: "6-2", title: "二十四节气", role: "AE 动效 · 角色三视图 / MOTION" },
-        { id: "6-3", title: "情绪可视化", role: "电话手表交互实验 / INTERACTION" }
+        { id: "6-1", title: "动画研讨会", role: "分镜与动画练习 / STORYBOARD", videos: [
+          { label: "动画作品集", src: "assets/video/animation-reel.mp4", poster: "assets/img/video/animation-reel.webp", duration: "2:00" }
+        ] },
+        { id: "6-2", title: "二十四节气", role: "AE 动效 · 角色三视图 / MOTION", videos: [
+          { label: "AE 动效", src: "assets/video/solar-terms.mp4", poster: "assets/img/video/solar-terms.webp", duration: "1:50" }
+        ] },
+        { id: "6-3", title: "情绪可视化", role: "电话手表交互实验 / INTERACTION" },
+        { id: "6-4", title: "TouchDesigner 交互衍生", role: "实时生成视觉 / REAL-TIME VISUAL · 2026", videos: [
+          { label: "交互衍生", src: "assets/video/touchdesigner.mp4", poster: "assets/img/video/touchdesigner.webp", duration: "0:15" }
+        ] }
       ]
     }
   ];
