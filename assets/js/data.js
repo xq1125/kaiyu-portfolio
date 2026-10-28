@@ -1,0 +1,137 @@
+/* Portfolio content — edit titles, roles and copy here. */
+window.PORTFOLIO = (() => {
+  const categories = [
+    {
+      id: "game",
+      num: "01",
+      title: "游戏设计",
+      en: "GAME VISUAL",
+      color: "#ff5235",
+      cover: "assets/img/covers/card-game.webp",
+      desc: "从暗黑幻想的世界观，到一套可被点开的界面系统。把规则、叙事与情绪，折叠进一个可以进入的画面。",
+      tags: ["Game Visual", "Key Art", "UI", "Worldbuilding"],
+      plates: [
+        { id: "1-1", title: "深渊恶魔：狱界破笼", role: "主视觉 / KEY ART · 2026" },
+        { id: "1-2", title: "深渊恶魔：狱界破笼", role: "世界观与游戏系统 / SYSTEM" },
+        { id: "1-3", title: "深渊恶魔：狱界破笼", role: "角色图鉴与界面 / CODEX & UI" },
+        { id: "1-4", title: "深渊恶魔：狱界破笼", role: "界面、道具与视觉资产 / UI & PROPS" },
+        { id: "1-5", title: "东方异闻录", role: "东方幻想企划 / EASTERN FANTASY · 2026" },
+        { id: "1-6", title: "东方异闻录", role: "场景与界面系统 / SCENE & UI" },
+        { id: "1-7", title: "游戏视觉企划", role: "版本活动视觉 / EVENT VISUAL" },
+        { id: "1-8", title: "游戏视觉企划", role: "角色与宣发 / CHARACTER & KEY VISUAL" },
+        { id: "1-9", title: "魔兽世界 · 直播宣发", role: "平台 Campaign Mockup / 2026" }
+      ]
+    },
+    {
+      id: "aigc",
+      num: "02",
+      title: "AIGC 影像",
+      en: "MOVING IMAGE",
+      color: "#f4ad45",
+      cover: "assets/img/covers/card-aigc.webp",
+      desc: "用生成式工具写镜头。在水墨、科幻与非遗之间搭桥，让技术退后一点，让情绪站到画面前面。",
+      tags: ["AI Film", "Art Direction", "Storyboard", "Motion"],
+      plates: [
+        { id: "2-1", title: "山海 · 一念", role: "AI 水墨短片 / 3′20″ · 2026" },
+        { id: "2-2", title: "山海 · 一念", role: "角色设定与制作流程 / CHARACTER & PROCESS" },
+        { id: "2-3", title: "未发送", role: "A-01 记忆工程 / SCI-FI SHORT FILM" },
+        { id: "2-4", title: "非遗系列短片", role: "剪纸 · 打铁花 · 苏绣 / DOCUMENTARY" }
+      ]
+    },
+    {
+      id: "uiux",
+      num: "03",
+      title: "UI/UX 交互",
+      en: "INTERFACE",
+      color: "#e5d64c",
+      cover: "assets/img/covers/card-uiux.webp",
+      desc: "让复杂系统变得清晰，让一次点击也有呼吸感。在信息密度与视觉秩序之间，寻找恰到好处的那个点。",
+      tags: ["Product Design", "Design System", "Prototype", "B2B SaaS"],
+      plates: [
+        { id: "3-1", title: "星承 HRM SaaS", role: "产品主视觉 / UX·UI · 2026" },
+        { id: "3-2", title: "星承 HRM SaaS", role: "用户画像与产品结构 / PERSONA & IA" },
+        { id: "3-3", title: "星承 HRM SaaS", role: "设计规范与情绪色彩 / DESIGN SYSTEM" },
+        { id: "3-4", title: "星承 HRM SaaS", role: "核心内页解析 / INTERFACE" },
+        { id: "3-5", title: "星承 HRM SaaS", role: "交互演示与智能分析 / AI INTERACTION" },
+        { id: "3-6", title: "星承 HRM SaaS", role: "原型推演与页面总览 / PROTOTYPE" }
+      ]
+    },
+    {
+      id: "three-d",
+      num: "04",
+      title: "3D 建模",
+      en: "SPATIAL",
+      color: "#5b78ff",
+      cover: "assets/img/covers/card-3d.webp",
+      desc: "在 Blender、C4D 与 Maya 里，搭起一些柔软的、会发光的立体世界。建模、材质、灯光，一步一步把想象落地。",
+      tags: ["Blender", "C4D", "Maya", "Look Dev"],
+      plates: [
+        { id: "4-1", title: "3D 课堂练习", role: "IP 场景与产品视觉 / BLENDER · C4D · MAYA" },
+        { id: "4-2", title: "立体视觉实验", role: "海报 · 空间 · 建模 / SPATIAL STUDY" }
+      ]
+    },
+    {
+      id: "ip",
+      num: "05",
+      title: "IP 设定",
+      en: "WORLD BUILDING",
+      color: "#58a77c",
+      cover: "assets/img/covers/card-ip.webp",
+      desc: "从一个角色出发，长出一套可以触摸的叙事。视觉系统、周边、包装与绘本，让故事不止停在屏幕上。",
+      tags: ["IP Design", "Illustration", "Packaging", "Picture Book"],
+      plates: [
+        { id: "5-1", title: "森林合唱团", role: "IP 主视觉 / FOREST CHOIR · 2026" },
+        { id: "5-2", title: "森林合唱团", role: "视觉系统与衍生 / SYSTEM & MERCH" },
+        { id: "5-3", title: "小 X 成长记", role: "儿童心理疗愈绘本 / PICTURE BOOK" },
+        { id: "5-4", title: "小 X 成长记", role: "绘本分镜 / STORYBOARD" },
+        { id: "5-5", title: "风物广水 · 礼遇", role: "地域文创 IP / REGIONAL IP" }
+      ]
+    },
+    {
+      id: "lab",
+      num: "06",
+      title: "个人创作",
+      en: "PLAY & EXPERIMENT",
+      color: "#a77bff",
+      cover: "assets/img/covers/card-lab.webp",
+      desc: "不被定义的练习：文创、动画、动效与交互实验。比起正确答案，更想保留一点好奇心和不听话。",
+      tags: ["Motion", "Culture", "Interaction", "Illustration"],
+      plates: [
+        { id: "6-1", title: "长江文创 IP", role: "江豚角色与城市礼物 / CHARACTER & MERCH" },
+        { id: "6-2", title: "动画研讨会", role: "分镜与动画练习 / STORYBOARD" },
+        { id: "6-3", title: "二十四节气", role: "AE 动效与角色三视图 / MOTION" },
+        { id: "6-4", title: "情绪可视化", role: "电话手表交互实验 / INTERACTION" }
+      ]
+    }
+  ];
+
+  const hero = [
+    { id: "2-1", cat: "aigc", cover: "assets/img/covers/hero-02.webp", label: "02 / AIGC FILM", title: "山海 · 一念" },
+    { id: "1-1", cat: "game", cover: "assets/img/covers/hero-01.webp", label: "01 / GAME VISUAL", title: "深渊恶魔：狱界破笼" },
+    { id: "5-1", cat: "ip", cover: "assets/img/covers/hero-03.webp", label: "05 / IP DESIGN", title: "森林合唱团" },
+    { id: "4-1", cat: "three-d", cover: "assets/img/covers/hero-04.webp", label: "04 / 3D PRACTICE", title: "立体练习" }
+  ];
+
+  return {
+    meta: {
+      nameCn: "郑铠妤",
+      nameEn: "KAIYU ZHENG",
+      role: "Visual Designer / Image Maker",
+      city: "Hangzhou, CN",
+      email: "13554191868@163.com",
+      year: "2026"
+    },
+    hero,
+    categories,
+    facts: [
+      { label: "EDUCATION", value: "湖北大学", detail: "数字媒体艺术本科 · 2023.09—至今" },
+      { label: "EXPERIENCE", value: "网易（杭州）网络有限公司", detail: "平面设计师 · 2026.07—至今" },
+      { label: "EXPERIENCE", value: "深圳冰川网络股份有限公司（武汉）", detail: "AIGC 视频实习生 · 2026.04—2026.06" },
+      { label: "CAMPUS", value: "湖北大学记者团 / 校青志", detail: "设计部成员 / 宣传部部长 / 宣传部副部长 · 2023.09—2025.06" }
+    ],
+    capabilities: [
+      "游戏视觉与宣发", "角色 / 场景设定", "UI · UX 设计", "3D 视觉与渲染",
+      "AIGC 影像", "IP 形象与衍生", "动态图形", "跨媒介叙事"
+    ]
+  };
+})();

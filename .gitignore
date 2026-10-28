@@ -1,0 +1,9 @@
+# local previews and test artifacts
+preview/
+.chrome-profile/
+*.log
+
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini
