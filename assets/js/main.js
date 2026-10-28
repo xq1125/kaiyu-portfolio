@@ -605,18 +605,10 @@
   function initHeader() {
     const header = $("#siteHeader");
     if (!header) return;
-    let lastY = window.scrollY;
     let ticking = false;
 
     const update = () => {
-      const y = window.scrollY;
-      header.classList.toggle("is-scrolled", y > 24);
-      if (!menuOpen && !lightboxOpen && y > window.innerHeight * 0.7 && y > lastY + 8) {
-        header.classList.add("is-hidden");
-      } else {
-        header.classList.remove("is-hidden");
-      }
-      lastY = y;
+      header.classList.toggle("is-scrolled", window.scrollY > 24);
       ticking = false;
     };
 
