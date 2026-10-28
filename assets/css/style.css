@@ -316,6 +316,12 @@ main,
   opacity: 1;
 }
 
+.loader-bg.is-loaded .loader-fallback {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .18s, visibility 0s linear .18s;
+}
+
 .loader-fallback {
   position: absolute;
   z-index: 0;
