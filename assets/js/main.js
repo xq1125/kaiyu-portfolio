@@ -1095,6 +1095,16 @@
       return;
     }
 
+    const cover = $(".loader-bg img");
+    if (cover) {
+      const markCover = () => $(".loader-bg")?.classList.add("is-loaded");
+      if (cover.complete && cover.naturalWidth) markCover();
+      else cover.addEventListener("load", markCover, { once: true });
+      cover.addEventListener("error", () => {
+        cover.hidden = true;
+      }, { once: true });
+    }
+
     let progress = 0;
     let done = false;
     let loadFired = false;

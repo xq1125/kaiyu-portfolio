@@ -16,6 +16,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://xq1125.github.io/kaiyu-portfolio/assets/img/og-cover.jpg?v=paper">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" as="image" href="assets/img/loader-cover.webp">
   <link rel="preload" as="image" href="assets/img/covers/card-aigc.webp">
   <link rel="preload" as="image" href="assets/img/about/portrait.webp">
   <script>document.documentElement.classList.add('js');</script>
@@ -29,16 +30,33 @@
   <div class="cursor-tag" id="cursorTag" aria-hidden="true">翻开</div>
 
   <div class="loader" id="loader" aria-label="页面加载中">
+    <div class="loader-bg" aria-hidden="true">
+      <div class="loader-fallback">
+        <span class="lf-year">2027 /</span>
+        <span class="lf-name">郑铠妤</span>
+        <strong class="lf-quote">設計是浮現于內心<br>源自生命的一種力量</strong>
+        <span class="lf-script">Portfolio</span>
+        <span class="lf-en">STYLES COME AND GO<br>BUT GOOD DESIGN IS A LANGUAGE<br>IT'S NOT A STYLE</span>
+      </div>
+      <img src="assets/img/loader-cover.webp" alt="" width="2000" height="1162">
+    </div>
     <div class="loader-top">
-      <span>( portfolio / 2023—2026 )</span>
+      <span>( PORTFOLIO / 2027 )</span>
+      <span>郑铠妤 / KAIYU ZHENG</span>
       <span>HANGZHOU, CN</span>
     </div>
     <div class="loader-center">
-      <span class="loader-seal">郑</span>
-      <p>正在摊开纸张…</p>
+      <p class="loader-status">正在摊开纸张…<em>OPENING THE PAPER WORLD</em></p>
+      <span class="loader-seal" aria-hidden="true">郑</span>
     </div>
     <div class="loader-bottom">
-      <div class="loader-line"><span id="loadBar"></span></div>
+      <div class="loader-progress">
+        <div class="loader-meta">
+          <span>COVER / 00</span>
+          <span>REPRINTED IN PORTFOLIO COLOURS</span>
+        </div>
+        <div class="loader-line"><span id="loadBar"></span></div>
+      </div>
       <div class="loader-count"><span id="loadNumber">00</span><sup>%</sup></div>
     </div>
   </div>

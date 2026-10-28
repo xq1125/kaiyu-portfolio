@@ -28,6 +28,7 @@ assets/img/wide/           1800px WebP plates (desktop grid + srcset)
 assets/img/full/           2800px WebP plates (lightbox)
 assets/img/covers/         Hero and chapter-cover crops
 assets/img/about/          Privacy-safe illustrated portrait
+assets/img/loader-cover.webp  Recoloured 0-1 cover for the opening screen
 assets/img/og-cover.jpg    1200 × 630 social card
 ```
 
@@ -62,6 +63,7 @@ The AIGC chapter — `山海 · 一念`, `未发送`, the intangible-cultural-he
 ## Notes
 
 - Plates were optimized from the supplied 7073 × 2500 portfolio boards.
+- The opening cover reuses the **0-1** cover composition, recoloured into the paper palette. The right-hand contact block is cropped out so phone / QQ / WeChat are never published.
 - No third-party JavaScript, build step, external font, analytics or cookies.
 - Public contact card uses the email only; the full profile board with phone/QQ is intentionally not published.
 - Edit portfolio copy in `assets/js/data.js`; edit the page-level manifesto and postcard copy in `index.html`.
