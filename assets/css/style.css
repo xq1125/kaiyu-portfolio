@@ -308,18 +308,6 @@ main,
   object-fit: cover;
   object-position: 40% 50%;
   transform: scale(1.015);
-  opacity: 0;
-  transition: opacity .7s var(--ease);
-}
-
-.loader-bg.is-loaded img {
-  opacity: 1;
-}
-
-.loader-bg.is-loaded .loader-fallback {
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .18s, visibility 0s linear .18s;
 }
 
 .loader-fallback {
