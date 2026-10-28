@@ -1,6 +1,6 @@
 /* ==========================================================================
-   KAIYU ZHENG — PORTFOLIO
-   Vanilla JS. No dependencies, no build step.
+   KAIYU ZHENG — PAPER PORTFOLIO
+   Small interactions, big paper mess.
    ========================================================================== */
 
 (() => {
@@ -16,70 +16,22 @@
   const root = doc.documentElement;
   const $ = (selector, scope = doc) => scope.querySelector(selector);
   const $$ = (selector, scope = doc) => Array.from(scope.querySelectorAll(selector));
-  const pad = (num) => String(num).padStart(2, "0");
+  const pad = (number) => String(number).padStart(2, "0");
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
   const isFinePointer = window.matchMedia("(pointer: fine)").matches;
   const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  root.classList.add("js");
-
   const categories = DATA.categories;
   const categoryById = new Map(categories.map((category) => [category.id, category]));
   const totalPlates = categories.reduce((sum, category) => sum + category.plates.length, 0);
-  const allPlateNodes = [];
 
   let menuOpen = false;
   let lightboxOpen = false;
   let lastFocusedElement = null;
   let toastTimer = 0;
+  let collageZ = 10;
 
-  /* ------------------------------------------------------------------ */
-  /* Theme                                                              */
-  /* ------------------------------------------------------------------ */
-
-  const themeToggle = $("#themeToggle");
-
-  function storedTheme() {
-    try {
-      return window.localStorage.getItem("kaiyu-theme");
-    } catch (error) {
-      return null;
-    }
-  }
-
-  function applyTheme(theme, persist = false) {
-    root.dataset.theme = theme;
-    if (persist) {
-      try {
-        window.localStorage.setItem("kaiyu-theme", theme);
-      } catch (error) {
-        /* private mode */
-      }
-    }
-    if (themeToggle) {
-      themeToggle.setAttribute(
-        "aria-label",
-        theme === "dark" ? "切换到浅色模式" : "切换到深色模式"
-      );
-    }
-    const metaTheme = $('meta[name="theme-color"]');
-    if (metaTheme) {
-      metaTheme.setAttribute("content", theme === "dark" ? "#090909" : "#f1ede4");
-    }
-    doc.dispatchEvent(new CustomEvent("themechange", { detail: { theme } }));
-  }
-
-  applyTheme(storedTheme() === "light" ? "light" : "dark");
-
-  if (themeToggle) {
-    themeToggle.addEventListener("click", () => {
-      applyTheme(root.dataset.theme === "dark" ? "light" : "dark", true);
-    });
-  }
-
-  function toggleTheme() {
-    applyTheme(root.dataset.theme === "dark" ? "light" : "dark", true);
-  }
+  root.classList.add("js");
 
   /* ------------------------------------------------------------------ */
   /* Clocks                                                             */
@@ -89,7 +41,6 @@
     timeZone: "Asia/Shanghai",
     hour: "2-digit",
     minute: "2-digit",
-    second: "2-digit",
     hour12: false
   });
 
@@ -101,271 +52,39 @@
   }
 
   updateClocks();
-  window.setInterval(updateClocks, 1000);
+  window.setInterval(updateClocks, 20000);
 
   /* ------------------------------------------------------------------ */
-  /* Build: hero deck                                                   */
+  /* Build index & chapters                                             */
   /* ------------------------------------------------------------------ */
-
-  const deckStage = $("#deckStage");
-  const deckCounter = $("#deckCounter");
-  const deckCaption = $("#deckCaption");
-  const deckStatus = $("#deckStatus");
-  let deckIndex = 0;
-  let deckDragStart = null;
-  let deckDragged = false;
-  let deckSuppressClick = false;
-
-  function buildHeroDeck() {
-    if (!deckStage) return;
-    deckStage.innerHTML = DATA.hero
-      .map(
-        (item, index) => `
-          <button class="deck-card" type="button" data-index="${index}" data-cat="${item.cat}" aria-label="查看精选作品：${item.title}">
-            <img src="${item.cover}" alt="${item.title}" width="1000" height="1250" loading="${index < 2 ? "eager" : "lazy"}" decoding="async" draggable="false">
-            <span class="deck-card__label"><i></i>${item.label}</span>
-            <span class="deck-card__title"><span>FEATURED PROJECT / 精选</span>${item.title}</span>
-          </button>
-        `
-      )
-      .join("");
-
-    const cards = $$(".deck-card", deckStage);
-    cards.forEach((card) => {
-      card.style.transformOrigin = "80% 88%";
-    });
-    renderDeck();
-  }
-
-  function renderDeck() {
-    if (!deckStage) return;
-    const cards = $$(".deck-card", deckStage);
-    const total = cards.length;
-    cards.forEach((card, index) => {
-      const position = (index - deckIndex + total) % total;
-      card.style.zIndex = String(total - position + 10);
-      card.style.transform = `translate3d(${-position * 16}px, ${position * 15}px, 0) rotate(${
-        position * -3.1 + 2.2
-      }deg) scale(${1 - position * 0.035})`;
-      card.classList.toggle("is-active", position === 0);
-      card.setAttribute("aria-current", position === 0 ? "true" : "false");
-      card.style.pointerEvents = position > 2 ? "none" : "auto";
-    });
-    const active = DATA.hero[deckIndex];
-    if (deckCounter) deckCounter.textContent = `${pad(deckIndex + 1)} / ${pad(total)}`;
-    if (deckCaption) deckCaption.innerHTML = `${active.label}<br><b>${active.title}</b>`;
-    if (deckStatus) deckStatus.textContent = `精选作品 ${deckIndex + 1} / ${total}：${active.title}`;
-  }
-
-  function cycleDeck(direction) {
-    deckIndex = (deckIndex + direction + DATA.hero.length) % DATA.hero.length;
-    renderDeck();
-  }
-
-  function initDeck() {
-    if (!deckStage) return;
-    const deck = $("#heroDeck");
-
-    $$("[data-deck-prev]").forEach((button) => {
-      button.addEventListener("click", () => cycleDeck(-1));
-    });
-    $$("[data-deck-next]").forEach((button) => {
-      button.addEventListener("click", () => cycleDeck(1));
-    });
-
-    deckStage.addEventListener("pointerdown", (event) => {
-      const card = event.target.closest(".deck-card");
-      if (!card || (event.pointerType === "mouse" && event.button !== 0)) return;
-      deckDragStart = { x: event.clientX, y: event.clientY };
-      deckDragged = false;
-      deckStage.setPointerCapture?.(event.pointerId);
-    });
-
-    deckStage.addEventListener("pointermove", (event) => {
-      if (!deckDragStart) return;
-      const dx = event.clientX - deckDragStart.x;
-      const dy = event.clientY - deckDragStart.y;
-      if (Math.abs(dx) > 7 || Math.abs(dy) > 7) deckDragged = true;
-      if (Math.abs(dx) > 8) {
-        if (event.cancelable) event.preventDefault();
-        deckStage.classList.add("is-dragging");
-        if (deck) {
-          deck.style.transform = `translate3d(${clamp(dx * 0.16, -38, 38)}px, 0, 0) rotate(${clamp(
-            dx * 0.012,
-            -2.5,
-            2.5
-          )}deg)`;
-        }
-      }
-    });
-
-    const finishDeckDrag = (event) => {
-      if (!deckDragStart) return;
-      const dx = event.clientX - deckDragStart.x;
-      const dy = event.clientY - deckDragStart.y;
-      const wasDrag = deckDragged;
-      deckDragStart = null;
-      deckDragged = false;
-      deckStage.classList.remove("is-dragging");
-      if (deck) deck.style.transform = "";
-      if (wasDrag && Math.abs(dx) > 42 && Math.abs(dx) > Math.abs(dy)) {
-        cycleDeck(dx < 0 ? 1 : -1);
-        deckSuppressClick = true;
-        window.setTimeout(() => {
-          deckSuppressClick = false;
-        }, 80);
-      }
-    };
-
-    deckStage.addEventListener("pointerup", finishDeckDrag);
-    deckStage.addEventListener("pointercancel", () => {
-      deckDragStart = null;
-      deckDragged = false;
-      deckStage.classList.remove("is-dragging");
-      if (deck) deck.style.transform = "";
-    });
-
-    deckStage.addEventListener("click", (event) => {
-      const card = event.target.closest(".deck-card");
-      if (!card) return;
-      if (deckSuppressClick) {
-        event.preventDefault();
-        event.stopPropagation();
-        return;
-      }
-      const index = Number(card.dataset.index);
-      if (index !== deckIndex) {
-        deckIndex = index;
-        renderDeck();
-        return;
-      }
-      const target = categoryById.get(card.dataset.cat);
-      if (target) {
-        document.getElementById(target.id)?.scrollIntoView({
-          behavior: prefersReduced ? "auto" : "smooth",
-          block: "start"
-        });
-      }
-    });
-  }
-
-  /* ------------------------------------------------------------------ */
-  /* Build: menu, rail, index, chapters, facts                          */
-  /* ------------------------------------------------------------------ */
-
-  function buildMenu() {
-    const container = $("#menuLinks");
-    if (!container) return;
-    const chapterLinks = categories
-      .map(
-        (category) => `
-          <a href="#${category.id}" data-menu-link>
-            <span>${category.num}</span>${category.title}<em>${category.en}</em>
-          </a>
-        `
-      )
-      .join("");
-    container.innerHTML = `
-      ${chapterLinks}
-      <a href="#play" data-menu-link><span>06.5</span>互动实验<em>PLAYGROUND</em></a>
-      <a href="#about" data-menu-link><span>07</span>关于我<em>ABOUT</em></a>
-      <a href="#contact" data-menu-link><span>08</span>联系<em>CONTACT</em></a>
-    `;
-  }
-
-  function buildPageRail() {
-    const container = $("#pageRail");
-    if (!container) return;
-    container.innerHTML = categories
-      .map(
-        (category) =>
-          `<a href="#${category.id}" data-rail-link="${category.id}" aria-label="${category.title}">${category.num}</a>`
-      )
-      .join("");
-  }
 
   function buildIndex() {
-    const list = $("#indexList");
-    const preview = $("#indexPreview");
-    if (!list) return;
+    const grid = $("#indexGrid");
+    if (!grid) return;
 
-    list.innerHTML = categories
-      .map((category) => {
-        const count = pad(category.plates.length);
-        return `
-          <a class="work-row" href="#${category.id}" data-cover="${category.cover}" data-cat="${category.id}">
-            <span class="work-no">${category.num}</span>
-            <span class="work-title"><b>${category.title}</b><em>${category.en}</em></span>
-            <span class="work-tags">${category.tags.slice(0, 3).join(" / ")}</span>
-            <span class="work-count">${count}<i>PLATES</i></span>
-            <span class="work-arrow" aria-hidden="true">↗</span>
+    grid.innerHTML = categories
+      .map(
+        (category) => `
+          <a class="chapter-card" href="#${category.id}" data-reveal data-cursor="翻开"
+             style="--accent:${category.accent};--soft:${category.soft}">
+            <span class="card-tape" aria-hidden="true"></span>
+            <span class="card-head">
+              <span class="card-num">${category.num}</span>
+              <span class="card-count">${pad(category.plates.length)} pieces</span>
+            </span>
+            <span class="card-photo">
+              <img src="${category.cover}" alt="${category.title}章节封面" width="1200" height="800" loading="eager" decoding="async">
+            </span>
+            <span class="card-title"><b>${category.title}</b><em>${category.en}</em></span>
+            <span class="card-open" aria-hidden="true">翻开 ↗</span>
           </a>
-        `;
-      })
+        `
+      )
       .join("");
-
-    if (!preview || !isFinePointer) return;
-    const previewImage = $("img", preview);
-    let activeRow = null;
-    let targetX = 0;
-    let targetY = 0;
-    let currentX = 0;
-    let currentY = 0;
-    let rafId = 0;
-
-    const animatePreview = () => {
-      currentX += (targetX - currentX) * 0.16;
-      currentY += (targetY - currentY) * 0.16;
-      preview.style.left = `${currentX}px`;
-      preview.style.top = `${currentY}px`;
-      rafId = window.requestAnimationFrame(animatePreview);
-    };
-
-    const movePreview = (event) => {
-      targetX = event.clientX;
-      targetY = event.clientY;
-      if (!rafId) {
-        currentX = targetX;
-        currentY = targetY;
-        animatePreview();
-      }
-    };
-
-    $$(".work-row", list).forEach((row) => {
-      row.addEventListener("pointerenter", (event) => {
-        activeRow = row;
-        if (previewImage) {
-          previewImage.src = row.dataset.cover;
-          previewImage.alt = `${row.querySelector(".work-title b")?.textContent || ""} 预览`;
-        }
-        preview.classList.add("is-visible");
-        movePreview(event);
-      });
-      row.addEventListener("pointerleave", () => {
-        activeRow = null;
-        preview.classList.remove("is-visible");
-      });
-    });
-
-    list.addEventListener("pointermove", (event) => {
-      if (activeRow) movePreview(event);
-    });
-
-    list.addEventListener("pointerleave", () => {
-      activeRow = null;
-      preview.classList.remove("is-visible");
-    });
-
-    window.setTimeout(() => {
-      categories.forEach((category) => {
-        const image = new Image();
-        image.src = category.cover;
-      });
-    }, 1200);
   }
 
   function buildChapters() {
-    const container = $("#workChapters");
+    const container = $("#chapters");
     if (!container) return;
 
     container.innerHTML = categories
@@ -374,69 +93,72 @@
         const plates = category.plates
           .map((plate, index) => {
             const number = pad(index + 1);
+            const sizes =
+              index === 0
+                ? "(max-width: 600px) 92vw, (max-width: 900px) 88vw, 88vw"
+                : "(max-width: 600px) 92vw, (max-width: 900px) 46vw, 56vw";
             return `
-              <button class="plate" type="button" data-plate-id="${plate.id}" data-plate-index="${index}" aria-label="查看作品：${plate.title}，${plate.role}">
-                <span class="plate-media">
-                  <img
-                    src="assets/img/thumb/${plate.id}.webp"
-                    srcset="assets/img/thumb/${plate.id}.webp 900w, assets/img/wide/${plate.id}.webp 1800w"
-                    sizes="(max-width: 900px) 84vw, 75vw"
-                    width="1800" height="636"
-                    alt="${plate.title} — ${plate.role}"
-                    loading="lazy" decoding="async">
-                  <span class="plate-view" aria-hidden="true">VIEW<br>↗</span>
+              <button class="work-card wc-${index + 1}" type="button"
+                      data-cat="${category.id}" data-index="${index}" data-cursor="翻开"
+                      aria-label="翻开作品：${plate.title}，${plate.role}" data-reveal>
+                <span class="work-photo">
+                  <img src="assets/img/thumb/${plate.id}.webp"
+                       srcset="assets/img/thumb/${plate.id}.webp 900w, assets/img/wide/${plate.id}.webp 1800w"
+                       sizes="${sizes}" width="1800" height="636"
+                       alt="${plate.title} — ${plate.role}" loading="lazy" decoding="async">
                 </span>
-                <span class="plate-info">
-                  <span class="plate-num">${number} / ${pad(total)}</span>
-                  <span class="plate-copy"><b>${plate.title}</b><em>${plate.role}</em></span>
-                  <span class="plate-plus" aria-hidden="true">+</span>
+                <span class="work-caption">
+                  <span class="work-num">${number}/${pad(total)}</span>
+                  <span class="work-title"><b>${plate.title}</b><em>${plate.role}</em></span>
+                  <span class="work-open" aria-hidden="true">↗</span>
                 </span>
               </button>
             `;
           })
           .join("");
 
-        const tags = category.tags
-          .map((tag) => `<li>${tag}</li>`)
-          .join("");
+        const tags = category.tags.map((tag) => `<li>${tag}</li>`).join("");
 
         return `
-          <section class="chapter" id="${category.id}" data-section="${category.id}" style="--cat:${category.color}">
+          <section class="chapter" id="${category.id}" data-section="${category.id}"
+                   style="--accent:${category.accent};--soft:${category.soft}">
             <header class="chapter-head">
-              <div class="chapter-index" data-reveal>
+              <div class="chapter-no" data-reveal>
                 <span>${category.num}</span>
-                <i>CHAPTER / ${category.num}</i>
+                <em>CHAPTER / ${category.num}</em>
               </div>
-              <div class="chapter-name" data-reveal>
-                <p class="eyebrow">${category.en} / ${pad(total)} PLATES</p>
+              <div class="chapter-title" data-reveal>
+                <p class="eyebrow">${category.en} / ${pad(total)} PIECES</p>
                 <h2>${category.title}</h2>
-                <p class="chapter-en">${category.en}</p>
+                <p class="chapter-hand">${category.noteTitle}</p>
               </div>
-              <div class="chapter-copy" data-reveal>
+              <div class="chapter-side" data-reveal>
                 <p>${category.desc}</p>
                 <ul class="chapter-tags">${tags}</ul>
               </div>
             </header>
-            <div class="chapter-rail" data-reveal>
-              <div class="rail-track" data-rail-track="${category.id}" role="region" aria-label="${category.title}作品横向画廊" tabindex="0">
-                ${plates}
-              </div>
-              <div class="rail-ui">
-                <div class="rail-progress" aria-hidden="true"><i data-rail-progress></i></div>
-                <span class="rail-current"><b data-rail-current>01</b> / ${pad(total)}</span>
-                <span class="rail-hint">DRAG / SCROLL</span>
-                <div class="rail-controls">
-                  <button type="button" data-rail-prev aria-label="上一张${category.title}作品">←</button>
-                  <button type="button" data-rail-next aria-label="下一张${category.title}作品">→</button>
-                </div>
+
+            <div class="chapter-gallery">
+              <div class="chapter-grid">${plates}</div>
+
+              <aside class="chapter-note" data-reveal>
+                <span class="card-tape" aria-hidden="true"></span>
+                <p class="note-kicker">NOTE / 随手记</p>
+                <h3>${category.noteTitle}</h3>
+                <p>${category.note}</p>
+                <span class="note-sign">— KAIYU</span>
+              </aside>
+
+              <div class="chapter-foot">
+                <a href="#works">← 回到索引</a>
+                <span>${category.num} / 06 · ${pad(total)} pieces</span>
+                <a href="#contact">喜欢这个方向？聊聊 ↗</a>
               </div>
             </div>
           </section>
         `;
       })
       .join("");
-
-    allPlateNodes.push(...$$(".plate", container));
   }
 
   function buildFacts() {
@@ -455,240 +177,130 @@
   }
 
   /* ------------------------------------------------------------------ */
-  /* Hero field                                                         */
+  /* Hero collage                                                       */
   /* ------------------------------------------------------------------ */
 
-  function initHeroField() {
-    const canvas = $("#heroField");
-    const hero = $(".hero");
-    if (!canvas || !hero) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+  const collageCards = $$(".collage-card");
 
-    let width = 0;
-    let height = 0;
-    let dpr = 1;
-    let dots = [];
-    let raf = 0;
-    let visible = true;
-    const pointer = { x: -999, y: -999, active: false };
-
-    const makeDots = () => {
-      const count = width < 760 ? 54 : 108;
-      dots = Array.from({ length: count }, () => ({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.18,
-        vy: (Math.random() - 0.5) * 0.18,
-        size: Math.random() * 1.2 + 0.45,
-        alpha: Math.random() * 0.5 + 0.15
-      }));
+  function readCollageBase(card) {
+    return {
+      dx: parseFloat(card.dataset.dx || "0"),
+      dy: parseFloat(card.dataset.dy || "0"),
+      rot: parseFloat(card.dataset.rot || card.style.getPropertyValue("--rot") || "0")
     };
+  }
 
-    const resize = () => {
-      const rect = hero.getBoundingClientRect();
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      width = Math.max(1, rect.width);
-      height = Math.max(1, rect.height);
-      canvas.width = Math.round(width * dpr);
-      canvas.height = Math.round(height * dpr);
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      makeDots();
-      if (prefersReduced) drawFrame(true);
-    };
+  function initCollage() {
+    const board = $("#heroCollage");
+    if (!board || !collageCards.length) return;
 
-    const drawFrame = (staticFrame = false) => {
-      ctx.clearRect(0, 0, width, height);
-      const dark = root.dataset.theme === "dark";
-      const ink = dark ? "243, 239, 229" : "12, 12, 11";
-      const lineInk = dark ? "217, 255, 63" : "255, 77, 46";
+    collageCards.forEach((card) => {
+      const base = readCollageBase(card);
+      card.dataset.dx = String(base.dx);
+      card.dataset.dy = String(base.dy);
+      card.dataset.rot = String(base.rot);
+      card.style.zIndex = String(++collageZ);
 
-      dots.forEach((dot) => {
-        if (!staticFrame) {
-          if (pointer.active) {
-            const dx = dot.x - pointer.x;
-            const dy = dot.y - pointer.y;
-            const distance = Math.hypot(dx, dy);
-            if (distance < 170 && distance > 0.1) {
-              const force = (1 - distance / 170) * 0.2;
-              dot.vx += (dx / distance) * force;
-              dot.vy += (dy / distance) * force;
-            }
-          }
-          dot.x += dot.vx;
-          dot.y += dot.vy;
-          dot.vx *= 0.992;
-          dot.vy *= 0.992;
-          if (dot.x < -10) dot.x = width + 10;
-          if (dot.x > width + 10) dot.x = -10;
-          if (dot.y < -10) dot.y = height + 10;
-          if (dot.y > height + 10) dot.y = -10;
+      let drag = null;
+      let suppressClick = false;
 
-          if (pointer.active) {
-            const distance = Math.hypot(dot.x - pointer.x, dot.y - pointer.y);
-            if (distance < 210) {
-              ctx.beginPath();
-              ctx.moveTo(dot.x, dot.y);
-              ctx.lineTo(pointer.x, pointer.y);
-              ctx.strokeStyle = `rgba(${lineInk}, ${0.16 * (1 - distance / 210)})`;
-              ctx.lineWidth = 0.5;
-              ctx.stroke();
-            }
-          }
+      card.addEventListener("pointerdown", (event) => {
+        if (event.pointerType === "mouse" && event.button !== 0) return;
+        const current = readCollageBase(card);
+        drag = {
+          id: event.pointerId,
+          startX: event.clientX,
+          startY: event.clientY,
+          baseX: current.dx,
+          baseY: current.dy,
+          moved: false
+        };
+        card.style.zIndex = String(++collageZ);
+        try {
+          card.setPointerCapture?.(event.pointerId);
+        } catch (error) {
+          /* synthetic or already-released pointers */
         }
-
-        ctx.beginPath();
-        ctx.arc(dot.x, dot.y, dot.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${ink}, ${dot.alpha})`;
-        ctx.fill();
       });
 
-      if (pointer.active) {
-        ctx.beginPath();
-        ctx.arc(pointer.x, pointer.y, 42, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(${lineInk}, .14)`;
-        ctx.lineWidth = 0.7;
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(pointer.x, pointer.y, 3, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${lineInk}, .6)`;
-        ctx.fill();
-      }
-    };
+      card.addEventListener("pointermove", (event) => {
+        if (!drag || drag.id !== event.pointerId) return;
+        const dx = event.clientX - drag.startX;
+        const dy = event.clientY - drag.startY;
+        if (Math.hypot(dx, dy) > 6) drag.moved = true;
+        if (!drag.moved) return;
 
-    const animate = () => {
-      if (visible && !prefersReduced) drawFrame();
-      raf = window.requestAnimationFrame(animate);
-    };
+        if (event.cancelable) event.preventDefault();
+        card.classList.add("is-dragging");
+        const nextX = clamp(drag.baseX + dx, -52, 52);
+        const nextY = clamp(drag.baseY + dy, -42, 42);
+        card.style.setProperty("--dx", `${nextX}px`);
+        card.style.setProperty("--dy", `${nextY}px`);
+        card.dataset.dx = String(nextX);
+        card.dataset.dy = String(nextY);
+      });
 
-    hero.addEventListener("pointermove", (event) => {
-      if (!isFinePointer || prefersReduced) return;
-      const rect = hero.getBoundingClientRect();
-      pointer.x = event.clientX - rect.left;
-      pointer.y = event.clientY - rect.top;
-      pointer.active = true;
+      const finishDrag = () => {
+        if (!drag) return;
+        const wasMoved = drag.moved;
+        drag = null;
+        card.classList.remove("is-dragging");
+        if (wasMoved) {
+          suppressClick = true;
+          window.setTimeout(() => {
+            suppressClick = false;
+          }, 80);
+        }
+      };
+
+      card.addEventListener("pointerup", finishDrag);
+      card.addEventListener("pointercancel", finishDrag);
+      card.addEventListener("pointerleave", () => {
+        if (drag && !drag.moved) finishDrag();
+      });
+
+      card.addEventListener("click", (event) => {
+        if (suppressClick) {
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+        const category = card.dataset.cat;
+        if (category) {
+          openLightbox(category, Number(card.dataset.index || 0));
+          return;
+        }
+        const target = card.dataset.target;
+        if (target) {
+          doc.querySelector(target)?.scrollIntoView({
+            behavior: prefersReduced ? "auto" : "smooth",
+            block: "start"
+          });
+        }
+      });
     });
 
-    hero.addEventListener("pointerleave", () => {
-      pointer.active = false;
+    $("#collageShuffle")?.addEventListener("click", () => {
+      const rotations = [-7, -5, -3, 2, 4, 6, 8];
+      collageCards.forEach((card) => {
+        const dx = Math.round((Math.random() - 0.5) * 48);
+        const dy = Math.round((Math.random() - 0.5) * 36);
+        const rot = rotations[Math.floor(Math.random() * rotations.length)];
+        card.style.setProperty("--dx", `${dx}px`);
+        card.style.setProperty("--dy", `${dy}px`);
+        card.style.setProperty("--rot", `${rot}deg`);
+        card.dataset.dx = String(dx);
+        card.dataset.dy = String(dy);
+        card.dataset.rot = String(rot);
+        card.style.zIndex = String(++collageZ);
+      });
+      showToast("桌面已经弄乱 / messier is better");
     });
-
-    root.addEventListener("themechange", () => {
-      if (prefersReduced) drawFrame(true);
-    });
-
-    if ("ResizeObserver" in window) {
-      new ResizeObserver(resize).observe(hero);
-    } else {
-      window.addEventListener("resize", resize, { passive: true });
-    }
-
-    if ("IntersectionObserver" in window) {
-      new IntersectionObserver(
-        (entries) => {
-          visible = entries[0]?.isIntersecting ?? true;
-        },
-        { threshold: 0.01 }
-      ).observe(hero);
-    }
-
-    resize();
-    if (!prefersReduced) animate();
   }
 
   /* ------------------------------------------------------------------ */
-  /* Header, scroll, reveal                                             */
+  /* Reveal on scroll                                                   */
   /* ------------------------------------------------------------------ */
-
-  function initHeader() {
-    const header = $("#siteHeader");
-    if (!header) return;
-    let ticking = false;
-
-    const update = () => {
-      header.classList.toggle("is-scrolled", window.scrollY > 24);
-      ticking = false;
-    };
-
-    window.addEventListener(
-      "scroll",
-      () => {
-        if (!ticking) {
-          ticking = true;
-          window.requestAnimationFrame(update);
-        }
-      },
-      { passive: true }
-    );
-
-    update();
-  }
-
-  function initScrollProgress() {
-    const bar = $("#scrollProgress");
-    if (!bar) return;
-    let ticking = false;
-
-    const update = () => {
-      const max = doc.documentElement.scrollHeight - window.innerHeight;
-      const value = max > 0 ? clamp(window.scrollY / max, 0, 1) : 0;
-      bar.style.transform = `scaleX(${value})`;
-      ticking = false;
-    };
-
-    window.addEventListener(
-      "scroll",
-      () => {
-        if (!ticking) {
-          ticking = true;
-          window.requestAnimationFrame(update);
-        }
-      },
-      { passive: true }
-    );
-    window.addEventListener("resize", update, { passive: true });
-    update();
-  }
-
-  function initScrollSpy() {
-    const railLinks = $$("[data-rail-link]");
-    const railCurrent = $("#railCurrent");
-    if (!railLinks.length) return;
-    let ticking = false;
-
-    const update = () => {
-      const sections = $$("[data-section]");
-      let current = null;
-      sections.forEach((section) => {
-        const rect = section.getBoundingClientRect();
-        if (rect.top <= window.innerHeight * 0.38) current = section;
-      });
-
-      const currentId = current?.id || "";
-      const isChapter = categoryById.has(currentId);
-      railLinks.forEach((link) => {
-        link.classList.toggle("is-active", link.dataset.railLink === currentId);
-      });
-      if (railCurrent) {
-        railCurrent.textContent = isChapter ? categoryById.get(currentId).num : "00";
-      }
-      ticking = false;
-    };
-
-    window.addEventListener(
-      "scroll",
-      () => {
-        if (!ticking) {
-          ticking = true;
-          window.requestAnimationFrame(update);
-        }
-      },
-      { passive: true }
-    );
-    update();
-  }
 
   function initReveal() {
     const items = $$("[data-reveal]");
@@ -699,6 +311,12 @@
       return;
     }
 
+    $$(".chapter-grid").forEach((grid) => {
+      $$(".work-card", grid).forEach((card, index) => {
+        card.style.transitionDelay = `${Math.min(index % 4, 3) * 55}ms`;
+      });
+    });
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -708,29 +326,141 @@
           }
         });
       },
-      { threshold: 0.08, rootMargin: "0px 0px -7% 0px" }
+      { threshold: 0.06, rootMargin: "0px 0px -5% 0px" }
     );
 
-    items.forEach((item, index) => {
-      item.style.transitionDelay = `${Math.min(index % 4, 3) * 60}ms`;
-      observer.observe(item);
-    });
+    items.forEach((item) => observer.observe(item));
   }
 
   /* ------------------------------------------------------------------ */
-  /* Custom cursor                                                      */
+  /* Header, menu, clocks                                               */
+  /* ------------------------------------------------------------------ */
+
+  function initHeader() {
+    const header = $("#siteHeader");
+    if (!header) return;
+    let ticking = false;
+
+    const update = () => {
+      header.classList.toggle("is-stuck", window.scrollY > 18);
+      ticking = false;
+    };
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          ticking = true;
+          window.requestAnimationFrame(update);
+        }
+      },
+      { passive: true }
+    );
+
+    update();
+  }
+
+  function initScrollSpy() {
+    const links = $$("[data-nav]");
+    const sections = ["works", "play", "about", "contact"]
+      .map((id) => doc.getElementById(id))
+      .filter(Boolean);
+    if (!links.length || !sections.length) return;
+
+    let ticking = false;
+    const update = () => {
+      let current = "";
+      sections.forEach((section) => {
+        if (section.getBoundingClientRect().top <= 170) current = section.id;
+      });
+      links.forEach((link) => {
+        link.classList.toggle("is-active", link.dataset.nav === current);
+      });
+      ticking = false;
+    };
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          ticking = true;
+          window.requestAnimationFrame(update);
+        }
+      },
+      { passive: true }
+    );
+    update();
+  }
+
+  function initMenu() {
+    const overlay = $("#menuOverlay");
+    const toggle = $("#menuToggle");
+    const close = $("#menuClose");
+    if (!overlay || !toggle) return;
+
+    const setMenu = (open) => {
+      menuOpen = open;
+      overlay.classList.toggle("is-open", open);
+      overlay.setAttribute("aria-hidden", String(!open));
+      toggle.setAttribute("aria-expanded", String(open));
+      doc.body.classList.toggle("menu-open", open);
+      if (open) {
+        window.setTimeout(() => close?.focus({ preventScroll: true }), 300);
+      } else {
+        toggle.focus({ preventScroll: true });
+      }
+    };
+
+    toggle.addEventListener("click", () => setMenu(!menuOpen));
+    close?.addEventListener("click", () => setMenu(false));
+    overlay.addEventListener("click", (event) => {
+      if (event.target === overlay) setMenu(false);
+    });
+    doc.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && menuOpen) setMenu(false);
+      if (!menuOpen || event.key !== "Tab") return;
+      const focusable = $$("a[href], button", overlay).filter(
+        (node) => node.offsetParent !== null
+      );
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && doc.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && doc.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+    window.__closePaperMenu = () => {
+      if (menuOpen) setMenu(false);
+    };
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Cursor                                                             */
   /* ------------------------------------------------------------------ */
 
   function initCursor() {
     if (!isFinePointer) return;
     const cursor = $("#cursor");
-    const label = $("#cursorLabel");
-    if (!cursor || !label) return;
+    const tag = $("#cursorTag");
+    if (!cursor || !tag) return;
 
     let x = window.innerWidth / 2;
     let y = window.innerHeight / 2;
-    let labelX = x;
-    let labelY = y;
+    let tagX = x;
+    let tagY = y;
+    let rafId = 0;
+
+    const moveTag = () => {
+      tagX += (x - tagX) * 0.16;
+      tagY += (y - tagY) * 0.16;
+      tag.style.left = `${tagX}px`;
+      tag.style.top = `${tagY}px`;
+      rafId = window.requestAnimationFrame(moveTag);
+    };
 
     window.addEventListener(
       "pointermove",
@@ -741,188 +471,30 @@
         cursor.style.top = `${y}px`;
 
         const viewTarget = event.target.closest(
-          ".plate, .deck-card.is-active, [data-cursor='view']"
+          ".work-card, .chapter-card, [data-cursor='翻开'], .lightbox-stage"
         );
         const hoverTarget = event.target.closest(
-          "a, button, [role='button'], .work-row, .lightbox-stage"
+          "a, button, .collage-card, .ink-dot, .tool-btn, .shade"
         );
+        const overCanvas = event.target.closest("#playCanvas");
+
+        doc.body.classList.toggle("cursor-canvas", Boolean(overCanvas));
         doc.body.classList.toggle("cursor-view", Boolean(viewTarget));
         doc.body.classList.toggle("cursor-hover", Boolean(hoverTarget) && !viewTarget);
+
         if (viewTarget) {
-          label.textContent = viewTarget.dataset.cursor || "VIEW";
+          tag.textContent = viewTarget.classList.contains("lightbox-stage") ? "放大" : "翻开";
         }
       },
       { passive: true }
     );
 
-    label.style.left = `${labelX}px`;
-    label.style.top = `${labelY}px`;
-
-    const animateCursor = () => {
-      labelX += (x - labelX) * 0.16;
-      labelY += (y - labelY) * 0.16;
-      label.style.left = `${labelX}px`;
-      label.style.top = `${labelY}px`;
-      window.requestAnimationFrame(animateCursor);
-    };
-    animateCursor();
+    tag.style.left = `${tagX}px`;
+    tag.style.top = `${tagY}px`;
+    moveTag();
 
     doc.addEventListener("pointerleave", () => {
-      doc.body.classList.remove("cursor-hover", "cursor-view");
-    });
-  }
-
-  /* ------------------------------------------------------------------ */
-  /* Hero title parallax                                                */
-  /* ------------------------------------------------------------------ */
-
-  function initTitleParallax() {
-    if (!isFinePointer || prefersReduced) return;
-    const hero = $(".hero");
-    const letters = $$(".hero-letter");
-    if (!hero || !letters.length) return;
-    let raf = 0;
-    let targetX = 0;
-    let targetY = 0;
-
-    const render = () => {
-      letters.forEach((letter, index) => {
-        const weight = 2.2 + index * 0.85;
-        letter.style.setProperty("--lx", `${targetX * weight}px`);
-        letter.style.setProperty("--ly", `${targetY * weight * 0.7}px`);
-      });
-      raf = 0;
-    };
-
-    hero.addEventListener(
-      "pointermove",
-      (event) => {
-        const rect = hero.getBoundingClientRect();
-        targetX = (event.clientX - rect.left) / rect.width - 0.5;
-        targetY = (event.clientY - rect.top) / rect.height - 0.5;
-        if (!raf) raf = window.requestAnimationFrame(render);
-      },
-      { passive: true }
-    );
-
-    hero.addEventListener("pointerleave", () => {
-      targetX = 0;
-      targetY = 0;
-      if (!raf) raf = window.requestAnimationFrame(render);
-    });
-  }
-
-  /* ------------------------------------------------------------------ */
-  /* Rails                                                              */
-  /* ------------------------------------------------------------------ */
-
-  function initRails() {
-    $$("[data-rail-track]").forEach((track) => {
-      const section = track.closest(".chapter");
-      if (!section) return;
-      const progress = $("[data-rail-progress]", section);
-      const current = $("[data-rail-current]", section);
-      const total = $$(".plate", track).length;
-      let ticking = false;
-
-      const update = () => {
-        const max = Math.max(0, track.scrollWidth - track.clientWidth);
-        const ratio = max > 0 ? track.scrollLeft / max : 0;
-        if (progress) progress.style.transform = `scaleX(${ratio})`;
-        const firstPlate = $(".plate", track);
-        const style = window.getComputedStyle(track);
-        const gap = parseFloat(style.columnGap || style.gap) || 24;
-        const step = (firstPlate?.getBoundingClientRect().width || 1) + gap;
-        const visible = clamp(Math.round(track.scrollLeft / step) + 1, 1, total);
-        if (current) current.textContent = pad(visible);
-        ticking = false;
-      };
-
-      track.addEventListener(
-        "scroll",
-        () => {
-          if (!ticking) {
-            ticking = true;
-            window.requestAnimationFrame(update);
-          }
-        },
-        { passive: true }
-      );
-
-      $("[data-rail-prev]", section)?.addEventListener("click", () => {
-        track.scrollBy({ left: -track.clientWidth * 0.76, behavior: "smooth" });
-      });
-      $("[data-rail-next]", section)?.addEventListener("click", () => {
-        track.scrollBy({ left: track.clientWidth * 0.76, behavior: "smooth" });
-      });
-
-      let startX = 0;
-      let startScroll = 0;
-      let down = false;
-      let moved = false;
-
-      track.addEventListener("pointerdown", (event) => {
-        if (event.pointerType !== "mouse" || event.button !== 0) return;
-        down = true;
-        moved = false;
-        startX = event.clientX;
-        startScroll = track.scrollLeft;
-      });
-
-      track.addEventListener("pointermove", (event) => {
-        if (!down) return;
-        const dx = event.clientX - startX;
-        if (Math.abs(dx) > 5) {
-          if (!moved) {
-            moved = true;
-            track.classList.add("is-dragging");
-            track.setPointerCapture?.(event.pointerId);
-          }
-          track.scrollLeft = startScroll - dx;
-        }
-      });
-
-      const endDrag = () => {
-        if (!down) return;
-        down = false;
-        track.classList.remove("is-dragging");
-        window.setTimeout(() => {
-          moved = false;
-        }, 0);
-      };
-
-      window.addEventListener("pointerup", endDrag);
-      window.addEventListener("pointercancel", endDrag);
-
-      track.addEventListener(
-        "click",
-        (event) => {
-          if (!moved) return;
-          event.preventDefault();
-          event.stopPropagation();
-        },
-        true
-      );
-
-      track.addEventListener("keydown", (event) => {
-        if (event.target !== track) return;
-        if (event.key === "ArrowRight") {
-          event.preventDefault();
-          track.scrollBy({ left: track.clientWidth * 0.76, behavior: "smooth" });
-        } else if (event.key === "ArrowLeft") {
-          event.preventDefault();
-          track.scrollBy({ left: -track.clientWidth * 0.76, behavior: "smooth" });
-        } else if (event.key === "Home") {
-          event.preventDefault();
-          track.scrollTo({ left: 0, behavior: "smooth" });
-        } else if (event.key === "End") {
-          event.preventDefault();
-          track.scrollTo({ left: track.scrollWidth, behavior: "smooth" });
-        }
-      });
-
-      window.addEventListener("resize", update, { passive: true });
-      update();
+      doc.body.classList.remove("cursor-hover", "cursor-view", "cursor-canvas");
     });
   }
 
@@ -931,6 +503,7 @@
   /* ------------------------------------------------------------------ */
 
   const lightbox = $("#lightbox");
+  const lightboxSheet = $("#lightboxSheet");
   const lightboxImage = $("#lightboxImage");
   const lightboxStage = $("#lightboxStage");
   const lightboxCat = $("#lightboxCat");
@@ -939,8 +512,6 @@
   const lightboxRole = $("#lightboxRole");
   const lightboxFull = $("#lightboxFull");
   const lightboxClose = $("#lightboxClose");
-  const lightboxPrev = $("#lightboxPrev");
-  const lightboxNext = $("#lightboxNext");
 
   const lbState = {
     category: null,
@@ -998,8 +569,8 @@
 
     resetLightboxZoom();
     lightboxStage?.classList.add("is-loading");
-    lightboxImage.alt = `${plate.title} — ${plate.role}`;
-    if (lightboxCat) lightboxCat.textContent = `${category.num} ${category.en}`;
+    if (lightboxImage) lightboxImage.alt = `${plate.title} — ${plate.role}`;
+    if (lightboxCat) lightboxCat.textContent = `${category.num} / ${category.en}`;
     if (lightboxCount) lightboxCount.textContent = `${pad(lbState.index + 1)} / ${pad(category.plates.length)}`;
     if (lightboxTitle) lightboxTitle.textContent = plate.title;
     if (lightboxRole) lightboxRole.textContent = plate.role;
@@ -1023,10 +594,12 @@
     if (!lightbox) return;
     const category = categoryById.get(categoryId);
     if (!category) return;
+
     lastFocusedElement = doc.activeElement;
     lbState.category = category;
-    lbState.index = clamp(index, 0, category.plates.length - 1);
+    lbState.index = clamp(Number(index) || 0, 0, category.plates.length - 1);
     updateLightboxImage();
+
     lightbox.hidden = false;
     doc.body.classList.add("lightbox-open");
     window.requestAnimationFrame(() => lightbox.classList.add("is-open"));
@@ -1041,7 +614,7 @@
     doc.body.classList.remove("lightbox-open");
     window.setTimeout(() => {
       if (!lightboxOpen) lightbox.hidden = true;
-    }, 360);
+    }, 320);
     lastFocusedElement?.focus?.({ preventScroll: true });
   }
 
@@ -1054,7 +627,7 @@
 
   function trapLightboxFocus(event) {
     if (!lightboxOpen || !lightbox || event.key !== "Tab") return;
-    const focusable = $$('button:not([disabled]), a[href]', lightbox).filter(
+    const focusable = $$("button:not([disabled]), a[href]", lightbox).filter(
       (node) => node.offsetParent !== null
     );
     if (!focusable.length) return;
@@ -1073,20 +646,21 @@
     if (!lightbox) return;
 
     doc.addEventListener("click", (event) => {
-      const plate = event.target.closest(".plate");
-      if (!plate) return;
-      const chapter = plate.closest(".chapter");
-      if (!chapter) return;
-      openLightbox(chapter.id, Number(plate.dataset.plateIndex));
+      const card = event.target.closest(".work-card");
+      if (!card) return;
+      openLightbox(card.dataset.cat, Number(card.dataset.index));
     });
 
     lightboxClose?.addEventListener("click", closeLightbox);
-    lightboxPrev?.addEventListener("click", () => stepLightbox(-1));
-    lightboxNext?.addEventListener("click", () => stepLightbox(1));
-
+    $("#lightboxPrev")?.addEventListener("click", () => stepLightbox(-1));
+    $("#lightboxNext")?.addEventListener("click", () => stepLightbox(1));
     $("#zoomIn")?.addEventListener("click", () => setLightboxZoom(lbState.zoom + 0.5));
     $("#zoomOut")?.addEventListener("click", () => setLightboxZoom(lbState.zoom - 0.5));
     $("#zoomReset")?.addEventListener("click", resetLightboxZoom);
+
+    lightbox.addEventListener("click", (event) => {
+      if (event.target === lightbox) closeLightbox();
+    });
 
     lightboxStage?.addEventListener("click", (event) => {
       if (!lightboxOpen || event.target.closest("button, a")) return;
@@ -1094,7 +668,7 @@
         lbState.panned = false;
         return;
       }
-      setLightboxZoom(lbState.zoom > 1.01 ? 1 : 2.2);
+      setLightboxZoom(lbState.zoom > 1.01 ? 1 : 2.1);
     });
 
     lightboxStage?.addEventListener(
@@ -1118,7 +692,11 @@
         panY: lbState.panY
       };
       lightboxStage.classList.add("is-dragging");
-      lightboxStage.setPointerCapture?.(event.pointerId);
+      try {
+        lightboxStage.setPointerCapture?.(event.pointerId);
+      } catch (error) {
+        /* ignore an already-released pointer */
+      }
     });
 
     lightboxStage?.addEventListener("pointermove", (event) => {
@@ -1166,400 +744,259 @@
   }
 
   /* ------------------------------------------------------------------ */
-  /* Menu                                                               */
+  /* Doodle corner                                                      */
   /* ------------------------------------------------------------------ */
 
-  function initMenu() {
-    const overlay = $("#menuOverlay");
-    const toggle = $("#menuToggle");
-    const close = $("#menuClose");
-    if (!overlay || !toggle) return;
-
-    const setMenu = (open) => {
-      menuOpen = open;
-      overlay.classList.toggle("is-open", open);
-      overlay.setAttribute("aria-hidden", String(!open));
-      toggle.setAttribute("aria-expanded", String(open));
-      doc.body.classList.toggle("menu-open", open);
-      if (open) {
-        window.setTimeout(() => close?.focus({ preventScroll: true }), 400);
-      } else {
-        toggle.focus({ preventScroll: true });
-      }
-    };
-
-    toggle.addEventListener("click", () => setMenu(!menuOpen));
-    close?.addEventListener("click", () => setMenu(false));
-    overlay.addEventListener("click", (event) => {
-      if (event.target === overlay) setMenu(false);
-    });
-    doc.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && menuOpen) setMenu(false);
-    });
-    window.__closePortfolioMenu = () => {
-      if (menuOpen) setMenu(false);
-    };
-  }
-
-  /* ------------------------------------------------------------------ */
-  /* Playground                                                         */
-  /* ------------------------------------------------------------------ */
-
-  function initPlayground() {
+  function initDoodle() {
     const canvas = $("#playCanvas");
-    const stage = $(".play-stage");
-    if (!canvas || !stage) return;
+    const wrap = canvas?.parentElement;
+    if (!canvas || !wrap) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     const hint = $("#playHint");
-    const countNode = $("#particleCount");
-    const modeNode = $("#playModeReadout");
-    const palettes = {
-      acid: ["#d9ff3f", "#ff5235", "#5b78ff", "#f3efe5"],
-      riso: ["#ff4f8b", "#ffb21a", "#2d5bff", "#f3efe5"],
-      ghost: ["#9fe7ff", "#d7c6ff", "#8affc1", "#f3efe5"]
-    };
-    let palette = palettes.acid;
-    let mode = "trail";
+    const modeReadout = $("#playMode");
     let width = 0;
     let height = 0;
     let dpr = 1;
-    let particles = [];
-    let raf = 0;
-    let lastFrame = 0;
-    let visible = true;
+    let color = "#24211c";
+    let mode = "pen";
+    let drawing = false;
+    let lastX = 0;
+    let lastY = 0;
     let hintHidden = false;
-    let pointerInside = false;
-    let pointerDown = false;
-    const pointer = { x: 0, y: 0, px: 0, py: 0, moved: false };
 
-    const random = (min, max) => min + Math.random() * (max - min);
-
-    function rgba(hex, alpha) {
-      const value = hex.replace("#", "");
-      const bigint = parseInt(value, 16);
-      const r = (bigint >> 16) & 255;
-      const g = (bigint >> 8) & 255;
-      const b = bigint & 255;
-      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-    }
-
-    function paintBackdrop() {
+    const paintPaper = () => {
+      ctx.globalAlpha = 1;
       ctx.globalCompositeOperation = "source-over";
-      ctx.fillStyle = "#060606";
+      ctx.fillStyle = "#fbf7ee";
       ctx.fillRect(0, 0, width, height);
 
-      const gap = 44;
-      ctx.fillStyle = "rgba(243, 239, 229, .08)";
-      for (let x = gap; x < width; x += gap) {
-        for (let y = gap; y < height; y += gap) {
-          ctx.fillRect(x, y, 1, 1);
+      ctx.fillStyle = "rgba(37, 33, 27, .11)";
+      for (let x = 22; x < width; x += 26) {
+        for (let y = 22; y < height; y += 26) {
+          ctx.beginPath();
+          ctx.arc(x, y, 0.65, 0, Math.PI * 2);
+          ctx.fill();
         }
       }
-    }
 
-    function resize() {
-      const rect = stage.getBoundingClientRect();
+      ctx.font = '6px "Courier New", monospace';
+      ctx.fillStyle = "rgba(37, 33, 27, .35)";
+      ctx.fillText("KAIYU / DOODLE CORNER", 12, height - 12);
+    };
+
+    const resize = () => {
+      const rect = wrap.getBoundingClientRect();
       dpr = Math.min(window.devicePixelRatio || 1, 2);
       width = Math.max(1, rect.width);
       height = Math.max(1, rect.height);
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      particles = [];
-      paintBackdrop();
-    }
+      paintPaper();
+    };
 
-    function hideHint() {
+    const hideHint = () => {
       if (hintHidden) return;
       hintHidden = true;
       hint?.classList.add("is-hidden");
-    }
+    };
 
-    function spawn(x, y, burst = false) {
-      const count = burst ? 46 : mode === "burst" ? 5 : 2;
-      const px = pointer.px || x;
-      const py = pointer.py || y;
-      const velocityX = (x - px) * 0.055;
-      const velocityY = (y - py) * 0.055;
+    const pointFromEvent = (event) => {
+      const rect = canvas.getBoundingClientRect();
+      return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top
+      };
+    };
 
-      for (let i = 0; i < count; i += 1) {
-        const angle = Math.random() * Math.PI * 2;
-        const speed = burst ? random(0.7, 4.8) : random(0.1, 1.2);
-        const color = palette[Math.floor(Math.random() * palette.length)];
-        particles.push({
-          x: x + random(-4, 4),
-          y: y + random(-4, 4),
-          px: x,
-          py: y,
-          vx: Math.cos(angle) * speed + velocityX,
-          vy: Math.sin(angle) * speed + velocityY,
-          life: burst ? random(44, 90) : random(55, 130),
-          maxLife: 130,
-          size: random(0.7, burst ? 3.4 : 2.2),
-          color
-        });
-      }
-
-      if (particles.length > 950) {
-        particles.splice(0, particles.length - 950);
-      }
-    }
-
-    function animate(timestamp) {
-      if (!visible) {
-        raf = window.requestAnimationFrame(animate);
-        return;
-      }
-      if (timestamp - lastFrame < 16 && !prefersReduced) {
-        raf = window.requestAnimationFrame(animate);
-        return;
-      }
-      lastFrame = timestamp;
-
-      ctx.globalCompositeOperation = "source-over";
-      ctx.fillStyle = "rgba(6, 6, 6, .085)";
-      ctx.fillRect(0, 0, width, height);
-      ctx.globalCompositeOperation = "lighter";
+    const drawPen = (from, to) => {
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2.4;
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
+      ctx.beginPath();
+      ctx.moveTo(from.x, from.y);
+      ctx.lineTo(to.x, to.y);
+      ctx.stroke();
+    };
 
-      for (let i = particles.length - 1; i >= 0; i -= 1) {
-        const particle = particles[i];
-        particle.px = particle.x;
-        particle.py = particle.y;
-        particle.x += particle.vx;
-        particle.y += particle.vy;
-        particle.vx *= 0.994;
-        particle.vy *= 0.994;
-        if (mode === "burst") particle.vy += 0.012;
-        particle.life -= 1;
+    const drawCrayon = (from, to) => {
+      ctx.globalAlpha = 0.28;
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 7;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      for (let i = 0; i < 4; i += 1) {
+        const jitter = (Math.random() - 0.5) * 5;
+        ctx.beginPath();
+        ctx.moveTo(from.x + jitter, from.y + jitter);
+        ctx.lineTo(to.x + jitter, to.y + jitter);
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+    };
 
-        if (
-          particle.life <= 0 ||
-          particle.x < -30 ||
-          particle.x > width + 30 ||
-          particle.y < -30 ||
-          particle.y > height + 30
-        ) {
-          particles.splice(i, 1);
-          continue;
+    const drawStamp = (x, y) => {
+      const scale = 0.7 + Math.random() * 0.8;
+      const kind = Math.floor(Math.random() * 3);
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate((Math.random() - 0.5) * 0.5);
+      ctx.fillStyle = color;
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2;
+      ctx.globalAlpha = 0.86;
+
+      if (kind === 0) {
+        for (let i = 0; i < 5; i += 1) {
+          const angle = (i / 5) * Math.PI * 2;
+          ctx.beginPath();
+          ctx.ellipse(
+            Math.cos(angle) * 8 * scale,
+            Math.sin(angle) * 8 * scale,
+            5.5 * scale,
+            3.2 * scale,
+            angle,
+            0,
+            Math.PI * 2
+          );
+          ctx.fill();
         }
-
-        const alpha = clamp(particle.life / particle.maxLife, 0, 1) * 0.78;
+        ctx.fillStyle = "rgba(37, 33, 27, .75)";
         ctx.beginPath();
-        ctx.moveTo(particle.px, particle.py);
-        ctx.lineTo(particle.x, particle.y);
-        ctx.strokeStyle = rgba(particle.color, alpha);
-        ctx.lineWidth = particle.size;
-        ctx.stroke();
-      }
-
-      ctx.globalCompositeOperation = "source-over";
-      ctx.font = '7px "Consolas", monospace';
-      ctx.fillStyle = "rgba(243, 239, 229, .38)";
-      ctx.fillText("KAIYU / PLAYGROUND", 14, height - 14);
-
-      if (pointerInside) {
+        ctx.arc(0, 0, 3 * scale, 0, Math.PI * 2);
+        ctx.fill();
+      } else if (kind === 1) {
         ctx.beginPath();
-        ctx.arc(pointer.x, pointer.y, 6, 0, Math.PI * 2);
-        ctx.strokeStyle = "rgba(217, 255, 63, .55)";
-        ctx.lineWidth = 0.8;
-        ctx.stroke();
+        for (let i = 0; i < 8; i += 1) {
+          const angle = (i / 8) * Math.PI * 2 - Math.PI / 2;
+          const radius = i % 2 === 0 ? 14 * scale : 6 * scale;
+          const px = Math.cos(angle) * radius;
+          const py = Math.sin(angle) * radius;
+          if (i === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        }
+        ctx.closePath();
+        ctx.fill();
+      } else {
+        ctx.beginPath();
+        ctx.moveTo(0, 10 * scale);
+        ctx.bezierCurveTo(-18 * scale, -2 * scale, -9 * scale, -17 * scale, 0, -7 * scale);
+        ctx.bezierCurveTo(9 * scale, -17 * scale, 18 * scale, -2 * scale, 0, 10 * scale);
+        ctx.fill();
       }
+      ctx.restore();
+      ctx.globalAlpha = 1;
+    };
 
-      countNode.textContent = String(particles.length).padStart(3, "0");
-      raf = window.requestAnimationFrame(animate);
-    }
-
-    function positionFromEvent(event) {
-      const rect = canvas.getBoundingClientRect();
-      pointer.px = pointer.x || event.clientX - rect.left;
-      pointer.py = pointer.y || event.clientY - rect.top;
-      pointer.x = event.clientX - rect.left;
-      pointer.y = event.clientY - rect.top;
-    }
-
-    canvas.addEventListener("pointerenter", (event) => {
-      pointerInside = true;
-      positionFromEvent(event);
+    canvas.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "mouse" && event.button !== 0) return;
+      const point = pointFromEvent(event);
+      drawing = true;
+      hideHint();
+      lastX = point.x;
+      lastY = point.y;
+      try {
+        canvas.setPointerCapture?.(event.pointerId);
+      } catch (error) {
+        /* synthetic or already-released pointers */
+      }
+      if (event.cancelable) event.preventDefault();
+      if (mode === "stamp") {
+        drawStamp(point.x, point.y);
+        drawing = false;
+      } else if (mode === "pen") {
+        ctx.beginPath();
+        ctx.fillStyle = color;
+        ctx.arc(point.x, point.y, 1.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
     });
 
     canvas.addEventListener("pointermove", (event) => {
-      positionFromEvent(event);
-      pointerInside = true;
-      hideHint();
-      if (pointerDown || mode === "burst") {
-        spawn(pointer.x, pointer.y);
-      } else {
-        spawn(pointer.x, pointer.y);
-      }
+      if (!drawing || mode === "stamp") return;
+      const point = pointFromEvent(event);
+      if (mode === "crayon") drawCrayon({ x: lastX, y: lastY }, point);
+      else drawPen({ x: lastX, y: lastY }, point);
+      lastX = point.x;
+      lastY = point.y;
     });
 
-    canvas.addEventListener("pointerdown", (event) => {
-      pointerDown = true;
-      pointerInside = true;
-      positionFromEvent(event);
-      hideHint();
-      spawn(pointer.x, pointer.y, true);
-      canvas.setPointerCapture?.(event.pointerId);
-      if (event.cancelable) event.preventDefault();
-    });
-
-    const release = () => {
-      pointerDown = false;
+    const stopDrawing = () => {
+      drawing = false;
     };
-    canvas.addEventListener("pointerup", release);
-    canvas.addEventListener("pointercancel", release);
-    canvas.addEventListener("pointerleave", () => {
-      pointerInside = false;
-      pointerDown = false;
-    });
+    canvas.addEventListener("pointerup", stopDrawing);
+    canvas.addEventListener("pointercancel", stopDrawing);
+    canvas.addEventListener("pointerleave", stopDrawing);
 
-    $$("[data-mode]").forEach((button) => {
+    $$(".ink-dot").forEach((button) => {
       button.addEventListener("click", () => {
-        mode = button.dataset.mode || "trail";
-        $$("[data-mode]").forEach((item) => {
+        color = button.dataset.color || "#24211c";
+        $$(".ink-dot").forEach((item) => {
           const active = item === button;
           item.classList.toggle("is-active", active);
           item.setAttribute("aria-pressed", String(active));
         });
-        if (modeNode) modeNode.textContent = `${mode.toUpperCase()} MODE`;
       });
     });
 
-    $$("[data-palette]").forEach((button) => {
+    $$(".tool-btn").forEach((button) => {
       button.addEventListener("click", () => {
-        palette = palettes[button.dataset.palette] || palettes.acid;
-        $$("[data-palette]").forEach((item) => {
+        mode = button.dataset.mode || "pen";
+        $$(".tool-btn").forEach((item) => {
           const active = item === button;
           item.classList.toggle("is-active", active);
           item.setAttribute("aria-pressed", String(active));
         });
+        if (modeReadout) {
+          const names = { pen: "PEN / 钢笔", crayon: "CRAYON / 蜡笔", stamp: "STAMP / 盖章" };
+          modeReadout.textContent = names[mode] || "PEN / 钢笔";
+        }
       });
     });
 
     $("#playClear")?.addEventListener("click", () => {
-      particles = [];
-      paintBackdrop();
-      countNode.textContent = "000";
-      showToast("画布已清空 / CLEARED");
+      paintPaper();
+      drawing = false;
+      hintHidden = false;
+      hint?.classList.remove("is-hidden");
+      showToast("换一张新纸 / fresh paper");
     });
 
     $("#playSave")?.addEventListener("click", () => {
-      const filename = `kaiyu-playground-${new Date().toISOString().slice(0, 10)}.png`;
       canvas.toBlob((blob) => {
         if (!blob) return;
         const link = doc.createElement("a");
         link.href = URL.createObjectURL(blob);
-        link.download = filename;
+        link.download = `kaiyu-doodle-${new Date().toISOString().slice(0, 10)}.png`;
         doc.body.appendChild(link);
         link.click();
         link.remove();
         window.setTimeout(() => URL.revokeObjectURL(link.href), 1500);
-        showToast("画布已保存 / IMAGE SAVED");
+        showToast("这一页存下来了 / saved as PNG");
       }, "image/png");
     });
 
     if ("ResizeObserver" in window) {
-      new ResizeObserver(resize).observe(stage);
+      let lastWidth = 0;
+      new ResizeObserver(() => {
+        const widthNow = wrap.getBoundingClientRect().width;
+        if (Math.abs(widthNow - lastWidth) < 2) return;
+        lastWidth = widthNow;
+        resize();
+      }).observe(wrap);
     } else {
       window.addEventListener("resize", resize, { passive: true });
     }
 
-    if ("IntersectionObserver" in window) {
-      new IntersectionObserver(
-        (entries) => {
-          visible = entries[0]?.isIntersecting ?? true;
-        },
-        { threshold: 0.01 }
-      ).observe(stage);
-    }
-
     resize();
-    raf = window.requestAnimationFrame(animate);
   }
 
   /* ------------------------------------------------------------------ */
-  /* Sound                                                              */
-  /* ------------------------------------------------------------------ */
-
-  function initSound() {
-    const button = $("#soundToggle");
-    if (!button) return;
-    const label = $(".sound-label", button);
-    let audioContext = null;
-    let master = null;
-    let soundOn = false;
-
-    const createAudio = () => {
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContext) return null;
-      audioContext = new AudioContext();
-      master = audioContext.createGain();
-      master.gain.value = 0;
-      const filter = audioContext.createBiquadFilter();
-      filter.type = "lowpass";
-      filter.frequency.value = 380;
-      filter.Q.value = 0.8;
-      filter.connect(master);
-      master.connect(audioContext.destination);
-
-      const notes = [
-        { frequency: 55, gain: 0.13, type: "sine", pan: -0.35 },
-        { frequency: 82.41, gain: 0.07, type: "triangle", pan: 0.25 },
-        { frequency: 110, gain: 0.05, type: "sine", pan: -0.05 },
-        { frequency: 164.81, gain: 0.024, type: "sine", pan: 0.45 }
-      ];
-
-      notes.forEach((note) => {
-        const oscillator = audioContext.createOscillator();
-        const gain = audioContext.createGain();
-        oscillator.type = note.type;
-        oscillator.frequency.value = note.frequency;
-        gain.gain.value = note.gain;
-        const panner = audioContext.createStereoPanner
-          ? audioContext.createStereoPanner()
-          : null;
-        if (panner) {
-          panner.pan.value = note.pan;
-          oscillator.connect(gain).connect(panner).connect(filter);
-        } else {
-          oscillator.connect(gain).connect(filter);
-        }
-        oscillator.start();
-      });
-
-      const lfo = audioContext.createOscillator();
-      const lfoGain = audioContext.createGain();
-      lfo.frequency.value = 0.055;
-      lfoGain.gain.value = 90;
-      lfo.connect(lfoGain).connect(filter.frequency);
-      lfo.start();
-      return audioContext;
-    };
-
-    button.addEventListener("click", async () => {
-      if (!audioContext) createAudio();
-      if (!audioContext || !master) return;
-      try {
-        await audioContext.resume();
-        soundOn = !soundOn;
-        master.gain.setTargetAtTime(soundOn ? 0.07 : 0, audioContext.currentTime, 0.55);
-        button.classList.toggle("is-on", soundOn);
-        button.setAttribute("aria-pressed", String(soundOn));
-        button.setAttribute("aria-label", soundOn ? "关闭环境声音" : "开启环境声音");
-        if (label) label.innerHTML = soundOn ? "SOUND <b>ON</b>" : "SOUND <b>OFF</b>";
-        showToast(soundOn ? "环境声音已开启 / SOUND ON" : "环境声音已关闭 / SOUND OFF");
-      } catch (error) {
-        /* Audio can be blocked; ignore. */
-      }
-    });
-  }
-
-  /* ------------------------------------------------------------------ */
-  /* Utility interactions                                               */
+  /* Utilities                                                          */
   /* ------------------------------------------------------------------ */
 
   function showToast(message) {
@@ -1600,13 +1037,14 @@
     if (!button) return;
     button.addEventListener("click", async () => {
       const email = button.dataset.email || DATA.meta.email;
+      const note = $("em", button);
       try {
         await copyText(email);
-        showToast("邮箱已复制 / EMAIL COPIED");
-        button.querySelector("em").textContent = "COPIED — SEE YOU IN THE INBOX";
+        showToast("邮箱已复制 / email copied");
+        if (note) note.textContent = "copied — see you in the inbox";
         window.setTimeout(() => {
-          button.querySelector("em").textContent = "CLICK TO COPY / 点击复制";
-        }, 2200);
+          if (note) note.textContent = "点击复制 / click to copy";
+        }, 2300);
       } catch (error) {
         window.location.href = `mailto:${email}`;
       }
@@ -1622,7 +1060,7 @@
       const target = doc.querySelector(href);
       if (!target) return;
       event.preventDefault();
-      if (menuOpen && window.__closePortfolioMenu) window.__closePortfolioMenu();
+      if (menuOpen && window.__closePaperMenu) window.__closePaperMenu();
       target.scrollIntoView({
         behavior: prefersReduced ? "auto" : "smooth",
         block: "start"
@@ -1630,23 +1068,19 @@
       try {
         history.replaceState(null, "", href);
       } catch (error) {
-        /* file:// can restrict history */
+        /* file:// may restrict history */
       }
     });
   }
 
   function initKeyboard() {
     doc.addEventListener("keydown", (event) => {
+      if (lightboxOpen || menuOpen) return;
       if (event.metaKey || event.ctrlKey || event.altKey) return;
       const target = event.target;
       if (target instanceof HTMLElement && target.matches("input, textarea, select")) return;
-      if (lightboxOpen) return;
-      const key = event.key.toLowerCase();
-      if (key === "g") {
-        doc.body.classList.toggle("no-grain");
-        showToast(doc.body.classList.contains("no-grain") ? "颗粒已关闭 / GRAIN OFF" : "颗粒已开启 / GRAIN ON");
-      } else if (key === "t") {
-        toggleTheme();
+      if (event.key.toLowerCase() === "s") {
+        $("#collageShuffle")?.click();
       }
     });
   }
@@ -1667,8 +1101,7 @@
 
     let progress = 0;
     let done = false;
-    let loadEventFired = false;
-    const started = performance.now();
+    let loadFired = false;
 
     const paint = () => {
       if (number) number.textContent = pad(Math.min(99, Math.round(progress)));
@@ -1686,28 +1119,22 @@
         loader.classList.add("is-done");
         doc.body.classList.remove("is-loading");
         doc.body.classList.add("is-ready");
-        window.setTimeout(() => loader.remove(), 1200);
-      }, 320);
+        window.setTimeout(() => loader.remove(), 1100);
+      }, 300);
     };
 
     const timer = window.setInterval(() => {
       if (done) return;
-      const elapsed = performance.now() - started;
-      const ceiling = loadEventFired ? 100 : 91;
-      progress = Math.min(ceiling, progress + Math.max(0.8, (ceiling - progress) * 0.08));
-      if (elapsed > 1300) progress = Math.min(ceiling, progress + 0.4);
+      progress = Math.min(loadFired ? 100 : 91, progress + 2.5 + Math.random() * 5);
       paint();
-      if (progress >= 99.5 && loadEventFired) {
-        window.clearInterval(timer);
-        finish();
-      }
+      if (loadFired && progress > 96) finish();
     }, 80);
 
     const onLoad = () => {
-      loadEventFired = true;
-      progress = Math.max(progress, 94);
+      loadFired = true;
+      progress = Math.max(progress, 92);
       paint();
-      window.setTimeout(finish, 520);
+      window.setTimeout(finish, 450);
     };
 
     if (doc.readyState === "complete") onLoad();
@@ -1715,10 +1142,10 @@
 
     window.setTimeout(() => {
       if (!done) {
-        loadEventFired = true;
+        loadFired = true;
         finish();
       }
-    }, 5200);
+    }, 4800);
 
     paint();
   }
@@ -1727,35 +1154,26 @@
   /* Init                                                               */
   /* ------------------------------------------------------------------ */
 
-  buildHeroDeck();
-  buildMenu();
-  buildPageRail();
   buildIndex();
   buildChapters();
   buildFacts();
 
-  initDeck();
-  initMenu();
-  initHeroField();
-  initTitleParallax();
+  initLoader();
   initHeader();
-  initScrollProgress();
-  initRails();
+  initScrollSpy();
+  initMenu();
+  initCollage();
+  initCursor();
   initLightbox();
-  initPlayground();
-  initSound();
+  initDoodle();
   initEmailCopy();
   initAnchors();
   initKeyboard();
-  initCursor();
   initReveal();
-  initScrollSpy();
-  initLoader();
 
-  // A small helper for anyone opening the console.
   console.info(
-    `%cKAIYU / PORTFOLIO%c  ${totalPlates} plates · ${categories.length} chapters · 1 playground`,
-    "background:#d9ff3f;color:#080808;padding:3px 6px;font-weight:700",
-    "color:#8b877d"
+    `%cKAIYU / PAPER PORTFOLIO%c  ${totalPlates} pieces · ${categories.length} chapters · 1 sketchbook`,
+    "background:#cf4b32;color:#fcf8ef;padding:3px 6px;font-weight:700",
+    "color:#746c60"
   );
 })();

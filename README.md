@@ -1,10 +1,10 @@
-# 郑铠妤 KAIYU — Portfolio
+# 郑铠妤 KAIYU — Paper Portfolio
 
 Live site: **https://xq1125.github.io/kaiyu-portfolio/**
 
-A hand-built, dependency-free portfolio site for game visual, AIGC film, UI/UX, 3D, IP and experimental work.
+A hand-built, dependency-free portfolio for game visual, AIGC film, UI/UX, 3D, IP and personal experiments. The art direction is a paper scrapbook: warm stock, vermilion seals, torn tape, handwritten notes and a little Chinese editorial typography. No dark-neon template, no external fonts, no tracking.
 
-30 artwork plates · 6 chapters · 1 generative playground.
+**30 pieces · 6 chapters · 1 sketchbook.**
 
 ## Run locally
 
@@ -14,52 +14,54 @@ python -m http.server 4180
 
 Open <http://localhost:4180>.
 
-Or simply double-click `index.html` — all assets use relative paths. The local server is recommended for the cleanest experience.
+Or double-click `index.html`; every asset uses a relative path. A local server is recommended for the cleanest experience.
 
 ## Structure
 
 ```text
-index.html                 Page shell
-assets/css/style.css       All styling and responsive layout
-assets/js/data.js          All portfolio copy, categories, captions
-assets/js/main.js          Interactions, lightbox, generative playground
-assets/img/thumb/          900px WebP plates (mobile gallery)
-assets/img/wide/           1800px WebP plates (desktop gallery + srcset)
+index.html                 Page shell and static copy
+assets/css/style.css       Paper-collage styling and responsive layout
+assets/js/data.js          Categories, plate captions, facts, contact data
+assets/js/main.js          Collage, lightbox, sketchbook, menus, copy, clocks
+assets/img/thumb/          900px WebP plates (mobile / card thumbnails)
+assets/img/wide/           1800px WebP plates (desktop grid + srcset)
 assets/img/full/           2800px WebP plates (lightbox)
-assets/img/covers/         Hero and index crops
-assets/img/about/          Portrait
+assets/img/covers/         Hero and chapter-cover crops
+assets/img/about/          Privacy-safe illustrated portrait
+assets/img/og-cover.jpg    1200 × 630 social card
 ```
 
 ## Interactions
 
-- Draggable hero project deck
-- Hovering work index with a floating preview
-- Draggable / swipeable horizontal chapter galleries
-- Full-screen lightbox with zoom, pan and keyboard navigation
-- Generative canvas playground (TRAIL / BURST, three palettes, save as PNG)
-- Dark / light theme, ambient Web Audio, custom cursor
-- Responsive mobile menu
-- Keyboard: `G` grain on/off, `T` theme toggle, `←` `→` in lightbox, `Esc` close
+- **Paper collage** — drag the four hero cards, or press `S` / “把桌子弄乱” to shuffle the desk.
+- **Chapter index** — six tilted paper cards that open the six chapters, with a hand-drawn active section tab.
+- **Work sheets** — hover-lift plates open a paper lightbox with prev/next, zoom (`+` / `−` / `0`), drag-to-pan and arrow-key navigation.
+- **Sketchbook** — draw with pen or crayon, stamp little flowers/stars/hearts, clear the page, and save the sheet as a PNG. Five ink colours; no review committee.
+- **Contact postcard** — click the email to copy it, or use the mailto link.
+- **Small things** — custom red cursor labels, live Hangzhou clock, scroll reveals, mobile paper menu, keyboard focus states.
+- **Keyboard** — `S` shuffle; `←` `→` flip lightbox; `Esc` close; `+` `−` `0` zoom the lightbox.
 
 ## GitHub Pages
 
-1. Create a repository on GitHub, e.g. `portfolio`.
-2. Upload the contents of this folder to the repository root.
-3. In **Settings → Pages**, choose **Deploy from a branch**, branch `main`, folder `/ (root)`.
-4. The site will appear at `https://<username>.github.io/portfolio/`.
+1. Push the repository root to `main`.
+2. In **Settings → Pages**, choose **Deploy from a branch**, branch `main`, folder `/ (root)`.
+3. The site appears at `https://xq1125.github.io/kaiyu-portfolio/`.
 
 `.nojekyll` is included so GitHub Pages serves the files as-is.
 
 ## Adding video
 
-Add MP4/WebM files under `assets/video/`, then either:
-- replace a chapter plate with a video card, or
-- add a `video` field to a plate in `data.js` and a `<video>` slot in the lightbox.
+The current site is stills-only. When video files are ready:
 
-The initial site intentionally uses stills only. The AIGC works (`山海·一念`, `未发送`, 非遗系列) are natural candidates for a video reel.
+1. Add MP4/WebM files under `assets/video/`.
+2. Add a `video` field to a plate in `assets/js/data.js`.
+3. Extend `updateLightboxImage()` in `assets/js/main.js` to swap the `<img>` for a `<video controls playsinline>` when that field exists.
+
+The AIGC chapter — `山海 · 一念`, `未发送`, the intangible-cultural-heritage series — is the natural home for a video reel, with the existing stills as posters.
 
 ## Notes
 
-- All images were optimized from the supplied 7073 × 2500 portfolio boards.
-- No third-party JS, no tracking, no external fonts.
-- Text and contact details can be edited in `assets/js/data.js` and `index.html`.
+- Plates were optimized from the supplied 7073 × 2500 portfolio boards.
+- No third-party JavaScript, build step, external font, analytics or cookies.
+- Public contact card uses the email only; the full profile board with phone/QQ is intentionally not published.
+- Edit portfolio copy in `assets/js/data.js`; edit the page-level manifesto and postcard copy in `index.html`.

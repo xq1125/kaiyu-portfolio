@@ -1,274 +1,300 @@
 <!doctype html>
-<html lang="zh-CN" data-theme="dark">
+<html lang="zh-CN">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>郑铠妤 KAIYU — Visual Designer / Portfolio</title>
-  <meta name="description" content="郑铠妤（KAIYU ZHENG）作品集：游戏视觉、AIGC 影像、UI/UX、3D 建模、IP 设定与个人创作。Design is a force that surfaces from within.">
+  <title>郑铠妤 KAIYU — 把想象剪下来 / Portfolio</title>
+  <meta name="description" content="郑铠妤（KAIYU ZHENG）作品集：游戏视觉、AIGC 影像、UI/UX、3D 建模、IP 设定与个人创作。纸本拼贴，一点可爱，一点国风。">
   <meta name="author" content="郑铠妤 KAIYU ZHENG">
-  <meta name="theme-color" content="#090909">
+  <meta name="theme-color" content="#f3eee3">
   <link rel="canonical" href="https://xq1125.github.io/kaiyu-portfolio/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://xq1125.github.io/kaiyu-portfolio/">
-  <meta property="og:title" content="郑铠妤 KAIYU — Visual Designer">
-  <meta property="og:description" content="游戏视觉 · AIGC 影像 · UI/UX · 3D · IP。Selected works 2023—2026.">
-  <meta property="og:image" content="https://xq1125.github.io/kaiyu-portfolio/assets/img/og-cover.jpg">
+  <meta property="og:title" content="郑铠妤 KAIYU — 把想象剪下来">
+  <meta property="og:description" content="游戏视觉 · AIGC 影像 · UI/UX · 3D · IP。一本纸本拼贴的作品集，2023—2026。">
+  <meta property="og:image" content="https://xq1125.github.io/kaiyu-portfolio/assets/img/og-cover.jpg?v=paper">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://xq1125.github.io/kaiyu-portfolio/assets/img/og-cover.jpg">
+  <meta name="twitter:image" content="https://xq1125.github.io/kaiyu-portfolio/assets/img/og-cover.jpg?v=paper">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="preload" as="image" href="assets/img/covers/hero-02.webp">
-  <link rel="preload" as="image" href="assets/img/covers/hero-01.webp">
+  <link rel="preload" as="image" href="assets/img/covers/card-aigc.webp">
+  <link rel="preload" as="image" href="assets/img/about/portrait.webp">
   <script>document.documentElement.classList.add('js');</script>
   <link rel="stylesheet" href="assets/css/style.css">
-  <noscript><style>.loader{display:none!important}body.is-loading{overflow:auto!important}.hero-title,.hero-deck,.hero-kicker{opacity:1!important}</style></noscript>
+  <noscript><style>.loader{display:none!important}body.is-loading{overflow:auto!important}</style></noscript>
 </head>
 <body class="is-loading">
   <a class="skip-link" href="#main">跳至主要内容</a>
-
-  <div class="grain" aria-hidden="true"></div>
+  <div class="paper-grain" aria-hidden="true"></div>
   <div class="cursor" id="cursor" aria-hidden="true"><i></i></div>
-  <div class="cursor-label" id="cursorLabel" aria-hidden="true">VIEW</div>
-  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+  <div class="cursor-tag" id="cursorTag" aria-hidden="true">翻开</div>
 
   <div class="loader" id="loader" aria-label="页面加载中">
     <div class="loader-top">
-      <span class="monogram">KZ</span>
-      <span>SELECTED WORKS / 2023—2026</span>
-      <span>HANGZHOU · CN</span>
+      <span>( portfolio / 2023—2026 )</span>
+      <span>HANGZHOU, CN</span>
     </div>
     <div class="loader-center">
-      <div class="loader-word">
-        <span>PORT</span><span class="outline">FOLIO</span>
-      </div>
-      <div class="loader-count"><span id="loadNumber">00</span><sup>%</sup></div>
+      <span class="loader-seal">郑</span>
+      <p>正在摊开纸张…</p>
     </div>
     <div class="loader-bottom">
-      <div class="loader-track"><span id="loadBar"></span></div>
-      <p>正在整理图像与灵感<br><em>GATHERING IMAGES &amp; IDEAS</em></p>
+      <div class="loader-line"><span id="loadBar"></span></div>
+      <div class="loader-count"><span id="loadNumber">00</span><sup>%</sup></div>
     </div>
   </div>
 
   <header class="site-header" id="siteHeader">
     <a class="brand" href="#top" aria-label="回到首页">
-      <span class="brand-mark">KZ</span>
-      <span class="brand-text"><b>郑铠妤</b><em>KAIYU ZHENG</em></span>
+      <span class="brand-seal">郑</span>
+      <span class="brand-type"><b>郑铠妤</b><em>KAIYU ZHENG</em></span>
     </a>
 
-    <nav class="site-nav" aria-label="主导航">
-      <a href="#index">Index <span>作品</span></a>
-      <a href="#play">Play <span>实验</span></a>
-      <a href="#about">About <span>关于</span></a>
+    <nav class="site-nav" id="siteNav" aria-label="主导航">
+      <a href="#works" data-nav="works"><span>01</span>作品</a>
+      <a href="#play" data-nav="play"><span>02</span>涂鸦</a>
+      <a href="#about" data-nav="about"><span>03</span>关于</a>
+      <a href="#contact" data-nav="contact"><span>04</span>联系</a>
     </nav>
 
-    <div class="header-actions">
-      <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="false" aria-label="开启环境声音">
-        <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-        <span class="sound-label">SOUND <b>OFF</b></span>
-      </button>
-      <button class="icon-btn theme-toggle" id="themeToggle" type="button" aria-label="切换到浅色模式">
-        <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
-        <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.4 14.4A8.5 8.5 0 0 1 9.6 3.6 8.5 8.5 0 1 0 20.4 14.4Z"></path></svg>
-      </button>
+    <div class="header-side">
+      <span class="header-time">HZ <b data-clock>--:--</b></span>
+      <a class="header-note" href="#contact">写封信给我 <span>↗</span></a>
       <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="menuOverlay">
-        <span class="menu-toggle-label">MENU</span>
-        <span class="menu-lines" aria-hidden="true"><i></i><i></i></span>
+        <span>菜单</span><i aria-hidden="true"></i>
       </button>
     </div>
   </header>
 
   <div class="menu-overlay" id="menuOverlay" aria-hidden="true">
-    <div class="menu-head">
-      <span class="monogram">KZ</span>
-      <span>INDEX / 目录</span>
-      <button class="menu-close" id="menuClose" type="button" aria-label="关闭菜单">CLOSE <span>×</span></button>
+    <div class="menu-top">
+      <span class="menu-mark">KAIYU'S<br>PAPER WORLD</span>
+      <button class="menu-close" id="menuClose" type="button">合上 <span>×</span></button>
     </div>
-    <nav class="menu-links" id="menuLinks" aria-label="章节导航"></nav>
-    <div class="menu-foot">
+    <nav class="menu-links" aria-label="移动端导航">
+      <a href="#works"><span>01</span>作品<em>selected works</em></a>
+      <a href="#play"><span>02</span>涂鸦<em>doodle corner</em></a>
+      <a href="#about"><span>03</span>关于<em>a little about</em></a>
+      <a href="#contact"><span>04</span>联系<em>say hi</em></a>
+    </nav>
+    <div class="menu-bottom">
       <a href="mailto:13554191868@163.com">13554191868@163.com</a>
       <p>视觉 / 影像 / 交互<br><span>HANGZHOU · CHINA</span></p>
-      <p class="menu-clock">LOCAL TIME<br><span data-clock>--:--:--</span></p>
+      <p class="menu-clock">LOCAL TIME<br><span data-clock>--:--</span></p>
     </div>
   </div>
 
-  <aside class="page-rail" aria-label="章节快速跳转">
-    <span class="page-rail-label">SCROLL</span>
-    <div class="page-rail-links" id="pageRail"></div>
-    <span class="page-rail-count"><b id="railCurrent">00</b> / 06</span>
-  </aside>
-
   <main id="main">
     <section class="hero" id="top" data-section="top">
-      <canvas class="hero-field" id="heroField" aria-hidden="true"></canvas>
-      <div class="hero-grid">
-        <div class="hero-kicker" data-intro>
-          <span>郑铠妤 / KAIYU ZHENG</span>
-          <span>SELECTED WORKS · 2023—2026</span>
-          <span>HANGZHOU, CN</span>
-        </div>
+      <div class="hero-topline">
+        <span>( 作品集 / PORTFOLIO )</span>
+        <span>视觉设计师 &amp; 图像制作者</span>
+        <span>2023—2026</span>
+      </div>
 
-        <div class="hero-lockup">
-          <div class="hero-cn" data-intro><span>郑铠妤</span><em>ZHENG KAIYU</em></div>
-          <h1 class="hero-title" aria-label="KAIYU">
-            <span class="hero-line"><span class="hero-letter">K</span><span class="hero-letter">A</span><span class="hero-letter">I</span></span>
-            <span class="hero-line hero-line--outline"><span class="hero-letter">Y</span><span class="hero-letter">U</span><span class="hero-dot" aria-hidden="true">●</span></span>
-          </h1>
-          <div class="hero-sub" data-intro>
-            <p class="hero-manifesto">设计，是浮现于内心<br>源自生命的一种力量。</p>
-            <p class="hero-role">Visual designer working across<br>game, image, interface &amp; space.</p>
+      <div class="hero-layout">
+        <div class="hero-copy">
+          <p class="hero-kicker"><i></i>HELLO, I'M KAIYU</p>
+          <h1>把想象<br><span class="cut">剪</span>下来<span class="full-stop">。</span></h1>
+          <p class="hero-desc">我是郑铠妤，一个在游戏、影像、界面和纸片之间来回走动的视觉设计师。喜欢把复杂的事，做成让人想多看一眼的东西。</p>
+
+          <div class="hero-actions">
+            <a class="paper-btn" href="#works">翻作品 <span>↓</span></a>
+            <a class="hand-link" href="#contact">或者，写封信给我 <span>↗</span></a>
+          </div>
+
+          <div class="hero-foot">
+            <p>GAME VISUAL<br>AIGC FILM<br>UI / UX<br>3D &amp; IP</p>
+            <p class="hand">往下翻，<br>像翻一本旧杂志。</p>
           </div>
         </div>
 
-        <div class="hero-side" data-intro>
-          <div class="hero-deck" id="heroDeck" aria-roledescription="卡片组" aria-label="精选作品，可拖动切换">
-            <div class="deck-head">
-              <span>SELECTED / 04</span>
-              <span id="deckCounter">01 / 04</span>
-            </div>
-            <div class="deck-stage" id="deckStage"></div>
-            <div class="deck-foot">
-              <p id="deckCaption">AIGC FILM<br><b>山海 · 一念</b></p>
-              <div class="deck-nav">
-                <button type="button" data-deck-prev aria-label="上一张精选作品">←</button>
-                <span>DRAG / SWIPE</span>
-                <button type="button" data-deck-next aria-label="下一张精选作品">→</button>
-              </div>
-            </div>
-            <p class="sr-only" id="deckStatus" aria-live="polite"></p>
-          </div>
-        </div>
+        <div class="hero-collage" id="heroCollage" aria-label="可以拖动的作品拼贴">
+          <div class="collage-title" aria-hidden="true">MY LITTLE<br>PAPER WORLD</div>
 
-        <div class="hero-bottom" data-intro>
-          <a class="orbit-link" href="#index" aria-label="向下滚动进入作品索引">
-            <svg class="orbit-svg" viewBox="0 0 120 120" aria-hidden="true">
-              <defs><path id="orbitPath" d="M60,60 m-45,0 a45,45 0 1,1 90,0 a45,45 0 1,1 -90,0"></path></defs>
-              <text><textPath href="#orbitPath">SCROLL TO EXPLORE · SELECTED WORKS · </textPath></text>
-            </svg>
-            <span class="orbit-arrow" aria-hidden="true">↓</span>
-          </a>
-          <div class="hero-note">
-            <span>CURRENTLY EXPLORING</span>
-            <p>Game visual / moving image /<br>interfaces with a pulse.</p>
-          </div>
-          <div class="hero-index-jump">
-            <span>30 PLATES</span>
-            <span>06 CHAPTERS</span>
-            <span>01 PLAYGROUND</span>
+          <button class="collage-card card-portrait" type="button" data-target="#about" style="--rot:-4.2deg">
+            <span class="tape tape-tl" aria-hidden="true"></span>
+            <img src="assets/img/about/portrait.webp" alt="郑铠妤的插画头像" width="1000" height="839">
+            <span class="collage-caption"><em>me, illustrated</em><b>画的我</b></span>
+          </button>
+
+          <button class="collage-card card-game" type="button" data-cat="game" data-index="0" data-cursor="翻开" style="--rot:2.8deg">
+            <span class="tape tape-tr" aria-hidden="true"></span>
+            <img src="assets/img/covers/card-game.webp" alt="深渊恶魔：狱界破笼 主视觉" width="1200" height="800">
+            <span class="collage-caption"><em>01 / game visual</em><b>深渊恶魔：狱界破笼</b></span>
+          </button>
+
+          <button class="collage-card card-aigc" type="button" data-cat="aigc" data-index="0" data-cursor="翻开" style="--rot:-2deg">
+            <span class="tape tape-tl" aria-hidden="true"></span>
+            <img src="assets/img/covers/hero-02.webp" alt="山海 · 一念 AI 短片" width="1000" height="1250">
+            <span class="collage-caption"><em>02 / moving image</em><b>山海 · 一念</b></span>
+          </button>
+
+          <button class="collage-card card-ip" type="button" data-cat="ip" data-index="0" data-cursor="翻开" style="--rot:1.8deg">
+            <span class="tape tape-tr" aria-hidden="true"></span>
+            <img src="assets/img/covers/card-ip.webp" alt="森林合唱团 IP 主视觉" width="1200" height="800">
+            <span class="collage-caption"><em>05 / ip design</em><b>森林合唱团</b></span>
+          </button>
+
+          <span class="collage-seal" aria-hidden="true">KAIYU<br>2026<br><i>✳</i></span>
+          <svg class="doodle doodle-star" viewBox="0 0 80 80" aria-hidden="true"><path d="M40 4c2 23 13 34 36 36-23 2-34 13-36 36C38 53 27 42 4 40 27 38 38 27 40 4Z"></path></svg>
+          <svg class="doodle doodle-flower" viewBox="0 0 90 90" aria-hidden="true"><path d="M45 41c-9-21 7-33 12-20 8-17 25-4 14 9 19-1 18 20 2 19 13 13-3 25-14 13-4 19-24 12-20-4-17 8-24-12-8-17-17-8-4-25 10-10 0-18 20-18 4 10Z"></path><circle cx="45" cy="43" r="7"></circle></svg>
+          <svg class="doodle doodle-arrow" viewBox="0 0 140 90" aria-hidden="true"><path d="M8 72c31-62 77-64 107-37M103 21l17 15-19 11"></path></svg>
+
+          <div class="collage-controls">
+            <p>click &amp; drag / 可以拖</p>
+            <button class="shuffle-btn" id="collageShuffle" type="button">↻ 把桌子弄乱</button>
           </div>
         </div>
       </div>
+
+      <div class="hero-bottom">
+        <span>( SCROLL TO UNFOLD )</span>
+        <span class="hero-bottom-line"></span>
+        <span>✳</span>
+        <span>SELECTED WORKS / 30 PIECES</span>
+      </div>
     </section>
 
-    <div class="ticker" aria-hidden="true">
-      <div class="ticker-track">
+    <div class="paper-ribbon" aria-hidden="true">
+      <div class="ribbon-track">
         <span>GAME VISUAL</span><i>✳</i><span>AIGC FILM</span><i>✳</i><span>INTERFACE</span><i>✳</i><span>3D &amp; SPACE</span><i>✳</i><span>IP STORYTELLING</span><i>✳</i><span>PLAY &amp; EXPERIMENT</span><i>✳</i>
         <span>GAME VISUAL</span><i>✳</i><span>AIGC FILM</span><i>✳</i><span>INTERFACE</span><i>✳</i><span>3D &amp; SPACE</span><i>✳</i><span>IP STORYTELLING</span><i>✳</i><span>PLAY &amp; EXPERIMENT</span><i>✳</i>
       </div>
     </div>
 
-    <section class="index-section" id="index" data-section="index">
-      <div class="section-line" data-reveal>
-        <span>(01) — WORK INDEX</span>
-        <span>作品索引 / 2023—2026</span>
-        <span class="section-line-right">HOVER TO PREVIEW</span>
+    <section class="index-section" id="works" data-section="works">
+      <div class="section-label">
+        <span>( 01 ) — INDEX</span>
+        <span>挑一本，慢慢翻</span>
+        <span>30 PIECES / 2023—2026</span>
       </div>
-      <div class="index-layout">
-        <header class="index-heading" data-reveal>
-          <p class="eyebrow">A COLLECTION OF<br>THINGS I MADE</p>
-          <h2>作品<br><em>索引</em><sup>30</sup></h2>
-          <p class="index-desc">六个章节，三十张作品板。它们不是终点，更像是我在不同媒介里留下的坐标。</p>
-        </header>
-        <div class="index-list" id="indexList"></div>
+
+      <div class="index-head">
+        <div>
+          <p class="eyebrow">SIX LITTLE WORLDS</p>
+          <h2>六本<br><em>小书</em></h2>
+        </div>
+        <p class="index-intro">不是六个文件夹，是六个我反复回去的世界。每一本里，都藏着一些我做过的梦、玩过的游戏，和没舍得删掉的草稿。</p>
+        <div class="index-stamp" aria-hidden="true"><b>06</b><span>CHAPTERS</span><i>✳</i></div>
       </div>
-      <div class="index-preview" id="indexPreview" aria-hidden="true"><img alt="作品视觉预览"></div>
+
+      <div class="index-grid" id="indexGrid"></div>
     </section>
 
-    <div class="chapters" id="workChapters"></div>
+    <div id="chapters"></div>
 
     <section class="play-section" id="play" data-section="play">
+      <div class="section-label section-label--play">
+        <span>( 06.5 ) — DOODLE CORNER</span>
+        <span>没有任何评审</span>
+        <span>JUST PLAY</span>
+      </div>
+
       <div class="play-head">
-        <div class="play-title-wrap" data-reveal>
-          <p class="eyebrow">INTERACTIVE TOY / 06.5</p>
-          <h2>MAKE<br><em>A MESS.</em></h2>
+        <div>
+          <p class="eyebrow">A PAGE FROM MY SKETCHBOOK</p>
+          <h2>随手画<span class="scribble" aria-hidden="true"></span></h2>
         </div>
-        <div class="play-copy" data-reveal>
-          <p class="play-lead">这里没有甲方，也没有规范。</p>
-          <p>把光标放进来，按住、拖动、乱画。每一笔都会留下一点光的痕迹。你可以清空重来，也可以把此刻保存下来。</p>
-          <p class="play-hint-line"><span class="blink"></span> NO RULES. JUST PLAY.</p>
-        </div>
-      </div>
-
-      <div class="play-stage" data-reveal>
-        <canvas id="playCanvas" aria-label="可交互的生成艺术画布。按住并拖动鼠标或手指即可绘制。">你的浏览器不支持 Canvas。</canvas>
-        <div class="play-hud">
-          <span>LIVE / <b id="particleCount">000</b></span>
-          <span id="playModeReadout">TRAIL MODE</span>
-        </div>
-        <div class="play-hint" id="playHint"><span>DRAG TO DRAW</span><em>按住拖动，随便画</em></div>
-        <div class="play-toolbar">
-          <div class="tool-group" aria-label="笔触模式">
-            <span class="tool-label">MODE</span>
-            <button type="button" class="tool is-active" data-mode="trail" aria-pressed="true">TRAIL</button>
-            <button type="button" class="tool" data-mode="burst" aria-pressed="false">BURST</button>
-          </div>
-          <div class="tool-group" aria-label="色彩组合">
-            <span class="tool-label">PALETTE</span>
-            <button type="button" class="swatch is-active" data-palette="acid" aria-pressed="true" aria-label="酸性色彩"><i></i><i></i><i></i></button>
-            <button type="button" class="swatch" data-palette="riso" aria-pressed="false" aria-label="孔版色彩"><i></i><i></i><i></i></button>
-            <button type="button" class="swatch" data-palette="ghost" aria-pressed="false" aria-label="幽灵色彩"><i></i><i></i><i></i></button>
-          </div>
+        <div class="play-lead">
+          <p class="hand">不用画得好看。<br>真的。</p>
+          <p>拿一支笔，随便涂点什么。画坏了也没关系，纸不会生气。</p>
         </div>
       </div>
 
-      <div class="play-foot" data-reveal>
-        <p>画布会持续呼吸。<br><span>THE CANVAS KEEPS BREATHING.</span></p>
-        <div class="play-actions">
-          <button type="button" class="text-btn" id="playClear">CLEAR <span>清空</span></button>
-          <button type="button" class="pill-btn" id="playSave">SAVE IMAGE <span>↓</span></button>
+      <div class="sketchbook" data-reveal>
+        <div class="spiral" aria-hidden="true">
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+        <div class="sketch-paper">
+          <div class="sketch-toolbar">
+            <div class="ink-picker" aria-label="选择颜色">
+              <span class="tool-label">INK</span>
+              <button type="button" class="ink-dot is-active" data-color="#24211c" aria-label="墨黑" aria-pressed="true" style="--dot:#24211c"></button>
+              <button type="button" class="ink-dot" data-color="#d24b33" aria-label="朱砂" aria-pressed="false" style="--dot:#d24b33"></button>
+              <button type="button" class="ink-dot" data-color="#3d6b53" aria-label="苔绿" aria-pressed="false" style="--dot:#3d6b53"></button>
+              <button type="button" class="ink-dot" data-color="#c1922f" aria-label="姜黄" aria-pressed="false" style="--dot:#c1922f"></button>
+              <button type="button" class="ink-dot" data-color="#4a6f97" aria-label="靛蓝" aria-pressed="false" style="--dot:#4a6f97"></button>
+            </div>
+            <div class="mode-picker" aria-label="选择笔触">
+              <span class="tool-label">TOOL</span>
+              <button type="button" class="tool-btn is-active" data-mode="pen" aria-pressed="true">钢笔</button>
+              <button type="button" class="tool-btn" data-mode="crayon" aria-pressed="false">蜡笔</button>
+              <button type="button" class="tool-btn" data-mode="stamp" aria-pressed="false">盖章</button>
+            </div>
+            <div class="sketch-actions">
+              <button type="button" class="text-btn" id="playClear">清空 <span>⌫</span></button>
+              <button type="button" class="stamp-btn" id="playSave">保存这一页 <span>↓</span></button>
+            </div>
+          </div>
+
+          <div class="canvas-wrap">
+            <canvas id="playCanvas" aria-label="可以自由涂鸦的画布">你的浏览器不支持 Canvas。</canvas>
+            <div class="sketch-hint" id="playHint">
+              <span>按住拖动 / DRAG TO DRAW</span>
+              <em>画吧，没有人在看。</em>
+            </div>
+            <span class="canvas-note" id="playMode">PEN / 钢笔</span>
+          </div>
+
+          <div class="sketch-bottom">
+            <span>纸不会生气 · paper has no ego</span>
+            <span>✳</span>
+            <span>SAVE AS PNG</span>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="about-section" id="about" data-section="about">
-      <div class="section-line section-line--dark" data-reveal>
-        <span>(07) — PROFILE</span>
-        <span>关于我 / ABOUT</span>
-        <span class="section-line-right">CLASS OF 2027</span>
+      <div class="section-label section-label--about">
+        <span>( 07 ) — ABOUT</span>
+        <span>一个正在长大的人</span>
+        <span>CLASS OF 2027</span>
       </div>
 
-      <div class="about-hero">
-        <div class="about-title" data-reveal>
-          <p class="eyebrow">HELLO, I AM</p>
-          <h2>在成为<br><em>设计师</em><br>的路上。</h2>
-        </div>
-        <div class="about-intro" data-reveal>
-          <p class="about-lead">郑铠妤，数字媒体艺术专业学生，也是一名持续做视觉实验的创作者。</p>
-          <p>我在游戏视觉、AIGC 影像、UI/UX、3D 与 IP 叙事之间来回穿梭。喜欢把复杂的信息整理成有情绪的画面，也喜欢在规则边缘做一些不听话的尝试。</p>
-          <p>比起“风格”，更在意作品有没有把人带进另一个世界。</p>
-          <a class="inline-link" href="mailto:13554191868@163.com">聊聊合作或实习 <span>↗</span></a>
-        </div>
+      <div class="about-head">
+        <p class="eyebrow">A LITTLE BIT ABOUT ME</p>
+        <h2>在成为<br><em>设计师</em><br>的路上。</h2>
+        <p class="about-hand">还在学，<br>也还在玩。</p>
       </div>
 
       <div class="about-grid">
-        <figure class="portrait-card" data-reveal>
-          <div class="portrait-frame">
-            <img src="assets/img/about/portrait.webp" alt="郑铠妤的插画头像" width="1000" height="839" loading="lazy">
-            <span class="portrait-stamp">KAIYU<br>2026</span>
-          </div>
-          <figcaption>
-            <span>VISUAL DESIGNER</span>
-            <span>HANGZHOU / HU BEI</span>
-          </figcaption>
-        </figure>
+        <div class="about-left">
+          <figure class="about-portrait" data-reveal>
+            <span class="tape tape-tl" aria-hidden="true"></span>
+            <img src="assets/img/about/portrait.webp" alt="郑铠妤的插画头像" width="1000" height="839">
+            <figcaption><span>me, drawn by me</span><span>2026</span></figcaption>
+          </figure>
 
-        <div class="about-details">
-          <div class="metrics" data-reveal>
-            <div><b>4<sup>/105</sup></b><span>PROFESSIONAL RANK</span></div>
+          <div class="sticky-note" data-reveal>
+            <span class="note-pin" aria-hidden="true"></span>
+            <p class="note-kicker">CURRENTLY / 最近</p>
+            <ul>
+              <li>做游戏视觉</li>
+              <li>学做动画</li>
+              <li>收集好看的纸</li>
+              <li>喝很多咖啡</li>
+            </ul>
+            <span class="note-sign">— KAIYU</span>
+          </div>
+        </div>
+
+        <div class="about-right">
+          <div class="about-intro" data-reveal>
+            <p class="about-lead">郑铠妤，数字媒体艺术专业学生，也是一个持续做视觉实验的创作者。</p>
+            <p>我在游戏视觉、AIGC 影像、UI/UX、3D 与 IP 叙事之间来回穿梭。喜欢把复杂的信息整理成有情绪的画面，也喜欢在规则边缘做一些不听话的尝试。</p>
+            <p>比起“风格”，更在意作品有没有把人带进另一个世界。</p>
+            <a class="hand-link" href="mailto:13554191868@163.com">聊聊合作或实习 <span>↗</span></a>
+          </div>
+
+          <div class="about-stats" data-reveal>
+            <div><b>4<sup>/105</sup></b><span>专业排名 / RANK</span></div>
             <div><b>3.91<sup>/4</sup></b><span>GPA</span></div>
-            <div><b>92.39</b><span>WEIGHTED SCORE</span></div>
+            <div><b>92.39</b><span>加权平均分 / SCORE</span></div>
           </div>
 
           <div class="about-block" data-reveal>
-            <h3>WHAT I DO <span>能力</span></h3>
+            <h3>WHAT I DO <span>会做的东西</span></h3>
             <ul class="cap-list">
               <li>游戏视觉与宣发</li><li>角色 / 场景设定</li><li>UI · UX 设计</li><li>3D 视觉与渲染</li>
               <li>AIGC 影像</li><li>IP 形象与衍生</li><li>动态图形</li><li>跨媒介叙事</li>
@@ -276,92 +302,119 @@
           </div>
 
           <div class="about-block" data-reveal>
-            <h3>PATH &amp; PRACTICE <span>经历</span></h3>
+            <h3>PATH &amp; PRACTICE <span>走过的路</span></h3>
             <div class="fact-list" id="factList"></div>
           </div>
 
-          <div class="about-block" data-reveal>
-            <h3>SELECTED HONORS <span>奖项</span></h3>
-            <p class="honors">中国好创意暨全国数字艺术设计大赛 · 国家级奖项三项 / 米兰设计周 · 省级奖项五项 / 未来设计师 · 省级奖项两项 / 华灿奖 · 省级奖项两项 / 2024 年度湖北高校新闻奖一等奖 / 湖北大学“琴园学子之星”。</p>
+          <div class="honor-note" data-reveal>
+            <span class="tape tape-tl" aria-hidden="true"></span>
+            <p class="note-kicker">A FEW NICE THINGS / 一些小小的肯定</p>
+            <p>中国好创意暨全国数字艺术设计大赛 · 国家级奖项三项 / 米兰设计周 · 省级奖项五项 / 未来设计师 · 省级奖项两项 / 华灿奖 · 省级奖项两项 / 2024 年度湖北高校新闻奖一等奖 / 湖北大学“琴园学子之星”。</p>
           </div>
         </div>
       </div>
 
-      <blockquote class="about-quote" data-reveal>
-        <span>“</span>
+      <blockquote class="manifesto" data-reveal>
+        <span class="manifesto-mark">“</span>
         <p>設計是浮現于內心，<br>源自生命的一種力量。</p>
-        <cite>— FROM MY FIRST PORTFOLIO, 2027</cite>
+        <cite>— 写在第一本作品集的扉页，2027</cite>
       </blockquote>
     </section>
 
     <section class="contact-section" id="contact" data-section="contact">
-      <div class="contact-top" data-reveal>
-        <span>(08) — CONTACT</span>
+      <div class="contact-head">
+        <span>( 08 ) — CONTACT</span>
         <span>OPEN FOR A GOOD CONVERSATION</span>
       </div>
-      <div class="contact-main" data-reveal>
-        <p class="eyebrow">HAVE A PROJECT / IDEA / HELLO?</p>
-        <h2>LET'S<br>MAKE<br><em>SOMETHING.</em></h2>
-        <div class="contact-actions">
-          <button class="email-copy" id="emailCopy" type="button" data-email="13554191868@163.com">
-            <span>13554191868@163.com</span>
-            <em>CLICK TO COPY / 点击复制</em>
-          </button>
+
+      <div class="contact-grid">
+        <div class="contact-copy">
+          <p class="eyebrow">HAVE A PROJECT / IDEA / HELLO?</p>
+          <h2>写封信<br><em>给我吧。</em></h2>
+          <p class="contact-lead">如果你也在做有趣的事，<br>或者只是想聊聊，<br>都欢迎。</p>
           <a class="contact-arrow" href="mailto:13554191868@163.com" aria-label="给郑铠妤发送邮件">↗</a>
         </div>
+
+        <div class="postcard" data-reveal>
+          <div class="postcard-stamp" aria-hidden="true">
+            <span>郑</span>
+            <svg viewBox="0 0 80 80"><path d="M40 36c-7-18 7-27 12-16 7-14 22-3 12 8 16-1 15 17 2 16 11 11-3 21-12 11-4 15-20 10-17-4-14 6-20-11-7-15-14-6-2-21 10-8 0-15 17-14 3 8Z"></path><circle cx="40" cy="39" r="6"></circle></svg>
+            <em>KAIYU / 2026</em>
+          </div>
+          <p class="postcard-kicker">TO: A GOOD COLLABORATOR</p>
+          <p class="postcard-hand">见字如面。</p>
+          <button class="email-copy" id="emailCopy" type="button" data-email="13554191868@163.com">
+            <span>13554191868@163.com</span>
+            <em>点击复制 / click to copy</em>
+          </button>
+          <a class="postcard-send" href="mailto:13554191868@163.com">寄出这封信 <span>↗</span></a>
+          <div class="postmark" aria-hidden="true">HANGZHOU<br>2026.10<br><i>✳</i></div>
+          <div class="postcard-lines" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+        </div>
       </div>
-      <div class="contact-bottom" data-reveal>
+
+      <div class="contact-bottom">
         <p>BASED IN HANGZHOU<br><span>AVAILABLE FOR SELECTED PROJECTS</span></p>
-        <div class="contact-socials">
-          <a href="mailto:13554191868@163.com">EMAIL</a>
-          <a href="#about">ABOUT</a>
+        <div class="contact-links">
+          <a href="https://github.com/xq1125/kaiyu-portfolio" target="_blank" rel="noopener">GITHUB ↗</a>
+          <a href="mailto:13554191868@163.com">EMAIL ↗</a>
           <a href="#top">TOP ↑</a>
         </div>
-        <p class="contact-time">LOCAL TIME<br><span data-clock>--:--:--</span></p>
+        <p class="contact-time">LOCAL TIME<br><span data-clock>--:--</span></p>
       </div>
-      <div class="contact-big" aria-hidden="true">KAIYU</div>
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="footer-left">
-      <span class="monogram">KZ</span>
-      <p>© 2026 郑铠妤 KAIYU ZHENG<br><span>ALL IMAGES BY THE ARTIST.</span></p>
+      <span class="brand-seal">郑</span>
+      <p>© 2026 郑铠妤 KAIYU ZHENG<br><span>所有图像均由本人创作 / ALL IMAGES BY THE ARTIST.</span></p>
     </div>
-    <p class="footer-note">DESIGNED &amp; CODED WITH CURIOSITY.<br><span>KEYS: G = GRAIN · T = THEME</span></p>
+    <p class="footer-note">MADE WITH PAPER, PIXELS<br><span>&amp; A LOT OF CURIOSITY.</span></p>
     <div class="footer-right">
-      <span data-clock>--:--:--</span>
+      <span data-clock>--:--</span>
       <span>HANGZHOU / CN</span>
+      <a href="#top">TOP ↑</a>
     </div>
   </footer>
 
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle" hidden>
-    <div class="lightbox-top">
-      <div class="lightbox-meta">
-        <span id="lightboxCat">CHAPTER</span>
-        <span id="lightboxCount">01 / 01</span>
+    <div class="lightbox-sheet" id="lightboxSheet">
+      <div class="lightbox-top">
+        <div>
+          <span class="lightbox-kicker">WORK SHEET / 作品页</span>
+          <span id="lightboxCat">CHAPTER</span>
+        </div>
+        <button class="lightbox-close" id="lightboxClose" type="button">合上 <span>×</span></button>
       </div>
-      <button class="lightbox-close" id="lightboxClose" type="button" aria-label="关闭作品预览">CLOSE <span>×</span></button>
-    </div>
-    <div class="lightbox-stage" id="lightboxStage">
-      <div class="lightbox-loader" id="lightboxLoader" aria-hidden="true"><span></span></div>
-      <img id="lightboxImage" alt="作品图片">
-    </div>
-    <div class="lightbox-controls">
-      <button type="button" id="lightboxPrev" aria-label="上一张作品">← <span>PREV</span></button>
-      <div class="lightbox-zoom">
-        <button type="button" id="zoomOut" aria-label="缩小">−</button>
-        <button type="button" id="zoomReset" aria-label="重置缩放">1:1</button>
-        <button type="button" id="zoomIn" aria-label="放大">＋</button>
+
+      <div class="lightbox-stage" id="lightboxStage">
+        <div class="lightbox-loader" id="lightboxLoader" aria-hidden="true"></div>
+        <img id="lightboxImage" alt="作品图片">
       </div>
-      <button type="button" id="lightboxNext" aria-label="下一张作品"><span>NEXT</span> →</button>
+
+      <div class="lightbox-bottom">
+        <div class="lightbox-caption">
+          <span id="lightboxCount">01 / 01</span>
+          <h3 id="lightboxTitle">作品</h3>
+          <p id="lightboxRole">ROLE</p>
+        </div>
+        <div class="lightbox-controls">
+          <button type="button" id="lightboxPrev" aria-label="上一张作品">←</button>
+          <div class="lightbox-zoom">
+            <button type="button" id="zoomOut" aria-label="缩小">−</button>
+            <button type="button" id="zoomReset" aria-label="重置缩放">1:1</button>
+            <button type="button" id="zoomIn" aria-label="放大">＋</button>
+          </div>
+          <button type="button" id="lightboxNext" aria-label="下一张作品">→</button>
+        </div>
+      </div>
+
+      <div class="lightbox-foot">
+        <a id="lightboxFull" href="#" target="_blank" rel="noopener">OPEN FULL IMAGE ↗</a>
+        <span>点击图片放大 · 拖动平移 · ← → 翻页 · ESC 合上</span>
+      </div>
     </div>
-    <div class="lightbox-caption">
-      <h3 id="lightboxTitle">作品</h3>
-      <p id="lightboxRole">ROLE</p>
-      <a id="lightboxFull" href="#" target="_blank" rel="noopener">OPEN FULL IMAGE ↗</a>
-    </div>
-    <p class="lightbox-hint">CLICK IMAGE TO ZOOM · DRAG TO PAN · ← → TO NAVIGATE · ESC TO CLOSE</p>
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
