@@ -2240,6 +2240,108 @@ main,
   color: rgba(37, 33, 27, .6);
 }
 
+/* The note becomes a CV folder */
+.resume-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 73%;
+  min-height: 196px;
+  margin: 28px 0 0 12%;
+  padding: 16px 16px 14px;
+  overflow: hidden;
+  border: 1px solid rgba(242, 231, 216, .24);
+  background: var(--red-deep);
+  color: var(--ink);
+  box-shadow: 6px 7px 0 rgba(0, 0, 0, .36);
+  text-decoration: none;
+  transform: rotate(2.3deg);
+  transition: background .3s, transform .45s var(--ease), border-color .3s;
+}
+
+.resume-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, .06), transparent 45%);
+  pointer-events: none;
+}
+
+.resume-card:hover {
+  border-color: rgba(242, 231, 216, .6);
+  background: var(--red);
+  transform: rotate(.8deg) translateY(-4px);
+}
+
+.resume-card:focus-visible {
+  outline: 2px dashed var(--ink);
+  outline-offset: 3px;
+}
+
+.resume-top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: rgba(242, 231, 216, .62);
+  font-family: var(--mono);
+  font-size: 6px;
+  letter-spacing: .07em;
+  line-height: 1.4;
+}
+
+.resume-top span:last-child {
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.resume-title {
+  position: relative;
+  z-index: 1;
+  margin: 15px 0 20px;
+  font-family: var(--cn-serif);
+  font-size: clamp(29px, 3.1vw, 42px);
+  font-weight: 600;
+  line-height: 1.18;
+  letter-spacing: -.06em;
+}
+
+.resume-bottom {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: rgba(242, 231, 216, .58);
+  font-family: var(--mono);
+  font-size: 5.5px;
+  letter-spacing: .04em;
+}
+
+.resume-stamp {
+  position: absolute;
+  right: 15px;
+  bottom: 45px;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(242, 231, 216, .38);
+  border-radius: 50%;
+  color: rgba(242, 231, 216, .78);
+  font-family: var(--serif);
+  font-size: 17px;
+  letter-spacing: .04em;
+  transform: rotate(9deg);
+  transition: transform .45s var(--ease);
+}
+
+.resume-card:hover .resume-stamp {
+  transform: rotate(-4deg) scale(1.05);
+}
+
 .about-right {
   min-width: 0;
 }

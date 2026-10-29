@@ -31,6 +31,7 @@ assets/img/video/          Video poster frames
 assets/img/about/          Privacy-safe illustrated portrait
 assets/img/loader-cover.webp  Duotone 0-1 cover for the opening screen
 assets/img/og-cover.jpg    1200 × 630 social card
+assets/resume/resume.pdf    Public CV opened from the about section
 assets/video/              Compressed H.264 films (faststart)
 ```
 
@@ -40,6 +41,7 @@ assets/video/              Compressed H.264 films (faststart)
 - **One-page catalogue** — six compact rows in two columns; no stacked chapter sections and no page-length growth. Hovering a row flips its small cover to a second plate and draws a vermilion rule.
 - **Chapter reader** — clicking a catalogue row opens one chapter at a time in a compact darkroom overlay that reveals like a curtain: three-column work grid, chapter note, previous/next chapter, `Esc` or backdrop to close.
 - **Artist card** — the about portrait is a deliberate flip card: front is the drawn portrait on bone stock, back is a short statement on black. Click to turn it over; the state is exposed with `aria-pressed`.
+- **CV folder** — the small red card under the portrait opens the public PDF resume in a new tab; it replaces the old “currently” sticky note.
 - **Opening reveal** — the hero headline masks up once the loader clears. A single transition, not a sequence of effects.
 - **Work sheets** — hover-lift plates open a near-black lightbox with prev/next, zoom (`+` / `−` / `0`), drag-to-pan and arrow-key navigation.
 - **Film mode** — plates with a film show a small `▶ FILM` badge. In the lightbox, `▶ 看影像` swaps the still for a native HTML5 player; `非遗系列短片` has a two-film chip switch (剪纸 / 打铁花). Videos are compressed H.264 MP4 with separate poster frames.
