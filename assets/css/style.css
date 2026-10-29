@@ -4982,6 +4982,28 @@ body.game-open {
   border-top: 1px solid var(--line-strong);
 }
 
+.hero-portfolio-note {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin: 0;
+  color: var(--red);
+  font-family: var(--hand);
+  font-size: clamp(17px, 1.55vw, 21px);
+  line-height: 1.3;
+  letter-spacing: .01em;
+}
+
+.hero-portfolio-note em {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 6.5px;
+  font-style: normal;
+  letter-spacing: .08em;
+  line-height: 1.5;
+}
+
 .hero-desc {
   max-width: 38ch;
   margin: 0;
