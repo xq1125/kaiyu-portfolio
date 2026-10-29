@@ -147,7 +147,7 @@ window.PORTFOLIO = (() => {
           { label: "网站演示", src: "assets/video/blackhole-demo.mp4", poster: "assets/img/video/blackhole-demo.webp", duration: "0:30" }
         ] },
         { id: "6-6", title: "豆季 · 手工精品咖啡", role: "咖啡品牌网站 / WEB DESIGN · 2026", site: "https://xq1125.github.io/coffee-website/", videos: [
-          { label: "网站演示", src: "assets/video/coffee-demo.mp4", poster: "assets/img/video/coffee-demo.webp", duration: "0:31" }
+          { label: "网站演示", src: "assets/video/coffee-demo.mp4", poster: "assets/img/video/coffee-demo.webp", duration: "1:10" }
         ] }
       ]
     }
