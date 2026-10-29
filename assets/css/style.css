@@ -7017,6 +7017,10 @@ html {
   grid-column: 1 / -1;
 }
 
+.chapter-work:nth-child(2):last-child {
+  grid-column: 1 / -1;
+}
+
 .chapter-work-photo {
   display: block;
   overflow: hidden;
