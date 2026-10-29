@@ -34,7 +34,7 @@ assets/img/video/          Video poster frames
 assets/img/about/          Illustrated portrait and its transparent cutout
 assets/img/loader-cover.webp  Duotone 0-1 cover for the opening screen
 assets/img/og-cover.jpg    1200 × 630 social card
-assets/resume/resume.pdf    Public CV opened from the about section
+assets/resume/resume.webp   Public CV image opened from the about section
 assets/video/              Compressed H.264 films (faststart)
 ```
 
@@ -45,7 +45,7 @@ assets/video/              Compressed H.264 films (faststart)
 - **One-page catalogue** — six wide flip cards in a 3 × 2 grid that still fits one desktop screen. At rest the cards show their backs: chapter number, title, counts and a ghosted English label. Hovering or keyboard-focusing one card flips only that card to its cover; touch screens show the covers directly. Each card states its film count and links to its chapter.
 - **Chapter pages** — every catalogue row and every hero ticket open `chapter.html?c=…`. A chapter shows every plate at full width / two columns first, then its films as native HTML5 players, with previous/next chapter links. This is where the actual work and all videos live; there is no separate all-films page. Chapter 06 also has two live-site cards: the screenshot itself links to the live URL, with a small `访问网站` badge, and each site has a silent demo reel in the film strip.
 - **Artist card** — the about portrait is a deliberate flip card: the front is a smaller, transparent cutout of the drawn portrait with no paper backing, and the back is a short statement on black. Click to turn it over; the state is exposed with `aria-pressed`.
-- **CV folder** — the small red card under the portrait opens the public PDF resume in a new tab; it replaces the old “currently” sticky note.
+- **CV folder** — the small red card under the portrait lifts its flap and opens the actual CV page as an image inside the envelope modal. There is no PDF link and no download button.
 - **Opening reveal** — the hero headline masks up once the loader clears. A single transition, not a sequence of effects.
 - **Work lightbox** — on chapter pages, clicking any plate opens the full-resolution image; `Esc`, the close button or the backdrop closes it. The link still falls back to the image file if JavaScript is unavailable.
 - **Fragment game** — “这是哪一章的碎片？” A five-round game built from real close-ups of the 33 plates. Guess the chapter, reveal the full work, then open it directly in the lightbox. It opens from a small “猜碎片” tab in the header into a compact dark popup, not a page section.

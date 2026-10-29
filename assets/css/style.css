@@ -2543,48 +2543,43 @@ main,
 .resume-sheet {
   position: relative;
   z-index: 1;
-  width: min(760px, 94vw);
-  max-height: 90vh;
+  width: min(880px, 94vw);
+  max-height: 92vh;
   overflow: auto;
-  padding: clamp(28px, 4.6vw, 52px);
+  padding: clamp(16px, 2.4vw, 26px);
   border-left: 9px solid var(--red-deep);
   background: #f0e4d2;
   color: #251f18;
   box-shadow: 18px 22px 0 rgba(0, 0, 0, .24), 0 30px 90px rgba(0, 0, 0, .45);
-  transform: rotate(-1.2deg);
+  overscroll-behavior: contain;
+  transform: rotate(-0.4deg);
 }
 
 .resume-modal.is-open .resume-sheet {
   animation: resumeSheetIn .68s var(--ease) both;
 }
 
-.resume-sheet::after {
-  content: "CV";
-  position: absolute;
-  top: 28px;
-  right: 28px;
-  display: grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  border: 1px solid rgba(109, 20, 16, .44);
-  border-radius: 50%;
-  color: rgba(109, 20, 16, .72);
-  font-family: var(--serif);
-  font-size: 18px;
-  transform: rotate(9deg);
-  pointer-events: none;
+.resume-sheet-preview {
+  margin: 0;
+}
+
+.resume-sheet-preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid rgba(37, 33, 27, .18);
+  background: #fff;
 }
 
 .resume-sheet-close {
   position: absolute;
   z-index: 2;
-  top: 16px;
-  left: 16px;
-  padding: 6px 9px;
-  border: 1px solid rgba(37, 33, 27, .25);
-  background: transparent;
-  color: rgba(37, 33, 27, .68);
+  top: 26px;
+  left: 26px;
+  padding: 7px 10px;
+  border: 1px solid rgba(37, 33, 27, .22);
+  background: rgba(240, 228, 210, .92);
+  color: rgba(37, 33, 27, .72);
   font-family: var(--mono);
   font-size: 7px;
   letter-spacing: .06em;
@@ -2700,7 +2695,10 @@ main,
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-top: 28px;
+  margin-top: 14px;
+  font-family: var(--mono);
+  font-size: 7px;
+  letter-spacing: .04em;
 }
 
 .resume-sheet-link {
@@ -2747,66 +2745,31 @@ body.resume-open .cursor-tag {
 @keyframes resumeSheetIn {
   0% {
     opacity: 0;
-    transform: translateY(26px) rotate(-3deg) scale(.95);
+    transform: translateY(26px) rotate(-2deg) scale(.95);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) rotate(-1.2deg) scale(1);
+    transform: translateY(0) rotate(-0.4deg) scale(1);
   }
 }
 
 @media (max-width: 680px) {
   .resume-sheet {
     width: 100%;
-    max-height: 92vh;
-    padding: 58px 22px 24px;
+    max-height: 94vh;
+    padding: 54px 12px 14px;
     border-left-width: 6px;
   }
 
-  .resume-sheet::after {
-    top: 16px;
-    right: 16px;
-    width: 36px;
-    height: 36px;
-    font-size: 13px;
-  }
-
   .resume-sheet-close {
-    top: 11px;
-    left: 11px;
-  }
-
-  .resume-sheet-kicker {
-    padding-right: 38px;
-    font-size: 6px;
-  }
-
-  .resume-sheet h3 {
-    font-size: clamp(34px, 9vw, 46px);
-  }
-
-  .resume-sheet-role {
-    font-size: 20px;
-  }
-
-  .resume-sheet-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .resume-sheet-grid > div {
-    padding: 12px 0;
-    border-right: 0;
-    border-bottom: 1px solid rgba(37, 33, 27, .14);
-  }
-
-  .resume-sheet-grid > div:last-child {
-    border-bottom: 0;
+    top: 12px;
+    left: 14px;
   }
 
   .resume-sheet-foot {
     align-items: flex-start;
     flex-direction: column;
-    gap: 14px;
+    gap: 8px;
   }
 }
 
