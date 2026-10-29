@@ -103,7 +103,7 @@ window.PORTFOLIO = (() => {
     {
       id: "ip",
       num: "05",
-      title: "IP 设定",
+      title: "IP 叙事造物",
       en: "WORLD BUILDING",
       accent: "#4d7b58",
       soft: "#e3eee3",
