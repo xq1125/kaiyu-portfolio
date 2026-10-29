@@ -157,7 +157,7 @@ window.PORTFOLIO = (() => {
       email: "13554191868@163.com",
       phone: "13554191868",
       qq: "601124813",
-      wechat: "13554191868",
+      wechat: "xxqwsyttkx",
       year: "2026"
     },
     categories,
