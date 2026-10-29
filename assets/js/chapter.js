@@ -142,12 +142,31 @@
   const lightboxIndex = $("#chapterLightboxIndex");
   const lightboxTitle = $("#chapterLightboxTitle");
   let lastTrigger = null;
+  let lightboxZoom = 1;
+
+  const setLightboxZoom = (next) => {
+    if (!lightbox || !lightboxImage) return;
+    const target = next < 1.02 ? 1 : next;
+    lightboxZoom = Math.min(3.5, Math.max(1, target));
+    lightboxImage.style.transform = `scale(${lightboxZoom})`;
+    lightbox.classList.toggle("is-zoomed", lightboxZoom > 1.01);
+  };
+
+  const resetLightboxZoom = () => {
+    lightboxZoom = 1;
+    if (lightboxImage) {
+      lightboxImage.style.transform = "";
+      lightboxImage.style.transformOrigin = "center center";
+    }
+    lightbox?.classList.remove("is-zoomed");
+  };
 
   const closeLightbox = () => {
     if (!lightbox || lightbox.hidden) return;
     lightbox.hidden = true;
     document.body.classList.remove("lightbox-open");
     if (lightboxImage) lightboxImage.src = "";
+    resetLightboxZoom();
     if (lastTrigger) lastTrigger.focus({ preventScroll: true });
   };
 
@@ -161,6 +180,7 @@
       lightboxTitle.textContent = `${link.dataset.title || ""} — ${link.dataset.role || ""}`;
     }
     lastTrigger = link;
+    resetLightboxZoom();
     lightbox.hidden = false;
     document.body.classList.add("lightbox-open");
     lightboxClose?.focus({ preventScroll: true });
@@ -179,6 +199,25 @@
   lightbox?.addEventListener("click", (event) => {
     if (event.target === lightbox) closeLightbox();
   });
+
+  lightbox?.addEventListener("wheel", (event) => {
+    if (!lightbox || lightbox.hidden || !lightboxImage) return;
+    event.preventDefault();
+
+    const rect = lightboxImage.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const originX = Math.min(100, Math.max(0, ((event.clientX - rect.left) / rect.width) * 100));
+      const originY = Math.min(100, Math.max(0, ((event.clientY - rect.top) / rect.height) * 100));
+      lightboxImage.style.transformOrigin = `${originX}% ${originY}%`;
+    }
+
+    setLightboxZoom(lightboxZoom * (event.deltaY < 0 ? 1.14 : 0.88));
+  }, { passive: false });
+
+  lightboxImage?.addEventListener("dblclick", () => {
+    setLightboxZoom(lightboxZoom > 1.01 ? 1 : 2);
+  });
+
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") closeLightbox();
   });
