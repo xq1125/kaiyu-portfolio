@@ -8107,6 +8107,46 @@ html {
   }
 }
 
+/* Balance the about spread: shorter portrait card, tighter right column */
+.about-grid {
+  margin-top: clamp(32px, 4.5vw, 64px);
+}
+
+.about-flip {
+  aspect-ratio: 1 / .62;
+}
+
+.about-face--front img {
+  max-height: calc(100% - 22px);
+}
+
+.about-intro {
+  max-width: 60ch;
+}
+
+.about-stats,
+.about-block {
+  margin-top: 24px;
+}
+
+@media (min-width: 1200px) {
+  .fact-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 28px;
+  }
+
+  .fact {
+    grid-template-columns: 66px minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 620px) {
+  .about-flip {
+    aspect-ratio: 1 / 1;
+  }
+}
+
 /* Chapter cursor: a drawn arrow, a trailing ring and a click ripple */
 .chapter-cursor {
   display: none;
