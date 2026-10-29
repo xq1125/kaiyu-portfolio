@@ -10,9 +10,9 @@ window.PORTFOLIO = (() => {
       soft: "#f6e2da",
       cover: "assets/img/covers/card-game.webp",
       desc: "从暗黑幻想的世界观，到一套可以被点开的界面系统。把规则、叙事与情绪，折叠进一个可以进入的画面。",
-      tags: ["Game Visual", "Key Art", "UI", "Worldbuilding"],
-      noteTitle: "先把世界搭好",
-      note: "再让人物在里面犯错。好玩的游戏，都是从一个不太讲道理的世界开始的。",
+      tags: ["Worldbuilding", "Character", "UI/UX", "Key Art", "Motion", "Launch"],
+      noteTitle: "从 0 到 1",
+      note: "从 0 到 1 做一套游戏视觉：世界观、角色、规则、界面、道具、宣发和 Demo，最后长成同一套语言。不是几张设定图，是一个真的可以走进去的世界。",
       plates: [
         { id: "1-1", title: "深渊恶魔：狱界破笼", role: "主视觉 / KEY ART · 2026", videos: [
           { label: "游戏 Demo", src: "assets/video/unity-demo.mp4", poster: "assets/img/video/unity-demo.webp", duration: "3:08" }
