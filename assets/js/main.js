@@ -1506,6 +1506,76 @@
     });
   }
 
+  function initResumeEnvelope() {
+    const card = $("#resumeCard");
+    const modal = $("#resumeModal");
+    if (!card || !modal) return;
+
+    const closeButtons = Array.from(modal.querySelectorAll("[data-resume-close]"));
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let isOpen = false;
+    let lastFocus = null;
+    let openTimer = 0;
+    let closeTimer = 0;
+
+    const showModal = () => {
+      modal.hidden = false;
+      window.requestAnimationFrame(() => {
+        modal.classList.add("is-open");
+        document.body.classList.add("resume-open");
+        const closeButton = modal.querySelector(".resume-sheet-close");
+        if (closeButton) closeButton.focus({ preventScroll: true });
+      });
+    };
+
+    const openModal = () => {
+      if (isOpen) return;
+      isOpen = true;
+      lastFocus = document.activeElement;
+      card.classList.add("is-opening");
+      if (reducedMotion) {
+        showModal();
+      } else {
+        openTimer = window.setTimeout(showModal, 520);
+      }
+    };
+
+    const closeModal = () => {
+      if (!isOpen) return;
+      isOpen = false;
+      window.clearTimeout(openTimer);
+      window.clearTimeout(closeTimer);
+      modal.classList.remove("is-open");
+      document.body.classList.remove("resume-open");
+      card.classList.remove("is-opening");
+
+      const finish = () => {
+        modal.hidden = true;
+        if (lastFocus && typeof lastFocus.focus === "function") {
+          lastFocus.focus({ preventScroll: true });
+        }
+      };
+
+      if (reducedMotion) finish();
+      else closeTimer = window.setTimeout(finish, 220);
+    };
+
+    card.addEventListener("click", (event) => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+      event.preventDefault();
+      openModal();
+    });
+
+    closeButtons.forEach((button) => button.addEventListener("click", closeModal));
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && isOpen) {
+        event.preventDefault();
+        closeModal();
+      }
+    });
+  }
+
   function initEmailCopy() {
     const button = $("#emailCopy");
     if (!button) return;
@@ -1701,6 +1771,7 @@
   initFragmentGame();
   initChapterReader();
   initAboutFlip();
+  initResumeEnvelope();
   initEmailCopy();
   initContactCopy();
   initAnchors();
