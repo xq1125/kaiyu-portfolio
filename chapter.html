@@ -11,9 +11,18 @@
   <link rel="stylesheet" href="assets/css/style.css">
   <script defer src="assets/js/data.js"></script>
   <script defer src="assets/js/chapter.js"></script>
+  <script defer src="assets/js/cursor.js"></script>
 </head>
 <body class="work-page">
   <a class="skip-link" href="#main">跳至主要内容</a>
+  <div class="chapter-cursor" id="chapterCursor" aria-hidden="true">
+    <span class="chapter-cursor-ring"></span>
+    <span class="chapter-cursor-arrow">
+      <svg viewBox="0 0 24 32" focusable="false">
+        <path d="M2 2 L22 18 L13 19 L18 29 L14 31 L9 21 L3 27 Z"></path>
+      </svg>
+    </span>
+  </div>
 
   <header class="work-header" id="top">
     <a class="brand" href="index.html" aria-label="回到首页">

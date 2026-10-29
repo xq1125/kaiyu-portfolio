@@ -8085,6 +8085,121 @@ html {
   }
 }
 
+/* Chapter cursor: a drawn arrow, a trailing ring and a click ripple */
+.chapter-cursor {
+  display: none;
+}
+
+@media (pointer: fine) {
+  body.work-page:not(.chapter-cursor-ready),
+  body.work-page:not(.chapter-cursor-ready) a,
+  body.work-page:not(.chapter-cursor-ready) button {
+    cursor: auto;
+  }
+
+  .chapter-cursor {
+    position: fixed;
+    z-index: 2400;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .18s;
+  }
+
+  .chapter-cursor.is-visible {
+    opacity: 1;
+  }
+
+  .chapter-cursor-arrow {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    display: block;
+    width: 24px;
+    height: 31px;
+    transform-origin: 1px 1px;
+    transition: transform .15s var(--ease), opacity .15s;
+  }
+
+  .chapter-cursor-arrow svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .55)) drop-shadow(0 0 5px rgba(158, 33, 27, .35));
+  }
+
+  .chapter-cursor-arrow path {
+    fill: var(--ink);
+    stroke: var(--red);
+    stroke-width: 1.4;
+    stroke-linejoin: round;
+    transition: fill .18s, stroke .18s;
+  }
+
+  .chapter-cursor.is-hover .chapter-cursor-arrow path {
+    fill: var(--red);
+    stroke: var(--ink);
+  }
+
+  .chapter-cursor.is-pressing .chapter-cursor-arrow {
+    transform: scale(.82);
+  }
+
+  .chapter-cursor-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 38px;
+    height: 38px;
+    border: 1px solid rgba(158, 33, 27, .72);
+    border-radius: 50%;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(.65);
+    transition: opacity .18s, transform .28s var(--ease);
+  }
+
+  .chapter-cursor.is-hover .chapter-cursor-ring {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .chapter-cursor.is-pressing .chapter-cursor-ring {
+    transform: translate(-50%, -50%) scale(.78);
+  }
+
+  .chapter-cursor-burst {
+    position: fixed;
+    z-index: 2390;
+    width: 22px;
+    height: 22px;
+    border: 1px solid rgba(158, 33, 27, .92);
+    border-radius: 50%;
+    background: rgba(158, 33, 27, .08);
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(.35);
+    animation: chapterCursorBurst .52s cubic-bezier(.2, .7, .2, 1) forwards;
+  }
+
+  @keyframes chapterCursorBurst {
+    0% {
+      opacity: .9;
+      transform: translate(-50%, -50%) scale(.35);
+    }
+    70% {
+      opacity: .35;
+    }
+    100% {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(4.2);
+    }
+  }
+}
+
 /* Reduced motion --------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {

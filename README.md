@@ -25,6 +25,7 @@ assets/css/style.css       Gallery styling and responsive layout
 assets/js/data.js          Categories, plate captions, film sources, facts, contact data
 assets/js/main.js          Homepage catalogue, fragment game, menu, copy, clocks
 assets/js/chapter.js       Chapter renderer, native video cards, full-image lightbox
+assets/js/cursor.js        Drawn chapter cursor, trailing ring and click ripple
 assets/img/thumb/          900px WebP plates (mobile / card thumbnails)
 assets/img/wide/           1800px WebP plates (chapter grids + srcset)
 assets/img/full/           1800–2800px WebP plates (chapter lightbox)
@@ -49,6 +50,7 @@ assets/video/              Compressed H.264 films (faststart)
 - **Work lightbox** — on chapter pages, clicking any plate opens the full-resolution image; `Esc`, the close button or the backdrop closes it. The link still falls back to the image file if JavaScript is unavailable.
 - **Fragment game** — “这是哪一章的碎片？” A five-round game built from real close-ups of the 32 plates. Guess the chapter, reveal the full work, then open it directly in the lightbox. It opens from a small “猜碎片” tab in the header into a compact dark popup, not a page section.
 - **Contact postcard** — the email is click-to-copy, phone opens the dialer, and QQ / WeChat copy with a toast. The “聊聊合作或实习” link in the about block jumps straight to this contact room.
+- **Chapter cursor** — on fine-pointer devices every chapter page replaces the hidden native pointer with a drawn bone-and-red arrow. A thin red ring trails it, interactive elements turn the arrow red, and each click sends out a short expanding ripple; touch devices keep the native cursor.
 - **Small things** — custom red cursor labels, live Hangzhou clock, scroll reveals, mobile menu, keyboard focus states.
 - **Keyboard** — `Esc` closes the chapter lightbox; native video controls handle playback, seeking and volume.
 
