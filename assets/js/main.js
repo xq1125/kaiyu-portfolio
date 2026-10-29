@@ -91,10 +91,15 @@
     if (!grid) return;
 
     grid.innerHTML = categories
-      .map(
-        (category) => `
-          <button class="chapter-card" type="button" data-chapter-open="${category.id}"
-             data-reveal data-cursor="翻开" aria-label="打开章节：${category.title}"
+      .map((category) => {
+        const filmCount = category.plates.reduce(
+          (sum, plate) => sum + (Array.isArray(plate.videos) ? plate.videos.length : 0),
+          0
+        );
+        const filmWord = filmCount === 1 ? "FILM" : "FILMS";
+        return `
+          <a class="chapter-card" href="chapter.html?c=${category.id}"
+             data-reveal data-cursor="翻开" aria-label="打开章节：${category.title}${filmCount ? `，含 ${filmCount} 部影像` : ""}"
              style="--accent:${category.accent};--soft:${category.soft}">
             <span class="card-head">
               <span class="card-num">${category.num}</span>
@@ -110,11 +115,11 @@
                 </span>
               </span>
             </span>
-            <span class="card-title"><b>${category.title}</b><em>${category.en}</em></span>
+            <span class="card-title"><b>${category.title}</b><em>${category.en}${filmCount ? ` · ${filmCount} ${filmWord}` : ""}</em></span>
             <span class="card-open" aria-hidden="true">↗</span>
-          </button>
-        `
-      )
+          </a>
+        `;
+      })
       .join("");
   }
 

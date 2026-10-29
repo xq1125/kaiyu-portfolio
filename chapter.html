@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>章节 — 郑铠妤 KAIYU</title>
+  <meta name="description" content="郑铠妤作品集章节：游戏视觉、AIGC 影像、UI/UX、3D、IP 与个人创作。">
+  <meta name="author" content="郑铠妤 KAIYU ZHENG">
+  <meta name="theme-color" content="#0b0807">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script defer src="assets/js/data.js"></script>
+  <script defer src="assets/js/chapter.js"></script>
+</head>
+<body class="work-page">
+  <a class="skip-link" href="#main">跳至主要内容</a>
+
+  <header class="work-header" id="top">
+    <a class="brand" href="index.html" aria-label="回到首页">
+      <span class="brand-seal">郑</span>
+      <span class="brand-type"><b>郑铠妤</b><em>KAIYU ZHENG</em></span>
+    </a>
+    <nav class="work-nav" aria-label="主导航">
+      <a href="index.html#works">目录</a>
+      <a href="films.html">影像</a>
+      <a href="index.html#about">关于</a>
+      <a href="index.html#contact">联系</a>
+    </nav>
+    <a class="work-back" href="index.html#works"><span>←</span> 返回目录</a>
+  </header>
+
+  <main class="work-main" id="main">
+    <div class="chapter-shell">
+      <section class="chapter-hero">
+        <div class="chapter-topline">
+          <span id="chapterKicker">CHAPTER / 01</span>
+          <span id="chapterCount">01 / 06</span>
+        </div>
+        <div class="chapter-hero-grid">
+          <div class="chapter-title-wrap">
+            <span class="chapter-num" id="chapterNum">01</span>
+            <h1 id="chapterTitle">游戏设计</h1>
+            <p class="chapter-hand" id="chapterHand">先把世界搭好</p>
+          </div>
+          <div class="chapter-copy">
+            <p id="chapterDesc"></p>
+            <ul class="chapter-tags" id="chapterTags"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter-section" id="filmSection" hidden>
+        <div class="work-section-head">
+          <span>( 影像 / FILMS )</span>
+          <span id="filmCount"></span>
+        </div>
+        <div class="chapter-films" id="filmGrid"></div>
+      </section>
+
+      <section class="chapter-section">
+        <div class="work-section-head">
+          <span>( 作品 / WORKS )</span>
+          <span id="workCount"></span>
+        </div>
+        <div class="chapter-works" id="workGrid"></div>
+      </section>
+
+      <section class="chapter-quote">
+        <p class="chapter-quote-kicker" id="chapterNoteTitle"></p>
+        <blockquote id="chapterNote"></blockquote>
+      </section>
+
+      <nav class="chapter-pager" aria-label="章节导航">
+        <a class="chapter-pager-link" id="prevChapter" href="index.html#works">
+          <span>← 上一章</span>
+          <strong></strong>
+        </a>
+        <a class="chapter-pager-link chapter-pager-link--next" id="nextChapter" href="index.html#works">
+          <span>下一章 →</span>
+          <strong></strong>
+        </a>
+      </nav>
+    </div>
+  </main>
+
+  <footer class="work-footer">
+    <span>© 2026 郑铠妤 KAIYU ZHENG</span>
+    <span>32 PIECES / 12 FILMS</span>
+    <a href="films.html">ALL FILMS ↗</a>
+    <a href="#top">TOP ↑</a>
+  </footer>
+
+  <div class="chapter-lightbox" id="chapterLightbox" role="dialog" aria-modal="true" aria-label="作品大图" hidden>
+    <button class="chapter-lightbox-close" id="chapterLightboxClose" type="button">合上 <span>×</span></button>
+    <div class="chapter-lightbox-sheet">
+      <img id="chapterLightboxImage" src="" alt="">
+      <div class="chapter-lightbox-meta">
+        <span id="chapterLightboxIndex"></span>
+        <p id="chapterLightboxTitle"></p>
+      </div>
+    </div>
+  </div>
+
+  <noscript>
+    <p class="work-noscript">这个章节需要开启 JavaScript 才能展开。请直接前往 <a href="index.html#works">目录</a>。</p>
+  </noscript>
+</body>
+</html>

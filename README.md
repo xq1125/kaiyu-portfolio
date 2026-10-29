@@ -19,13 +19,17 @@ Or double-click `index.html`; every asset uses a relative path. A local server i
 ## Structure
 
 ```text
-index.html                 Page shell and static copy
-assets/css/style.css       Editorial styling and responsive layout
+index.html                 Homepage: hero, one-page catalogue, about, contact
+chapter.html               Chapter detail page: inline films first, then every plate
+films.html                 All twelve films on one visible index
+assets/css/style.css       Gallery styling and responsive layout
 assets/js/data.js          Categories, plate captions, film sources, facts, contact data
-assets/js/main.js          Chapter reader, fragment game, lightbox, film mode, menus, copy, clocks
+assets/js/main.js          Homepage catalogue, fragment game, menu, copy, clocks
+assets/js/chapter.js       Chapter renderer, native video cards, full-image lightbox
+assets/js/films.js         All-films renderer
 assets/img/thumb/          900px WebP plates (mobile / card thumbnails)
-assets/img/wide/           1800px WebP plates (desktop grid + srcset)
-assets/img/full/           1800–2800px WebP plates (lightbox)
+assets/img/wide/           1800px WebP plates (chapter grids + srcset)
+assets/img/full/           1800–2800px WebP plates (chapter lightbox)
 assets/img/covers/         Hero and chapter-cover crops
 assets/img/video/          Video poster frames
 assets/img/about/          Privacy-safe illustrated portrait
@@ -38,17 +42,17 @@ assets/video/              Compressed H.264 films (faststart)
 ## Interactions
 
 - **Opening print** — the hero is a matted print of the 深渊恶魔 game key art, black surround and a hairline red frame, with a short statement and one link into the work. The loader is a duotone of the **0-1** cover, so the first screen already belongs to the black-and-red palette.
-- **One-page catalogue** — six compact rows in two columns; no stacked chapter sections and no page-length growth. Hovering a row flips its small cover to a second plate and draws a vermilion rule.
-- **Chapter reader** — clicking a catalogue row opens one chapter at a time in a compact darkroom overlay that reveals like a curtain: three-column work grid, chapter note, previous/next chapter, `Esc` or backdrop to close.
+- **One-page catalogue** — six compact rows in two columns; the directory stays on one screen. Hovering a row flips its small cover to a second plate and draws a vermilion rule; each row states its film count.
+- **Chapter pages** — every catalogue row and the hero print open `chapter.html?c=…`. A chapter opens with its films as native HTML5 players, then shows every plate at full width / two columns, with previous/next chapter links. This is where the actual work and all videos live.
+- **All films** — `films.html` is a single visible index of all twelve films across the six chapters, each playable inline and linked back to its chapter. It is reachable from the `04 影像` nav item and the catalogue.
 - **Artist card** — the about portrait is a deliberate flip card: front is the drawn portrait on bone stock, back is a short statement on black. Click to turn it over; the state is exposed with `aria-pressed`.
 - **CV folder** — the small red card under the portrait opens the public PDF resume in a new tab; it replaces the old “currently” sticky note.
 - **Opening reveal** — the hero headline masks up once the loader clears. A single transition, not a sequence of effects.
-- **Work sheets** — hover-lift plates open a near-black lightbox with prev/next, zoom (`+` / `−` / `0`), drag-to-pan and arrow-key navigation.
-- **Film mode** — plates with a film show a small `▶ FILM` badge. In the lightbox, `▶ 看影像` swaps the still for a native HTML5 player; `非遗系列短片` has a two-film chip switch (剪纸 / 打铁花). Videos are compressed H.264 MP4 with separate poster frames.
+- **Work lightbox** — on chapter pages, clicking any plate opens the full-resolution image; `Esc`, the close button or the backdrop closes it. The link still falls back to the image file if JavaScript is unavailable.
 - **Fragment game** — “这是哪一章的碎片？” A five-round game built from real close-ups of the 32 plates. Guess the chapter, reveal the full work, then open it directly in the lightbox. It opens from a small “猜碎片” tab in the header into a compact dark popup, not a page section.
 - **Contact postcard** — the email is click-to-copy, phone opens the dialer, and QQ / WeChat copy with a toast. The “聊聊合作或实习” link in the about block jumps straight to this contact room.
 - **Small things** — custom red cursor labels, live Hangzhou clock, scroll reveals, mobile menu, keyboard focus states.
-- **Keyboard** — `←` `→` flip lightbox; `Esc` close; `+` `−` `0` zoom the lightbox. In film mode, the native player handles seeking and volume.
+- **Keyboard** — `Esc` closes the chapter lightbox; native video controls handle playback, seeking and volume.
 
 ## GitHub Pages
 
