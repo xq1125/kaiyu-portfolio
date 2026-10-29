@@ -2628,6 +2628,8 @@ main,
 }
 
 .email-copy span {
+  max-width: 100%;
+  overflow-wrap: anywhere;
   font-family: var(--serif);
   font-size: clamp(19px, 2.2vw, 29px);
   line-height: 1.2;
@@ -2646,6 +2648,78 @@ main,
 .email-copy:hover span {
   color: var(--red);
   border-color: var(--red);
+}
+
+.contact-more {
+  margin: 15px 0 0;
+  padding-top: 11px;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 6px;
+  letter-spacing: .07em;
+  color: var(--muted);
+}
+
+.contact-methods {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-method {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  padding: 8px 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  appearance: none;
+  transition: color .2s, border-color .2s;
+}
+
+.contact-method:focus-visible {
+  outline: 2px dashed var(--red);
+  outline-offset: 2px;
+}
+
+.cm-label {
+  font-family: var(--mono);
+  font-size: 6px;
+  letter-spacing: .08em;
+  color: var(--red);
+}
+
+.cm-value {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .02em;
+  line-height: 1.4;
+  transition: color .2s;
+}
+
+.cm-action {
+  justify-self: end;
+  font-family: var(--mono);
+  font-size: 6px;
+  letter-spacing: .03em;
+  color: var(--muted);
+  white-space: nowrap;
+  transition: color .2s;
+}
+
+.contact-method:hover .cm-value,
+.contact-method:hover .cm-action {
+  color: var(--red);
 }
 
 .postcard-send {
@@ -2668,6 +2742,16 @@ main,
 .postcard-send:hover {
   color: var(--red);
   border-color: var(--red);
+}
+
+@media (max-width: 480px) {
+  .postmark {
+    display: none;
+  }
+
+  .cm-action {
+    font-size: 7px;
+  }
 }
 
 .postmark {
@@ -6426,6 +6510,18 @@ html {
 .contact-copy h2,
 .about-head h2 {
   text-shadow: 0 1px 0 rgba(0, 0, 0, .25);
+}
+
+/* Keep the narrow postcard legible */
+@media (max-width: 480px) {
+  .postmark,
+  .postcard-lines {
+    display: none;
+  }
+
+  .cm-action {
+    font-size: 7px;
+  }
 }
 
 /* Reduced motion --------------------------------------------------------- */

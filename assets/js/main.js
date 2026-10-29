@@ -1425,22 +1425,47 @@
     });
   }
 
+  function initContactCopy() {
+    $$("[data-copy]").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const value = button.dataset.copy;
+        const label = button.dataset.copyLabel || "内容";
+        const action = $(".cm-action", button);
+        if (!value) return;
+        try {
+          await copyText(value);
+          showToast(`${label} 已复制 / copied`);
+          if (action) {
+            const original = action.textContent;
+            action.textContent = "已复制";
+            window.setTimeout(() => {
+              action.textContent = original;
+            }, 2200);
+          }
+        } catch (error) {
+          showToast("复制失败，请手动选择");
+        }
+      });
+    });
+  }
+
   function initAnchors() {
     doc.addEventListener("click", (event) => {
       const anchor = event.target.closest('a[href^="#"]');
       if (!anchor || anchor.hasAttribute("data-chapter-open")) return;
       const href = anchor.getAttribute("href");
       if (!href || href === "#") return;
-      const target = doc.querySelector(href);
+      const isContactJump = anchor.hasAttribute("data-contact-jump");
+      const target = (isContactJump && $(".postcard")) || doc.querySelector(href);
       if (!target) return;
       event.preventDefault();
       if (menuOpen && window.__closePaperMenu) window.__closePaperMenu();
       target.scrollIntoView({
         behavior: prefersReduced ? "auto" : "smooth",
-        block: "start"
+        block: isContactJump ? "center" : "start"
       });
       try {
-        history.replaceState(null, "", href);
+        history.replaceState(null, "", isContactJump ? "#contact" : href);
       } catch (error) {
         /* file:// may restrict history */
       }
@@ -1550,6 +1575,7 @@
   initChapterReader();
   initAboutFlip();
   initEmailCopy();
+  initContactCopy();
   initAnchors();
   initKeyboard();
   initReveal();

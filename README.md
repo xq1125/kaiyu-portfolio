@@ -44,7 +44,7 @@ assets/video/              Compressed H.264 films (faststart)
 - **Work sheets** — hover-lift plates open a near-black lightbox with prev/next, zoom (`+` / `−` / `0`), drag-to-pan and arrow-key navigation.
 - **Film mode** — plates with a film show a small `▶ FILM` badge. In the lightbox, `▶ 看影像` swaps the still for a native HTML5 player; `非遗系列短片` has a two-film chip switch (剪纸 / 打铁花). Videos are compressed H.264 MP4 with separate poster frames.
 - **Fragment game** — “这是哪一章的碎片？” A five-round game built from real close-ups of the 32 plates. Guess the chapter, reveal the full work, then open it directly in the lightbox. It opens from a small “猜碎片” tab in the header into a compact dark popup, not a page section.
-- **Contact postcard** — click the email to copy it, or use the mailto link.
+- **Contact postcard** — the email is click-to-copy, phone opens the dialer, and QQ / WeChat copy with a toast. The “聊聊合作或实习” link in the about block jumps straight to this contact room.
 - **Small things** — custom red cursor labels, live Hangzhou clock, scroll reveals, mobile menu, keyboard focus states.
 - **Keyboard** — `←` `→` flip lightbox; `Esc` close; `+` `−` `0` zoom the lightbox. In film mode, the native player handles seeking and volume.
 
@@ -91,5 +91,5 @@ videos: [
 - The opening cover reuses the **0-1** cover composition as a black / deep-red / bone duotone. The right-hand contact block is cropped out so phone / QQ / WeChat are never published.
 - The site opens at the top unless a chapter hash is present; old `#contact` links and browser scroll restoration are reset so a fresh visit never lands on the contact section.
 - No third-party JavaScript, build step, external font, analytics or cookies.
-- Public contact card uses the email only; the full profile board with phone/QQ is intentionally not published.
+- The contact postcard publishes only the details the artist chose to share: email, phone, WeChat and QQ. The full profile-board image with other personal fields is intentionally not published.
 - Edit portfolio copy in `assets/js/data.js`; edit the page-level manifesto and postcard copy in `index.html`.
