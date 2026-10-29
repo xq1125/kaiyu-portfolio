@@ -110,8 +110,8 @@ window.PORTFOLIO = (() => {
       cover: "assets/img/covers/card-ip.webp",
       desc: "从一个角色出发，长出一整套可以触摸的叙事。视觉系统、周边、包装与绘本，让故事不止停在屏幕上。",
       tags: ["IP Design", "Illustration", "Packaging", "Picture Book"],
-      noteTitle: "先让角色有心理依据",
-      note: "我自学心理学，做 IP 时会先问：它替谁说话、安抚什么情绪、陪谁长大。可爱只是入口；能让人愿意带回家、继续参与生活，才是文创。",
+      noteTitle: "先接住情绪，再做角色",
+      note: "我把心理疗愈的思路带进 IP 与绘本：先看见孩子的情绪，再让角色去承接和陪伴。好看只是入口，能安抚人，故事才成立。",
       plates: [
         { id: "5-1", title: "森林合唱团", role: "IP 主视觉 / FOREST CHOIR · 2026" },
         { id: "5-2", title: "森林合唱团", role: "视觉系统与衍生 / SYSTEM & MERCH" },
