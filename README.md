@@ -79,7 +79,7 @@ The twelve films from the Feishu `视频作品集` are placed as follows, plus t
 | 3D建模 / 视频1 | 04 · 3D 课堂练习 | `three-d.mp4` |
 | 动画研讨会 / 动画作品集 | 06 · 动画研讨会 | `animation-reel.mp4` |
 | AE动效视频 / 二十四节气 | 06 · 二十四节气 | `solar-terms.mp4` |
-| TouchDesigner / 交互设计衍生 | 06 · TouchDesigner 交互衍生 | `touchdesigner.mp4` |
+| TouchDesigner / 交互设计衍生 | 06 · 情绪可视化 | `touchdesigner.mp4` |
 | Self-designed site | 06 · 黑洞便利店 | `blackhole-demo.mp4` |
 | Self-designed site | 06 · 豆季 · 手工精品咖啡 | `coffee-demo.mp4` |
 
