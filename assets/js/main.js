@@ -66,9 +66,9 @@
     grid.innerHTML = categories
       .map(
         (category) => `
-          <a class="chapter-card" href="#${category.id}" data-reveal data-cursor="翻开"
+          <button class="chapter-card" type="button" data-chapter-open="${category.id}"
+             data-reveal data-cursor="翻开" aria-label="打开章节：${category.title}"
              style="--accent:${category.accent};--soft:${category.soft}">
-            <span class="card-tape" aria-hidden="true"></span>
             <span class="card-head">
               <span class="card-num">${category.num}</span>
               <span class="card-count">${pad(category.plates.length)} pieces</span>
@@ -77,17 +77,182 @@
               <img src="${category.cover}" alt="${category.title}章节封面" width="1200" height="800" loading="eager" decoding="async">
             </span>
             <span class="card-title"><b>${category.title}</b><em>${category.en}</em></span>
-            <span class="card-open" aria-hidden="true">翻开 ↗</span>
-          </a>
+            <span class="card-open" aria-hidden="true">↗</span>
+          </button>
         `
       )
       .join("");
   }
 
+  /* ------------------------------------------------------------------ */
+  /* Chapter reader                                                     */
+  /* ------------------------------------------------------------------ */
+
+  let readerIndex = -1;
+  let chapterReaderOpen = false;
+  let readerLastFocus = null;
+
+  function readerCardMarkup(category, plate, index, total) {
+    const number = pad(index + 1);
+    const videoCount = Array.isArray(plate.videos) ? plate.videos.length : 0;
+    const sizes = index === 0
+      ? "(max-width: 620px) 92vw, (max-width: 1100px) 88vw, 1060px"
+      : "(max-width: 620px) 92vw, (max-width: 1100px) 44vw, 500px";
+    return `
+      <button class="work-card wc-${index + 1}" type="button"
+              data-cat="${category.id}" data-index="${index}" data-cursor="翻开"
+              aria-label="翻开作品：${plate.title}，${plate.role}">
+        <span class="work-photo">
+          <img src="assets/img/thumb/${plate.id}.webp"
+               srcset="assets/img/thumb/${plate.id}.webp 900w, assets/img/wide/${plate.id}.webp 1800w"
+               sizes="${sizes}" width="1800" height="636"
+               alt="${plate.title} — ${plate.role}" loading="lazy" decoding="async">
+          ${videoCount ? `<span class="work-film-badge" aria-hidden="true"><i>▶</i> FILM${videoCount > 1 ? ` × ${videoCount}` : ""}</span>` : ""}
+        </span>
+        <span class="work-caption">
+          <span class="work-num">${number}/${pad(total)}</span>
+          <span class="work-title"><b>${plate.title}</b><em>${plate.role}</em></span>
+          <span class="work-open" aria-hidden="true">↗</span>
+        </span>
+      </button>
+    `;
+  }
+
+  function renderChapterReader(index) {
+    const category = categories[index];
+    if (!category) return;
+    const total = category.plates.length;
+    const sheet = $("#readerSheet");
+    const set = (selector, value) => {
+      const node = $(selector);
+      if (node) node.textContent = value;
+    };
+
+    if (sheet) sheet.style.setProperty("--accent", category.accent);
+    set("#readerKicker", `CHAPTER ${category.num} / ${category.en}`);
+    set("#readerNum", category.num);
+    set("#readerEyebrow", `${category.en} / ${pad(total)} PIECES`);
+    set("#readerTitle", category.title);
+    set("#readerHand", category.noteTitle);
+    set("#readerDesc", category.desc);
+    set("#readerCount", `${pad(index + 1)} / ${pad(categories.length)}`);
+
+    const tags = $("#readerTags");
+    if (tags) {
+      tags.innerHTML = category.tags.map((tag) => `<li>${tag}</li>`).join("");
+    }
+    const grid = $("#readerGrid");
+    if (grid) {
+      grid.innerHTML = category.plates
+        .map((plate, plateIndex) => readerCardMarkup(category, plate, plateIndex, total))
+        .join("");
+    }
+    const scroll = $("#readerScroll");
+    if (scroll) scroll.scrollTop = 0;
+  }
+
+  function setReaderBackgroundInert(value) {
+    const background = [
+      doc.querySelector("main"),
+      doc.querySelector(".site-header"),
+      doc.querySelector(".site-footer")
+    ].filter(Boolean);
+    background.forEach((node) => {
+      try {
+        node.inert = value;
+      } catch (error) {
+        /* older browsers simply keep the body scroll lock */
+      }
+    });
+  }
+
+  function openChapterReader(id) {
+    const index = categories.findIndex((category) => category.id === id);
+    if (index < 0) return;
+    const reader = $("#chapterReader");
+    if (!reader) return;
+
+    const wasOpen = chapterReaderOpen;
+    if (!wasOpen) readerLastFocus = doc.activeElement;
+    readerIndex = index;
+    renderChapterReader(index);
+    reader.hidden = false;
+    chapterReaderOpen = true;
+    setReaderBackgroundInert(true);
+    doc.body.classList.add("chapter-reader-open");
+    window.requestAnimationFrame(() => reader.classList.add("is-open"));
+    window.setTimeout(() => $("#readerClose")?.focus({ preventScroll: true }), 80);
+    try {
+      history.replaceState(null, "", `#${id}`);
+    } catch (error) {
+      /* file:// may restrict history */
+    }
+  }
+
+  function closeChapterReader() {
+    const reader = $("#chapterReader");
+    if (!reader || !chapterReaderOpen) return;
+    chapterReaderOpen = false;
+    reader.classList.remove("is-open");
+    setReaderBackgroundInert(false);
+    doc.body.classList.remove("chapter-reader-open");
+    window.setTimeout(() => {
+      if (!chapterReaderOpen) reader.hidden = true;
+    }, 280);
+    readerLastFocus?.focus?.({ preventScroll: true });
+    try {
+      history.replaceState(null, "", "#works");
+    } catch (error) {
+      /* ignore */
+    }
+  }
+
+  function stepChapterReader(direction) {
+    if (!chapterReaderOpen) return;
+    readerIndex = (readerIndex + direction + categories.length) % categories.length;
+    renderChapterReader(readerIndex);
+  }
+
+  function initChapterReader() {
+    const reader = $("#chapterReader");
+    if (!reader) return;
+
+    doc.addEventListener("click", (event) => {
+      const trigger = event.target.closest("[data-chapter-open]");
+      if (!trigger) return;
+      event.preventDefault();
+      openChapterReader(trigger.dataset.chapterOpen);
+    });
+
+    $("#readerClose")?.addEventListener("click", closeChapterReader);
+    $("#readerPrev")?.addEventListener("click", () => stepChapterReader(-1));
+    $("#readerNext")?.addEventListener("click", () => stepChapterReader(1));
+
+    reader.addEventListener("click", (event) => {
+      if (event.target === reader) closeChapterReader();
+    });
+
+    doc.addEventListener("keydown", (event) => {
+      if (!chapterReaderOpen || lightboxOpen || gameOpen) return;
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeChapterReader();
+      } else if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        stepChapterReader(-1);
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        stepChapterReader(1);
+      }
+    });
+
+    const initial = window.location.hash.slice(1);
+    if (categoryById.has(initial)) openChapterReader(initial);
+  }
+
   function buildChapters() {
     const container = $("#chapters");
     if (!container) return;
-
     container.innerHTML = categories
       .map((category) => {
         const total = category.plates.length;
@@ -1216,7 +1381,7 @@
   function initAnchors() {
     doc.addEventListener("click", (event) => {
       const anchor = event.target.closest('a[href^="#"]');
-      if (!anchor) return;
+      if (!anchor || anchor.hasAttribute("data-chapter-open")) return;
       const href = anchor.getAttribute("href");
       if (!href || href === "#") return;
       const target = doc.querySelector(href);
@@ -1324,7 +1489,6 @@
   /* ------------------------------------------------------------------ */
 
   buildIndex();
-  buildChapters();
   buildFacts();
 
   initLoader();
@@ -1335,6 +1499,7 @@
   initCursor();
   initLightbox();
   initFragmentGame();
+  initChapterReader();
   initEmailCopy();
   initAnchors();
   initKeyboard();

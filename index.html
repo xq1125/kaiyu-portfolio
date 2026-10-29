@@ -124,7 +124,7 @@
         </div>
 
         <figure class="hero-art" data-reveal>
-          <a class="hero-art-frame" href="#ip" data-cursor="翻开" aria-label="打开 IP 设定章节">
+          <a class="hero-art-frame" href="#works" data-chapter-open="ip" data-cursor="翻开" aria-label="打开 IP 设定章节">
             <img src="assets/img/covers/hero-art.webp" alt="森林合唱团 IP 主视觉" width="940" height="800" loading="eager" decoding="async">
             <span class="hero-art-tag">05 / IP DESIGN</span>
           </a>
@@ -167,11 +167,9 @@
       <div class="index-grid" id="indexGrid"></div>
     </section>
 
-    <div id="chapters"></div>
-
     <section class="about-section" id="about" data-section="about">
       <div class="section-label section-label--about">
-        <span>( 07 ) — ABOUT</span>
+        <span>( 02 ) — ABOUT</span>
         <span>一个正在长大的人</span>
         <span>CLASS OF 2027</span>
       </div>
@@ -247,7 +245,7 @@
 
     <section class="contact-section" id="contact" data-section="contact">
       <div class="contact-head">
-        <span>( 08 ) — CONTACT</span>
+        <span>( 03 ) — CONTACT</span>
         <span>OPEN FOR A GOOD CONVERSATION</span>
       </div>
 
@@ -301,6 +299,35 @@
       <a href="#top">TOP ↑</a>
     </div>
   </footer>
+
+  <div class="chapter-reader" id="chapterReader" role="dialog" aria-modal="true" aria-labelledby="readerTitle" hidden>
+    <div class="reader-sheet" id="readerSheet">
+      <div class="reader-top">
+        <span id="readerKicker">CHAPTER / 01</span>
+        <button class="reader-close" id="readerClose" type="button">合上 <span>×</span></button>
+      </div>
+      <div class="reader-scroll" id="readerScroll">
+        <header class="reader-head">
+          <span class="reader-num" id="readerNum">01</span>
+          <div class="reader-heading">
+            <p class="eyebrow" id="readerEyebrow">GAME VISUAL / 09 PIECES</p>
+            <h2 id="readerTitle">游戏设计</h2>
+            <p class="reader-hand" id="readerHand">先把世界搭好</p>
+          </div>
+          <div class="reader-side">
+            <p id="readerDesc">章节简介</p>
+            <ul class="reader-tags" id="readerTags"></ul>
+          </div>
+        </header>
+        <div class="chapter-grid reader-grid" id="readerGrid"></div>
+        <footer class="reader-foot">
+          <button type="button" id="readerPrev">← 上一章</button>
+          <span id="readerCount">01 / 06</span>
+          <button type="button" id="readerNext">下一章 →</button>
+        </footer>
+      </div>
+    </div>
+  </div>
 
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle" hidden>
     <div class="lightbox-sheet" id="lightboxSheet">

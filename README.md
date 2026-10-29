@@ -22,7 +22,7 @@ Or double-click `index.html`; every asset uses a relative path. A local server i
 index.html                 Page shell and static copy
 assets/css/style.css       Editorial styling and responsive layout
 assets/js/data.js          Categories, plate captions, film sources, facts, contact data
-assets/js/main.js          Fragment game, lightbox, film mode, menus, copy, clocks
+assets/js/main.js          Chapter reader, fragment game, lightbox, film mode, menus, copy, clocks
 assets/img/thumb/          900px WebP plates (mobile / card thumbnails)
 assets/img/wide/           1800px WebP plates (desktop grid + srcset)
 assets/img/full/           1800–2800px WebP plates (lightbox)
@@ -37,7 +37,8 @@ assets/video/              Compressed H.264 films (faststart)
 ## Interactions
 
 - **Opening spread** — one large IP artwork against a quiet editorial hero, with a short statement and a single link into the work.
-- **Chapter index** — six flat, full-bleed image cards in a strict two-column contact sheet; no overlapping scraps.
+- **One-page catalogue** — six compact rows in two columns; no stacked chapter sections and no page-length growth.
+- **Chapter reader** — clicking a catalogue row opens one chapter at a time in a compact overlay: three-column work grid, chapter note, previous/next chapter, `Esc` or backdrop to close.
 - **Work sheets** — hover-lift plates open a paper lightbox with prev/next, zoom (`+` / `−` / `0`), drag-to-pan and arrow-key navigation.
 - **Film mode** — plates with a film show a small `▶ FILM` badge. In the lightbox, `▶ 看影像` swaps the still for a native HTML5 player; `非遗系列短片` has a two-film chip switch (剪纸 / 打铁花). Videos are compressed H.264 MP4 with separate poster frames.
 - **Fragment game** — “这是哪一章的碎片？” A five-round game built from real close-ups of the 32 plates. Guess the chapter, reveal the full work, then open it directly in the lightbox. It opens from a small “猜碎片” tab in the header into a compact paper popup, not a page section.
