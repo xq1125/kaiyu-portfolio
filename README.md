@@ -21,12 +21,10 @@ Or double-click `index.html`; every asset uses a relative path. A local server i
 ```text
 index.html                 Homepage: hero, one-page catalogue, about, contact
 chapter.html               Chapter detail page: every plate first, then inline films
-films.html                 All twelve films on one visible index
 assets/css/style.css       Gallery styling and responsive layout
 assets/js/data.js          Categories, plate captions, film sources, facts, contact data
 assets/js/main.js          Homepage catalogue, fragment game, menu, copy, clocks
 assets/js/chapter.js       Chapter renderer, native video cards, full-image lightbox
-assets/js/films.js         All-films renderer
 assets/img/thumb/          900px WebP plates (mobile / card thumbnails)
 assets/img/wide/           1800px WebP plates (chapter grids + srcset)
 assets/img/full/           1800–2800px WebP plates (chapter lightbox)
@@ -44,8 +42,7 @@ assets/video/              Compressed H.264 films (faststart)
 - **Click gate** — the darkroom loader fills to 100%, then waits. It does not auto-enter: the visitor presses the red **点击进入 / ENTER** button (or clicks anywhere on the ready loader) to reveal the homepage. Keyboard focus lands on the button, and the loader is removed only after that click.
 - **Hero poke board** — the hero’s single print is now six numbered red tickets in a dark frame, one for each chapter. The first click on a ticket peels it back to that chapter’s cover; a second click opens the chapter. A counter tracks how many are open, `全部盖上` resets them, and the final state shows all six catalogue covers at once.
 - **One-page catalogue** — six wide flip cards in a 3 × 2 grid that still fits one desktop screen. At rest the cards show their backs: chapter number, title, counts and a ghosted English label. Hovering or keyboard-focusing one card flips only that card to its cover; touch screens show the covers directly. Each card states its film count and links to its chapter.
-- **Chapter pages** — every catalogue row and every hero ticket open `chapter.html?c=…`. A chapter shows every plate at full width / two columns first, then its films as native HTML5 players, with previous/next chapter links. This is where the actual work and all videos live.
-- **All films** — `films.html` is a single visible index of all twelve films across the six chapters, each playable inline and linked back to its chapter. It is reachable from the `04 影像` nav item and the catalogue.
+- **Chapter pages** — every catalogue row and every hero ticket open `chapter.html?c=…`. A chapter shows every plate at full width / two columns first, then its films as native HTML5 players, with previous/next chapter links. This is where the actual work and all videos live; there is no separate all-films page.
 - **Artist card** — the about portrait is a deliberate flip card: the front is a smaller, transparent cutout of the drawn portrait with no paper backing, and the back is a short statement on black. Click to turn it over; the state is exposed with `aria-pressed`.
 - **CV folder** — the small red card under the portrait opens the public PDF resume in a new tab; it replaces the old “currently” sticky note.
 - **Opening reveal** — the hero headline masks up once the loader clears. A single transition, not a sequence of effects.
