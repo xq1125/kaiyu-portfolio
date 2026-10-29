@@ -1518,50 +1518,76 @@
     }
 
     let progress = 0;
-    let done = false;
+    let ready = false;
+    let exiting = false;
     let loadFired = false;
+    const enterButton = $("#loaderEnter");
+    const status = $(".loader-status");
 
     const paint = () => {
       if (number) number.textContent = pad(Math.min(99, Math.round(progress)));
       if (bar) bar.style.transform = `scaleX(${progress / 100})`;
     };
 
-    const finish = () => {
-      if (done) return;
-      done = true;
+    const revealEntry = () => {
+      if (ready || exiting) return;
+      ready = true;
       window.clearInterval(timer);
       progress = 100;
       if (number) number.textContent = "100";
       if (bar) bar.style.transform = "scaleX(1)";
-      window.setTimeout(() => {
-        loader.classList.add("is-done");
-        doc.body.classList.remove("is-loading");
-        doc.body.classList.add("is-ready");
-        window.setTimeout(() => loader.remove(), 1100);
-      }, 300);
+      loader.classList.add("is-ready");
+      loader.setAttribute("aria-label", "加载完成，点击进入作品集");
+      if (status) {
+        status.childNodes[0].nodeValue = "展厅已经就绪…";
+        const label = $("em", status);
+        if (label) label.textContent = "THE PRIVATE VIEW IS READY";
+      }
+      if (enterButton) {
+        enterButton.disabled = false;
+        window.setTimeout(() => enterButton.focus({ preventScroll: true }), 220);
+      }
     };
 
+    const enter = () => {
+      if (!ready || exiting) return;
+      exiting = true;
+      if (enterButton) enterButton.disabled = true;
+      loader.classList.add("is-done");
+      loader.setAttribute("aria-label", "正在进入作品集");
+      doc.body.classList.remove("is-loading");
+      doc.body.classList.add("is-ready");
+      window.setTimeout(() => loader.remove(), 1100);
+    };
+
+    enterButton?.addEventListener("click", enter);
+    loader.addEventListener("click", (event) => {
+      if (!ready || exiting) return;
+      if (event.target.closest("button, a")) return;
+      enter();
+    });
+
     const timer = window.setInterval(() => {
-      if (done) return;
+      if (ready) return;
       progress = Math.min(loadFired ? 100 : 91, progress + 2.5 + Math.random() * 5);
       paint();
-      if (loadFired && progress > 96) finish();
+      if (loadFired && progress > 96) revealEntry();
     }, 80);
 
     const onLoad = () => {
       loadFired = true;
       progress = Math.max(progress, 92);
       paint();
-      window.setTimeout(finish, 450);
+      window.setTimeout(revealEntry, 450);
     };
 
     if (doc.readyState === "complete") onLoad();
     else window.addEventListener("load", onLoad, { once: true });
 
     window.setTimeout(() => {
-      if (!done) {
+      if (!ready) {
         loadFired = true;
-        finish();
+        revealEntry();
       }
     }, 4800);
 
