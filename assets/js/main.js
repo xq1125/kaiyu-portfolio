@@ -130,6 +130,83 @@
       .join("");
   }
 
+  function initHeroBoard() {
+    const board = $("#heroBoard");
+    const grid = $("#heroBoardGrid");
+    if (!board || !grid) return;
+
+    grid.innerHTML = categories
+      .map((category) => {
+        const filmCount = category.plates.reduce(
+          (sum, plate) => sum + (Array.isArray(plate.videos) ? plate.videos.length : 0),
+          0
+        );
+        const filmWord = filmCount === 1 ? "FILM" : "FILMS";
+        const count = `${pad(category.plates.length)} P${filmCount ? ` · ${filmCount} F` : ""}`;
+        return `
+          <a class="hero-cell" href="chapter.html?c=${category.id}"
+             data-hero-cell data-title="${category.title}"
+             aria-label="揭开章节：${category.title}">
+            <span class="hero-cell-back" aria-hidden="true">
+              <span class="hero-cell-top"><span>CH. ${category.num}</span><span>${count}</span></span>
+              <span class="hero-cell-name">${category.title}</span>
+              <span class="hero-cell-poke">戳开 <i>↗</i></span>
+            </span>
+            <span class="hero-cell-front" aria-hidden="true">
+              <img src="${category.cover}?v=cards" alt="" width="1200" height="800" loading="eager" decoding="async">
+              <span class="hero-cell-shade"></span>
+              <span class="hero-cell-meta">
+                <b>${category.title}</b>
+                <em>${pad(category.plates.length)} PIECES${filmCount ? ` · ${filmCount} ${filmWord}` : ""}</em>
+                <span>再点进入 ↗</span>
+              </span>
+            </span>
+          </a>
+        `;
+      })
+      .join("");
+
+    const cells = Array.from(grid.querySelectorAll("[data-hero-cell]"));
+    const count = $("#heroBoardCount");
+    const note = $("#heroBoardNote");
+    const reset = $("#heroBoardReset");
+
+    const paint = () => {
+      const revealed = cells.filter((cell) => cell.classList.contains("is-revealed")).length;
+      if (count) count.textContent = `${pad(revealed)} / ${pad(cells.length)}`;
+      if (note) {
+        note.textContent = revealed === cells.length
+          ? "六个世界都翻开了，点一张进入"
+          : "点一张，揭开一个世界";
+      }
+      if (reset) reset.disabled = revealed === 0;
+      board.classList.toggle("is-complete", revealed === cells.length);
+    };
+
+    grid.addEventListener("click", (event) => {
+      const cell = event.target.closest("[data-hero-cell]");
+      if (!cell) return;
+      if (!cell.classList.contains("is-revealed")) {
+        event.preventDefault();
+        cell.classList.add("is-revealed");
+        cell.setAttribute("aria-label", `已揭开章节：${cell.dataset.title}，点击进入`);
+        paint();
+      }
+    });
+
+    if (reset) {
+      reset.addEventListener("click", () => {
+        cells.forEach((cell) => {
+          cell.classList.remove("is-revealed");
+          cell.setAttribute("aria-label", `揭开章节：${cell.dataset.title}`);
+        });
+        paint();
+      });
+    }
+
+    paint();
+  }
+
   /* ------------------------------------------------------------------ */
   /* Chapter reader                                                     */
   /* ------------------------------------------------------------------ */
@@ -1600,6 +1677,7 @@
 
   resetInitialPosition();
   buildIndex();
+  initHeroBoard();
   buildFacts();
 
   initLoader();

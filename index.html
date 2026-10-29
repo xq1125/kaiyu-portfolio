@@ -131,14 +131,21 @@
           </div>
         </div>
 
-        <figure class="hero-art" data-reveal>
-          <a class="hero-art-frame" href="chapter.html?c=game" data-cursor="翻开" aria-label="打开游戏设计章节">
-            <img src="assets/img/covers/hero-art.webp" alt="深渊恶魔：狱界破笼 主视觉" width="900" height="900" loading="eager" decoding="async">
-            <span class="hero-art-tag">01 / GAME VISUAL</span>
-          </a>
+        <figure class="hero-gallery" data-reveal>
+          <div class="hero-board" id="heroBoard">
+            <div class="hero-board-head">
+              <span>六格抽签 / SIX LITTLE WORLDS</span>
+              <span id="heroBoardCount" aria-live="polite">00 / 06</span>
+            </div>
+            <div class="hero-board-grid" id="heroBoardGrid"></div>
+            <div class="hero-board-foot">
+              <span id="heroBoardNote">点一张，揭开一个世界</span>
+              <button class="hero-board-reset" id="heroBoardReset" type="button" disabled>全部盖上 ↺</button>
+            </div>
+          </div>
           <figcaption>
-            <span>深渊恶魔：狱界破笼 / GAME VISUAL</span>
-            <span>2026</span>
+            <span>六个章节 / 32 PIECES · 12 FILMS</span>
+            <span>POKE TO OPEN</span>
           </figcaption>
         </figure>
       </div>
