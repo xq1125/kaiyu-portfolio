@@ -64,7 +64,7 @@ assets/video/              Compressed H.264 films (faststart)
 
 ## Video map
 
-The twelve films from the Feishu `视频作品集` are placed as follows, plus two silent demo reels recorded from the live websites:
+The twelve films from the Feishu `视频作品集` are placed as follows, plus two interactive player-view reels recorded from the live websites:
 
 | Feishu position | Site plate | Local film |
 | --- | --- | --- |
