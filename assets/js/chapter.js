@@ -38,8 +38,6 @@
   set("#chapterHand", category.noteTitle);
   set("#chapterDesc", category.desc);
   set("#workCount", `${pad(category.plates.length)} PIECES`);
-  set("#chapterNoteTitle", category.noteTitle);
-  set("#chapterNote", category.note);
 
   const tags = $("#chapterTags");
   if (tags) {
