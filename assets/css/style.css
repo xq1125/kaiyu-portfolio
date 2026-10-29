@@ -5275,6 +5275,7 @@ body.game-open {
 }
 
 .index-grid .chapter-card {
+  position: relative;
   display: grid;
   grid-template-columns: 48px 120px minmax(0, 1fr) 24px;
   align-items: center;
@@ -5294,6 +5295,25 @@ body.game-open {
   cursor: pointer;
   transform: none !important;
   transition: background .2s;
+}
+
+.index-grid .chapter-card::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  background: var(--red);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .5s var(--ease);
+  pointer-events: none;
+}
+
+.index-grid .chapter-card:hover::after,
+.index-grid .chapter-card:focus-visible::after {
+  transform: scaleX(1);
 }
 
 .index-grid .chapter-card:hover {
@@ -5324,12 +5344,37 @@ body.game-open {
 }
 
 .index-grid .chapter-card .card-photo {
+  position: relative;
   width: 120px;
   max-width: 100%;
   aspect-ratio: 3 / 2;
   overflow: hidden;
   border: 0;
   background: var(--paper-deep);
+  perspective: 800px;
+}
+
+.card-flip {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transition: transform .8s cubic-bezier(.2, .75, .2, 1);
+}
+
+.card-face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: var(--paper-deep);
+}
+
+.card-face--back {
+  transform: rotateY(180deg);
 }
 
 .index-grid .chapter-card .card-photo img {
@@ -5337,6 +5382,47 @@ body.game-open {
   height: 100%;
   object-fit: cover;
   transition: transform .7s var(--ease);
+}
+
+@media (hover: hover) {
+  .index-grid .chapter-card:hover .card-flip {
+    transform: rotateY(180deg);
+  }
+}
+
+.index-grid .chapter-card:focus-visible .card-flip {
+  transform: rotateY(180deg);
+}
+
+.index-grid .chapter-card .card-photo::after {
+  content: "↻";
+  position: absolute;
+  z-index: 2;
+  right: 5px;
+  bottom: 5px;
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  background: rgba(255, 250, 240, .86);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 10px;
+  line-height: 1;
+  pointer-events: none;
+  transition: opacity .2s;
+}
+
+@media (hover: none) {
+  .index-grid .chapter-card .card-photo::after {
+    display: none;
+  }
+}
+
+@media (hover: hover) {
+  .index-grid .chapter-card:hover .card-photo::after {
+    opacity: 0;
+  }
 }
 
 .index-grid .chapter-card .card-title {
@@ -5382,7 +5468,7 @@ body.game-open {
 }
 
 .index-grid .chapter-card:hover .card-photo img {
-  transform: scale(1.04);
+  transform: none;
 }
 
 .index-grid .chapter-card:hover .card-num,
@@ -5424,12 +5510,30 @@ body.game-open {
   background: var(--paper-light);
   border: 1px solid var(--ink);
   box-shadow: 0 24px 80px rgba(0, 0, 0, .24);
+  clip-path: inset(0 0 100% 0);
   transform: translateY(18px) scale(.987);
-  transition: transform .4s var(--ease);
+  transition: transform .4s var(--ease), clip-path .68s cubic-bezier(.2, .8, .2, 1);
 }
 
 .chapter-reader.is-open .reader-sheet {
+  clip-path: inset(0 0 0 0);
   transform: translateY(0) scale(1);
+}
+
+.chapter-reader.is-open .reader-head,
+.chapter-reader.is-open .reader-grid {
+  animation: reader-content-in .62s cubic-bezier(.2, .8, .2, 1) .18s both;
+}
+
+@keyframes reader-content-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .reader-top {
@@ -5736,6 +5840,148 @@ body.chapter-reader-open {
   }
 }
 
+/* About artist card: one deliberate flip, not a hover trick */
+.about-card {
+  perspective: 1200px;
+}
+
+.about-flip {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transition: transform .85s cubic-bezier(.2, .75, .2, 1);
+}
+
+.about-flip.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.about-flip:focus-visible {
+  outline: 2px dashed var(--red);
+  outline-offset: 4px;
+}
+
+.about-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.about-face--front {
+  padding: 7px 7px 0;
+  background: var(--paper-light);
+}
+
+.about-face--front img {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  object-fit: cover;
+  object-position: center 17%;
+}
+
+.about-face-caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 7px 2px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 6px;
+  letter-spacing: .04em;
+}
+
+.about-face--back {
+  justify-content: space-between;
+  padding: 24px 22px;
+  background: var(--ink);
+  color: var(--paper);
+  transform: rotateY(180deg);
+}
+
+.about-back-kicker {
+  color: var(--red);
+  font-family: var(--mono);
+  font-size: 6.5px;
+  letter-spacing: .08em;
+}
+
+.about-back-quote {
+  font-family: var(--cn-serif);
+  font-size: clamp(24px, 2.4vw, 34px);
+  line-height: 1.45;
+  letter-spacing: -.04em;
+}
+
+.about-back-meta {
+  color: rgba(243, 238, 227, .68);
+  font-family: var(--mono);
+  font-size: 6px;
+  line-height: 1.8;
+  letter-spacing: .04em;
+}
+
+.about-back-hint {
+  color: var(--red);
+  font-family: var(--mono);
+  font-size: 6.5px;
+  letter-spacing: .04em;
+}
+
+.about-flip-hint {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 9px;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 7px;
+  letter-spacing: .04em;
+}
+
+.about-flip-hint span {
+  color: var(--red);
+}
+
+/* A single headline reveal when the exhibition opens */
+body.is-loading .hero h1 {
+  opacity: 0;
+  clip-path: inset(0 0 100% 0);
+  transform: translateY(22px);
+}
+
+body.is-ready .hero h1 {
+  animation: hero-headline-in .9s cubic-bezier(.2, .8, .2, 1) 1s both;
+}
+
+@keyframes hero-headline-in {
+  from {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    transform: translateY(0);
+  }
+}
+
 /* Reduced motion --------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
@@ -5768,5 +6014,13 @@ body.chapter-reader-open {
   .ribbon-track,
   .paper-ribbon i {
     animation: none !important;
+  }
+
+  body.is-loading .hero h1,
+  body.is-ready .hero h1 {
+    opacity: 1 !important;
+    clip-path: none !important;
+    transform: none !important;
+    animation-delay: 0s !important;
   }
 }

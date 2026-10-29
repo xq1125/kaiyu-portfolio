@@ -37,8 +37,10 @@ assets/video/              Compressed H.264 films (faststart)
 ## Interactions
 
 - **Opening spread** — one large IP artwork against a quiet editorial hero, with a short statement and a single link into the work.
-- **One-page catalogue** — six compact rows in two columns; no stacked chapter sections and no page-length growth.
-- **Chapter reader** — clicking a catalogue row opens one chapter at a time in a compact overlay: three-column work grid, chapter note, previous/next chapter, `Esc` or backdrop to close.
+- **One-page catalogue** — six compact rows in two columns; no stacked chapter sections and no page-length growth. Hovering a row flips its small cover to a second plate and draws a vermilion rule.
+- **Chapter reader** — clicking a catalogue row opens one chapter at a time in a compact overlay that reveals like a paper curtain: three-column work grid, chapter note, previous/next chapter, `Esc` or backdrop to close.
+- **Artist card** — the about portrait is a deliberate flip card: front is the drawn portrait, back is a short statement on ink-black stock. Click to turn it over; the state is exposed with `aria-pressed`.
+- **Opening reveal** — the hero headline masks up once the loader clears. A single transition, not a sequence of effects.
 - **Work sheets** — hover-lift plates open a paper lightbox with prev/next, zoom (`+` / `−` / `0`), drag-to-pan and arrow-key navigation.
 - **Film mode** — plates with a film show a small `▶ FILM` badge. In the lightbox, `▶ 看影像` swaps the still for a native HTML5 player; `非遗系列短片` has a two-film chip switch (剪纸 / 打铁花). Videos are compressed H.264 MP4 with separate poster frames.
 - **Fragment game** — “这是哪一章的碎片？” A five-round game built from real close-ups of the 32 plates. Guess the chapter, reveal the full work, then open it directly in the lightbox. It opens from a small “猜碎片” tab in the header into a compact paper popup, not a page section.

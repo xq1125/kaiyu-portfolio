@@ -182,11 +182,21 @@
 
       <div class="about-grid">
         <div class="about-left">
-          <figure class="about-portrait" data-reveal>
-            <span class="tape tape-tl" aria-hidden="true"></span>
-            <img src="assets/img/about/portrait.webp" alt="郑铠妤的插画头像" width="1000" height="839">
-            <figcaption><span>me, drawn by me</span><span>2026</span></figcaption>
-          </figure>
+          <div class="about-card" data-reveal>
+            <button class="about-flip" id="aboutFlip" type="button" aria-pressed="false" aria-label="翻转艺术家卡片，查看背面">
+              <span class="about-face about-face--front">
+                <img src="assets/img/about/portrait.webp" alt="郑铠妤的插画头像" width="1000" height="839">
+                <span class="about-face-caption"><span>me, drawn by me</span><span>2026</span></span>
+              </span>
+              <span class="about-face about-face--back" aria-hidden="true">
+                <span class="about-back-kicker">ARTIST CARD / 01</span>
+                <span class="about-back-quote">把想象剪下来，<br>再让它自己长回去。</span>
+                <span class="about-back-meta">郑铠妤 / KAIYU ZHENG<br>VISUAL DESIGNER &amp; IMAGE MAKER</span>
+                <span class="about-back-hint">再次翻面 ↻</span>
+              </span>
+            </button>
+            <p class="about-flip-hint">点击翻面 <span>FLIP CARD</span></p>
+          </div>
 
           <div class="sticky-note" data-reveal>
             <span class="note-pin" aria-hidden="true"></span>

@@ -74,7 +74,14 @@
               <span class="card-count">${pad(category.plates.length)} pieces</span>
             </span>
             <span class="card-photo">
-              <img src="${category.cover}" alt="${category.title}章节封面" width="1200" height="800" loading="eager" decoding="async">
+              <span class="card-flip">
+                <span class="card-face card-face--front">
+                  <img src="${category.cover}" alt="${category.title}章节封面" width="1200" height="800" loading="eager" decoding="async">
+                </span>
+                <span class="card-face card-face--back" aria-hidden="true">
+                  <img src="assets/img/thumb/${category.plates[1]?.id || category.plates[0].id}.webp" alt="" width="900" height="318" loading="eager" decoding="async">
+                </span>
+              </span>
             </span>
             <span class="card-title"><b>${category.title}</b><em>${category.en}</em></span>
             <span class="card-open" aria-hidden="true">↗</span>
@@ -198,7 +205,7 @@
     doc.body.classList.remove("chapter-reader-open");
     window.setTimeout(() => {
       if (!chapterReaderOpen) reader.hidden = true;
-    }, 280);
+    }, 680);
     readerLastFocus?.focus?.({ preventScroll: true });
     try {
       history.replaceState(null, "", "#works");
@@ -1359,6 +1366,19 @@
     });
   }
 
+  function initAboutFlip() {
+    const card = $("#aboutFlip");
+    if (!card) return;
+    const hint = $(".about-flip-hint");
+    card.addEventListener("click", () => {
+      const flipped = card.classList.toggle("is-flipped");
+      card.setAttribute("aria-pressed", String(flipped));
+      if (hint && hint.firstChild) {
+        hint.firstChild.textContent = flipped ? "再次翻面 " : "点击翻面 ";
+      }
+    });
+  }
+
   function initEmailCopy() {
     const button = $("#emailCopy");
     if (!button) return;
@@ -1500,6 +1520,7 @@
   initLightbox();
   initFragmentGame();
   initChapterReader();
+  initAboutFlip();
   initEmailCopy();
   initAnchors();
   initKeyboard();
