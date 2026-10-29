@@ -1616,9 +1616,9 @@
       loader.classList.add("is-ready");
       loader.setAttribute("aria-label", "加载完成，点击进入作品集");
       if (status) {
-        status.childNodes[0].nodeValue = "展厅已经就绪…";
+        status.childNodes[0].nodeValue = "欢迎翻阅我的作品集…";
         const label = $("em", status);
-        if (label) label.textContent = "THE PRIVATE VIEW IS READY";
+        if (label) label.textContent = "WELCOME TO MY PORTFOLIO";
       }
       if (enterButton) {
         enterButton.disabled = false;
