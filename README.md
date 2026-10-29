@@ -42,7 +42,7 @@ assets/video/              Compressed H.264 films (faststart)
 ## Interactions
 
 - **Opening print** — the hero is a matted print of the 深渊恶魔 game key art, black surround and a hairline red frame, with a short statement and one link into the work. The loader is a duotone of the **0-1** cover, so the first screen already belongs to the black-and-red palette.
-- **One-page catalogue** — six compact rows in two columns; the directory stays on one screen. Hovering a row flips its small cover to a second plate and draws a vermilion rule; each row states its film count.
+- **One-page catalogue** — six wide flip cards in a 3 × 2 grid that still fits one desktop screen. At rest the cards show their backs: chapter number, title, counts and a ghosted English label. Hovering or keyboard-focusing one card flips only that card to its cover; touch screens show the covers directly. Each card states its film count and links to its chapter.
 - **Chapter pages** — every catalogue row and the hero print open `chapter.html?c=…`. A chapter opens with its films as native HTML5 players, then shows every plate at full width / two columns, with previous/next chapter links. This is where the actual work and all videos live.
 - **All films** — `films.html` is a single visible index of all twelve films across the six chapters, each playable inline and linked back to its chapter. It is reachable from the `04 影像` nav item and the catalogue.
 - **Artist card** — the about portrait is a deliberate flip card: front is the drawn portrait on bone stock, back is a short statement on black. Click to turn it over; the state is exposed with `aria-pressed`.

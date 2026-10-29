@@ -98,25 +98,32 @@
         );
         const filmWord = filmCount === 1 ? "FILM" : "FILMS";
         return `
-          <a class="chapter-card" href="chapter.html?c=${category.id}"
-             data-reveal data-cursor="翻开" aria-label="打开章节：${category.title}${filmCount ? `，含 ${filmCount} 部影像` : ""}"
-             style="--accent:${category.accent};--soft:${category.soft}">
-            <span class="card-head">
-              <span class="card-num">${category.num}</span>
-              <span class="card-count">${pad(category.plates.length)} pieces</span>
-            </span>
-            <span class="card-photo">
-              <span class="card-flip">
-                <span class="card-face card-face--front">
-                  <img src="${category.cover}" alt="${category.title}章节封面" width="1200" height="800" loading="eager" decoding="async">
+          <a class="catalogue-card" href="chapter.html?c=${category.id}"
+             data-reveal aria-label="打开章节：${category.title}${filmCount ? `，含 ${filmCount} 部影像` : ""}">
+            <span class="catalogue-inner">
+              <span class="catalogue-face catalogue-face--back" aria-hidden="true">
+                <span class="catalogue-top">
+                  <span>CHAPTER ${category.num}</span>
+                  <span>${pad(category.plates.length)} PIECES${filmCount ? ` / ${filmCount} ${filmWord}` : ""}</span>
                 </span>
-                <span class="card-face card-face--back" aria-hidden="true">
-                  <img src="assets/img/thumb/${category.plates[1]?.id || category.plates[0].id}.webp" alt="" width="900" height="318" loading="eager" decoding="async">
+                <span class="catalogue-back-main">
+                  <span class="catalogue-num">${category.num}</span>
+                  <span class="catalogue-name"><b>${category.title}</b><em>${category.en}</em></span>
+                </span>
+                <span class="catalogue-watermark" aria-hidden="true">${category.en}</span>
+                <span class="catalogue-bottom"><span>鼠标停留 · 翻开</span><span>↻</span></span>
+              </span>
+              <span class="catalogue-face catalogue-face--front" aria-hidden="true">
+                <img src="${category.cover}?v=cards" alt="" width="1200" height="800" loading="eager" decoding="async">
+                <span class="catalogue-front-shade"></span>
+                <span class="catalogue-front-meta">
+                  <span>${category.num} / ${category.en}</span>
+                  <b>${category.title}</b>
+                  <em>${pad(category.plates.length)} PIECES${filmCount ? ` · ${filmCount} ${filmWord}` : ""}</em>
+                  <span class="catalogue-open">进入章节 ↗</span>
                 </span>
               </span>
             </span>
-            <span class="card-title"><b>${category.title}</b><em>${category.en}${filmCount ? ` · ${filmCount} ${filmWord}` : ""}</em></span>
-            <span class="card-open" aria-hidden="true">↗</span>
           </a>
         `;
       })
