@@ -170,6 +170,7 @@
     const count = $("#heroBoardCount");
     const note = $("#heroBoardNote");
     const reset = $("#heroBoardReset");
+    const coarsePointer = window.matchMedia("(hover: none), (pointer: coarse)").matches;
     const openCells = [];
 
     const closeCell = (cell) => {
@@ -204,6 +205,11 @@
         openCells.push(cell);
         window.setTimeout(() => cell.classList.remove("is-opening"), 650);
         paint();
+        if (coarsePointer) {
+          window.setTimeout(() => {
+            window.location.href = cell.href;
+          }, 380);
+        }
       }
     });
 
@@ -1506,6 +1512,31 @@
     });
   }
 
+  function initTouchFeedback() {
+    const coarse = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+    if (!coarse) return;
+
+    const interactive = "a, button, [role='button'], .catalogue-card, .hero-cell, .chapter-work, .resume-card, .site-experience-card, .loader.is-ready";
+    const haptic = (duration = 8) => {
+      if (typeof navigator.vibrate === "function") navigator.vibrate(duration);
+    };
+
+    document.addEventListener("pointerdown", (event) => {
+      if (event.pointerType && event.pointerType !== "touch") return;
+      const target = event.target.closest(interactive);
+      if (!target) return;
+
+      haptic(12);
+
+      const ring = document.createElement("span");
+      ring.className = "tap-ring";
+      ring.style.left = `${event.clientX}px`;
+      ring.style.top = `${event.clientY}px`;
+      document.body.appendChild(ring);
+      ring.addEventListener("animationend", () => ring.remove(), { once: true });
+    }, { passive: true });
+  }
+
   function initResumeEnvelope() {
     const card = $("#resumeCard");
     const modal = $("#resumeModal");
@@ -1772,6 +1803,7 @@
   initChapterReader();
   initAboutFlip();
   initResumeEnvelope();
+  initTouchFeedback();
   initEmailCopy();
   initContactCopy();
   initAnchors();

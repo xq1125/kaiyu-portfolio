@@ -51,6 +51,7 @@ assets/video/              Compressed H.264 films (faststart)
 - **Fragment game** — “这是哪一章的碎片？” A five-round game built from real close-ups of the 33 plates. Guess the chapter, reveal the full work, then open it directly in the lightbox. It opens from a small “猜碎片” tab in the header into a compact dark popup, not a page section.
 - **Contact postcard** — the email is click-to-copy, phone opens the dialer, and QQ / WeChat copy with a toast. The “聊聊合作或实习” link in the about block jumps straight to this contact room.
 - **Chapter cursor** — on fine-pointer devices every chapter page replaces the hidden native pointer with a drawn bone-and-red arrow. A thin red ring trails it, interactive elements turn the arrow red, and each click sends out a short expanding ripple; touch devices keep the native cursor.
+- **Touch layout** — phones get a stacked opening poster, full-bleed catalogue covers, a single-tap route from a hero ticket into its chapter, tap ripples, pressed-card scaling and a short vibration on supported Android browsers. Hover-only flips and lifts are disabled on touch.
 - **Small things** — custom red cursor labels, live Hangzhou clock, scroll reveals, mobile menu, keyboard focus states.
 - **Keyboard** — `Esc` closes the chapter lightbox; native video controls handle playback, seeking and volume.
 

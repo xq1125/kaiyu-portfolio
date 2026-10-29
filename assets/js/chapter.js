@@ -257,4 +257,23 @@
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") closeLightbox();
   });
+
+  const coarsePointer = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+  if (coarsePointer) {
+    const interactive = "a, button, [role='button'], .chapter-work, .site-experience-card, .chapter-pager-link";
+    document.addEventListener("pointerdown", (event) => {
+      if (event.pointerType && event.pointerType !== "touch") return;
+      const target = event.target.closest(interactive);
+      if (!target) return;
+
+      if (typeof navigator.vibrate === "function") navigator.vibrate(12);
+
+      const ring = document.createElement("span");
+      ring.className = "tap-ring";
+      ring.style.left = `${event.clientX}px`;
+      ring.style.top = `${event.clientY}px`;
+      document.body.appendChild(ring);
+      ring.addEventListener("animationend", () => ring.remove(), { once: true });
+    }, { passive: true });
+  }
 })();
