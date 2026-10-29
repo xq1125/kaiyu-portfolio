@@ -4,7 +4,7 @@ Live site: **https://xq1125.github.io/kaiyu-portfolio/**
 
 A hand-built, dependency-free portfolio for game visual, AIGC film, UI/UX, 3D, IP and personal experiments. The art direction is a black-and-deep-red private view: near-black rooms, bone Songti, vermilion accents, a matted game key-art print and full-bleed work sheets. No dark-neon template, no external fonts, no tracking.
 
-**34 pieces · 6 chapters · 14 films · 1 fragment game.**
+**33 pieces · 6 chapters · 14 films · 1 fragment game.**
 
 ## Run locally
 
@@ -48,7 +48,7 @@ assets/video/              Compressed H.264 films (faststart)
 - **CV folder** — the small red card under the portrait opens the public PDF resume in a new tab; it replaces the old “currently” sticky note.
 - **Opening reveal** — the hero headline masks up once the loader clears. A single transition, not a sequence of effects.
 - **Work lightbox** — on chapter pages, clicking any plate opens the full-resolution image; `Esc`, the close button or the backdrop closes it. The link still falls back to the image file if JavaScript is unavailable.
-- **Fragment game** — “这是哪一章的碎片？” A five-round game built from real close-ups of the 34 plates. Guess the chapter, reveal the full work, then open it directly in the lightbox. It opens from a small “猜碎片” tab in the header into a compact dark popup, not a page section.
+- **Fragment game** — “这是哪一章的碎片？” A five-round game built from real close-ups of the 33 plates. Guess the chapter, reveal the full work, then open it directly in the lightbox. It opens from a small “猜碎片” tab in the header into a compact dark popup, not a page section.
 - **Contact postcard** — the email is click-to-copy, phone opens the dialer, and QQ / WeChat copy with a toast. The “聊聊合作或实习” link in the about block jumps straight to this contact room.
 - **Chapter cursor** — on fine-pointer devices every chapter page replaces the hidden native pointer with a drawn bone-and-red arrow. A thin red ring trails it, interactive elements turn the arrow red, and each click sends out a short expanding ripple; touch devices keep the native cursor.
 - **Small things** — custom red cursor labels, live Hangzhou clock, scroll reveals, mobile menu, keyboard focus states.

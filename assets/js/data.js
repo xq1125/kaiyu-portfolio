@@ -143,7 +143,6 @@ window.PORTFOLIO = (() => {
         { id: "6-3", title: "情绪可视化", role: "电话手表交互实验 / INTERACTION", videos: [
           { label: "交互演示", src: "assets/video/touchdesigner.mp4", poster: "assets/img/video/touchdesigner.webp", duration: "0:15" }
         ] },
-        { id: "6-4", title: "TouchDesigner 交互衍生", role: "实时生成视觉 / REAL-TIME VISUAL · 2026" },
         { id: "6-5", title: "黑洞便利店", role: "个人品牌网站 / WEB DESIGN · 2026", site: "https://xq1125.github.io/blackhole-mart/#community", videos: [
           { label: "网站演示", src: "assets/video/blackhole-demo.mp4", poster: "assets/img/video/blackhole-demo.webp", duration: "0:13" }
         ] },
