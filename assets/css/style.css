@@ -8006,6 +8006,93 @@ html {
   transform: scale(1);
 }
 
+.hero-cell.is-opening {
+  box-shadow: inset 0 0 0 1px rgba(242, 231, 216, .4), 0 0 28px rgba(158, 33, 27, .38);
+}
+
+.hero-cell.is-opening .hero-cell-back {
+  animation: heroTicketOut .42s cubic-bezier(.2, .7, .2, 1) both;
+}
+
+.hero-cell.is-opening .hero-cell-front {
+  animation: heroCoverIn .58s cubic-bezier(.2, .7, .2, 1) both;
+}
+
+.hero-cell.is-opening::before {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 28%, rgba(242, 231, 216, .2) 47%, transparent 62%);
+  pointer-events: none;
+  transform: translateX(-120%);
+  animation: heroGlint .62s ease-out both;
+}
+
+.hero-cell.is-opening::after {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  left: 50%;
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(158, 33, 27, .95);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(.4);
+  animation: heroRing .55s ease-out both;
+}
+
+@keyframes heroTicketOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.035);
+  }
+}
+
+@keyframes heroCoverIn {
+  0% {
+    opacity: 0;
+    transform: scale(1.075);
+    filter: saturate(.65);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: saturate(1);
+  }
+}
+
+@keyframes heroGlint {
+  0% {
+    opacity: 0;
+    transform: translateX(-120%);
+  }
+  18% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(120%);
+  }
+}
+
+@keyframes heroRing {
+  0% {
+    opacity: .9;
+    transform: translate(-50%, -50%) scale(.4);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(5);
+  }
+}
+
 .hero-cell.is-revealed:hover .hero-cell-front img {
   transform: scale(1.035);
 }
@@ -8047,7 +8134,7 @@ html {
   border-color: var(--red);
 }
 
-.hero-board.is-complete .hero-board-head span:last-child {
+.hero-board.is-pair .hero-board-head span:last-child {
   color: var(--ink);
 }
 

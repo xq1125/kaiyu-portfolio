@@ -170,17 +170,27 @@
     const count = $("#heroBoardCount");
     const note = $("#heroBoardNote");
     const reset = $("#heroBoardReset");
+    const openCells = [];
+
+    const closeCell = (cell) => {
+      cell.classList.remove("is-revealed", "is-opening");
+      cell.setAttribute("aria-label", `揭开章节：${cell.dataset.title}`);
+      const index = openCells.indexOf(cell);
+      if (index !== -1) openCells.splice(index, 1);
+    };
 
     const paint = () => {
-      const revealed = cells.filter((cell) => cell.classList.contains("is-revealed")).length;
-      if (count) count.textContent = `${pad(revealed)} / ${pad(cells.length)}`;
+      const open = openCells.length;
+      if (count) count.textContent = `${pad(open)} / 02`;
       if (note) {
-        note.textContent = revealed === cells.length
-          ? "六个世界都翻开了，点一张进入"
-          : "点一张，揭开一个世界";
+        note.textContent = open === 2
+          ? "再点一张，会收起最早的一张"
+          : open === 1
+            ? "还能再翻开一张"
+            : "最多同时翻开两张";
       }
-      if (reset) reset.disabled = revealed === 0;
-      board.classList.toggle("is-complete", revealed === cells.length);
+      if (reset) reset.disabled = open === 0;
+      board.classList.toggle("is-pair", open === 2);
     };
 
     grid.addEventListener("click", (event) => {
@@ -188,18 +198,19 @@
       if (!cell) return;
       if (!cell.classList.contains("is-revealed")) {
         event.preventDefault();
-        cell.classList.add("is-revealed");
+        if (openCells.length >= 2) closeCell(openCells[0]);
+        cell.classList.add("is-revealed", "is-opening");
         cell.setAttribute("aria-label", `已揭开章节：${cell.dataset.title}，点击进入`);
+        openCells.push(cell);
+        window.setTimeout(() => cell.classList.remove("is-opening"), 650);
         paint();
       }
     });
 
     if (reset) {
       reset.addEventListener("click", () => {
-        cells.forEach((cell) => {
-          cell.classList.remove("is-revealed");
-          cell.setAttribute("aria-label", `揭开章节：${cell.dataset.title}`);
-        });
+        cells.forEach((cell) => closeCell(cell));
+        openCells.length = 0;
         paint();
       });
     }
