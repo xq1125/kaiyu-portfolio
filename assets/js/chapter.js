@@ -87,6 +87,8 @@
 
   const workGrid = $("#workGrid");
   if (workGrid) {
+    const workTotal = category.plates.length;
+    workGrid.classList.toggle("is-even-grid", workTotal > 2 && workTotal % 2 === 0);
     workGrid.innerHTML = category.plates
       .map(
         (plate, index) => `

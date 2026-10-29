@@ -7021,6 +7021,10 @@ html {
   grid-column: 1 / -1;
 }
 
+.chapter-works.is-even-grid .chapter-work:first-child {
+  grid-column: auto;
+}
+
 .chapter-work-photo {
   display: block;
   overflow: hidden;
