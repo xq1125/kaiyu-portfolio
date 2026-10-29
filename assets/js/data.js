@@ -68,8 +68,8 @@ window.PORTFOLIO = (() => {
       cover: "assets/img/covers/card-uiux.webp",
       desc: "让复杂系统变得清晰，让一次点击也有呼吸感。在信息密度与视觉秩序之间，寻找恰到好处的那个点。",
       tags: ["Product Design", "Design System", "Prototype", "B2B SaaS"],
-      noteTitle: "把复杂藏起来",
-      note: "用户不需要知道背后有多少张表格。他们只需要觉得，事情变简单了。",
+      noteTitle: "界面是顺序，不是装饰",
+      note: "UI 设计不是把功能铺满屏幕，而是决定用户先看到什么、下一步点哪里。我把复杂的 HR 流程，拆成一条不用解释的路径。",
       plates: [
         { id: "3-1", title: "星承 HRM SaaS", role: "产品主视觉 / UX·UI · 2026" },
         { id: "3-2", title: "星承 HRM SaaS", role: "用户画像与产品结构 / PERSONA & IA" },
