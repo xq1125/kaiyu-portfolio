@@ -162,10 +162,10 @@ window.PORTFOLIO = (() => {
     },
     categories,
     facts: [
-      { label: "EDUCATION", value: "湖北大学", detail: "数字媒体艺术本科 · 2023.09—至今" },
+      { label: "EDUCATION", value: "湖北大学", detail: "数字媒体艺术 本科 · 2023.09—2027.06" },
+      { label: "EDUCATION", value: "中央美术学院（保研）", detail: "2027.09—" },
       { label: "EXPERIENCE", value: "网易（杭州）网络有限公司", detail: "平面设计师 · 2026.07—至今" },
-      { label: "EXPERIENCE", value: "深圳冰川网络股份有限公司（武汉）", detail: "AIGC 视频实习生 · 2026.04—2026.06" },
-      { label: "CAMPUS", value: "湖北大学记者团 / 校青志", detail: "设计部成员 / 宣传部部长 / 宣传部副部长 · 2023.09—2025.06" }
+      { label: "EXPERIENCE", value: "深圳冰川网络股份有限公司（武汉）", detail: "AIGC 视频实习生 · 2026.04—2026.06" }
     ],
     capabilities: [
       "游戏视觉与宣发", "角色 / 场景设定", "UI · UX 设计", "3D 视觉与渲染",
