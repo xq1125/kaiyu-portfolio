@@ -39,8 +39,8 @@ window.PORTFOLIO = (() => {
       cover: "assets/img/covers/card-aigc.webp",
       desc: "用生成式工具写镜头。在水墨、科幻与非遗之间搭桥，让技术退后一点，让情绪站到画面前面。",
       tags: ["AI Film", "Art Direction", "Storyboard", "Motion"],
-      noteTitle: "镜头是新的毛笔",
-      note: "生成工具会给我很多答案。我要做的，是从里面挑出那个真正会呼吸的。",
+      noteTitle: "工具动手，我来决定",
+      note: "AI 工具让表达变轻，但真正让画面有重量的，是我想说的东西。它替我动手，不替我思考。",
       plates: [
         { id: "2-1", title: "山海 · 一念", role: "AI 水墨短片 / 3′20″ · 2026", videos: [
           { label: "正片", src: "assets/video/shanhai.mp4", poster: "assets/img/video/shanhai.webp", duration: "3:19" }
