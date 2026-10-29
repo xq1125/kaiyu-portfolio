@@ -1,8 +1,8 @@
-# 郑铠妤 KAIYU — Paper Portfolio
+# 郑铠妤 KAIYU — Nocturne Portfolio
 
 Live site: **https://xq1125.github.io/kaiyu-portfolio/**
 
-A hand-built, dependency-free portfolio for game visual, AIGC film, UI/UX, 3D, IP and personal experiments. The art direction is a quiet Chinese editorial spread: warm paper, oversized Songti, vermilion accents, generous white space and full-bleed work plates. No dark-neon template, no external fonts, no tracking.
+A hand-built, dependency-free portfolio for game visual, AIGC film, UI/UX, 3D, IP and personal experiments. The art direction is a black-and-deep-red private view: near-black rooms, bone Songti, vermilion accents, a matted game key-art print and full-bleed work sheets. No dark-neon template, no external fonts, no tracking.
 
 **32 pieces · 6 chapters · 12 films · 1 fragment game.**
 
@@ -29,23 +29,23 @@ assets/img/full/           1800–2800px WebP plates (lightbox)
 assets/img/covers/         Hero and chapter-cover crops
 assets/img/video/          Video poster frames
 assets/img/about/          Privacy-safe illustrated portrait
-assets/img/loader-cover.webp  Recoloured 0-1 cover for the opening screen
+assets/img/loader-cover.webp  Duotone 0-1 cover for the opening screen
 assets/img/og-cover.jpg    1200 × 630 social card
 assets/video/              Compressed H.264 films (faststart)
 ```
 
 ## Interactions
 
-- **Opening spread** — one large IP artwork against a quiet editorial hero, with a short statement and a single link into the work.
+- **Opening print** — the hero is a matted print of the 深渊恶魔 game key art, black surround and a hairline red frame, with a short statement and one link into the work. The loader is a duotone of the **0-1** cover, so the first screen already belongs to the black-and-red palette.
 - **One-page catalogue** — six compact rows in two columns; no stacked chapter sections and no page-length growth. Hovering a row flips its small cover to a second plate and draws a vermilion rule.
-- **Chapter reader** — clicking a catalogue row opens one chapter at a time in a compact overlay that reveals like a paper curtain: three-column work grid, chapter note, previous/next chapter, `Esc` or backdrop to close.
-- **Artist card** — the about portrait is a deliberate flip card: front is the drawn portrait, back is a short statement on ink-black stock. Click to turn it over; the state is exposed with `aria-pressed`.
+- **Chapter reader** — clicking a catalogue row opens one chapter at a time in a compact darkroom overlay that reveals like a curtain: three-column work grid, chapter note, previous/next chapter, `Esc` or backdrop to close.
+- **Artist card** — the about portrait is a deliberate flip card: front is the drawn portrait on bone stock, back is a short statement on black. Click to turn it over; the state is exposed with `aria-pressed`.
 - **Opening reveal** — the hero headline masks up once the loader clears. A single transition, not a sequence of effects.
-- **Work sheets** — hover-lift plates open a paper lightbox with prev/next, zoom (`+` / `−` / `0`), drag-to-pan and arrow-key navigation.
+- **Work sheets** — hover-lift plates open a near-black lightbox with prev/next, zoom (`+` / `−` / `0`), drag-to-pan and arrow-key navigation.
 - **Film mode** — plates with a film show a small `▶ FILM` badge. In the lightbox, `▶ 看影像` swaps the still for a native HTML5 player; `非遗系列短片` has a two-film chip switch (剪纸 / 打铁花). Videos are compressed H.264 MP4 with separate poster frames.
-- **Fragment game** — “这是哪一章的碎片？” A five-round game built from real close-ups of the 32 plates. Guess the chapter, reveal the full work, then open it directly in the lightbox. It opens from a small “猜碎片” tab in the header into a compact paper popup, not a page section.
+- **Fragment game** — “这是哪一章的碎片？” A five-round game built from real close-ups of the 32 plates. Guess the chapter, reveal the full work, then open it directly in the lightbox. It opens from a small “猜碎片” tab in the header into a compact dark popup, not a page section.
 - **Contact postcard** — click the email to copy it, or use the mailto link.
-- **Small things** — custom red cursor labels, live Hangzhou clock, scroll reveals, mobile paper menu, keyboard focus states.
+- **Small things** — custom red cursor labels, live Hangzhou clock, scroll reveals, mobile menu, keyboard focus states.
 - **Keyboard** — `←` `→` flip lightbox; `Esc` close; `+` `−` `0` zoom the lightbox. In film mode, the native player handles seeking and volume.
 
 ## GitHub Pages
@@ -88,7 +88,8 @@ videos: [
 ## Notes
 
 - Plates were optimized from the supplied 7073 × 2500 portfolio boards.
-- The opening cover reuses the **0-1** cover composition, recoloured into the paper palette. The right-hand contact block is cropped out so phone / QQ / WeChat are never published.
+- The opening cover reuses the **0-1** cover composition as a black / deep-red / bone duotone. The right-hand contact block is cropped out so phone / QQ / WeChat are never published.
+- The site opens at the top unless a chapter hash is present; old `#contact` links and browser scroll restoration are reset so a fresh visit never lands on the contact section.
 - No third-party JavaScript, build step, external font, analytics or cookies.
 - Public contact card uses the email only; the full profile board with phone/QQ is intentionally not published.
 - Edit portfolio copy in `assets/js/data.js`; edit the page-level manifesto and postcard copy in `index.html`.

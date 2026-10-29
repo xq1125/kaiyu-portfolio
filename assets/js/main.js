@@ -1,6 +1,6 @@
 /* ==========================================================================
-   KAIYU ZHENG — PAPER PORTFOLIO
-   Small interactions, big paper mess.
+   KAIYU ZHENG — NOCTURNE PORTFOLIO
+   Small interactions, a darkroom of work.
    ========================================================================== */
 
 (() => {
@@ -11,6 +11,8 @@
     console.warn("Portfolio data not found.");
     return;
   }
+
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 
   const doc = document;
   const root = doc.documentElement;
@@ -33,6 +35,31 @@
   let collageZ = 10;
 
   root.classList.add("js");
+
+  function resetInitialPosition() {
+    const initialHash = window.location.hash.slice(1);
+    const isChapter = categoryById.has(initialHash);
+
+    if (isChapter) return;
+
+    if (initialHash === "contact" || initialHash === "about") {
+      try {
+        history.replaceState(null, "", window.location.pathname + window.location.search);
+      } catch (error) {
+        /* file:// may restrict history */
+      }
+    }
+
+    if (initialHash !== "works") window.scrollTo(0, 0);
+    window.addEventListener(
+      "load",
+      () => {
+        const hash = window.location.hash.slice(1);
+        if (!categoryById.has(hash) && hash !== "works") window.scrollTo(0, 0);
+      },
+      { once: true }
+    );
+  }
 
   /* ------------------------------------------------------------------ */
   /* Clocks                                                             */
@@ -1508,6 +1535,7 @@
   /* Init                                                               */
   /* ------------------------------------------------------------------ */
 
+  resetInitialPosition();
   buildIndex();
   buildFacts();
 
