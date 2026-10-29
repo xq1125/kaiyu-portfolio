@@ -7426,6 +7426,107 @@ html {
   gap: clamp(28px, 3.6vw, 46px) clamp(18px, 2.5vw, 28px);
 }
 
+.chapter-site-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.site-experience-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  min-height: 176px;
+  padding: 22px 22px 20px;
+  border: 1px solid var(--line-strong);
+  background: var(--paper-light);
+  color: var(--ink);
+  text-decoration: none;
+  transition: color .3s var(--ease), background .3s var(--ease), border-color .3s var(--ease);
+}
+
+.site-experience-card:hover {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--bone);
+}
+
+.site-experience-index {
+  flex: 0 0 auto;
+  padding-top: 3px;
+  color: var(--red);
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: .08em;
+}
+
+.site-experience-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  gap: 7px;
+}
+
+.site-experience-kicker {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 7px;
+  letter-spacing: .08em;
+}
+
+.site-experience-body strong {
+  font-family: var(--serif);
+  font-size: clamp(23px, 2.4vw, 31px);
+  font-weight: 600;
+  line-height: 1.10;
+}
+
+.site-experience-body em {
+  color: var(--muted);
+  font-family: var(--hand);
+  font-size: 12px;
+  font-style: normal;
+  line-height: 1.5;
+}
+
+.site-experience-url {
+  overflow: hidden;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 8px;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.site-experience-card:hover .site-experience-kicker,
+.site-experience-card:hover .site-experience-body em,
+.site-experience-card:hover .site-experience-url {
+  color: rgba(242, 231, 216, .62);
+}
+
+.site-experience-card:hover .site-experience-url {
+  border-color: rgba(242, 231, 216, .22);
+}
+
+.site-experience-card:hover .site-experience-index {
+  color: #e0786c;
+}
+
+.site-experience-arrow {
+  flex: 0 0 auto;
+  align-self: center;
+  padding-bottom: 3px;
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: .06em;
+  white-space: nowrap;
+}
+
 .chapter-work {
   display: block;
   min-width: 0;
@@ -7977,6 +8078,7 @@ html {
 
   .chapter-films,
   .chapter-works,
+  .chapter-site-grid,
   .films-list {
     grid-template-columns: 1fr;
   }

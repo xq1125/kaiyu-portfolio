@@ -121,6 +121,42 @@
       .join("");
   }
 
+  const siteSection = $("#siteLinks");
+  const siteGrid = $("#siteLinkGrid");
+  if (siteSection && siteGrid) {
+    const sites = category.plates.filter((plate) => plate.site);
+    if (sites.length) {
+      siteSection.hidden = false;
+      set("#siteCount", `${pad(sites.length)} SITES`);
+      siteGrid.innerHTML = sites
+        .map((plate, index) => {
+          let displayUrl = plate.site;
+          try {
+            const parsed = new URL(plate.site);
+            displayUrl = `${parsed.host}${parsed.pathname.replace(/\/$/, "")}`;
+          } catch (error) {
+            displayUrl = plate.site;
+          }
+          return `
+            <a class="site-experience-card" href="${esc(plate.site)}" target="_blank" rel="noopener"
+               aria-label="打开 ${esc(plate.title)}：${esc(displayUrl)}">
+              <span class="site-experience-index">${pad(index + 1)}</span>
+              <span class="site-experience-body">
+                <span class="site-experience-kicker">LIVE WEBSITE / 线上体验</span>
+                <strong>${esc(plate.title)}</strong>
+                <em>${esc(plate.role)}</em>
+                <span class="site-experience-url">${esc(displayUrl)}</span>
+              </span>
+              <span class="site-experience-arrow">打开 ↗</span>
+            </a>
+          `;
+        })
+        .join("");
+    } else {
+      siteSection.hidden = true;
+    }
+  }
+
   const prev = categories[(categoryIndex - 1 + categories.length) % categories.length];
   const next = categories[(categoryIndex + 1) % categories.length];
   const prevLink = $("#prevChapter");
