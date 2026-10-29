@@ -20,8 +20,8 @@ window.PORTFOLIO = (() => {
         { id: "1-2", title: "深渊恶魔：狱界破笼", role: "世界观与游戏系统 / SYSTEM" },
         { id: "1-3", title: "深渊恶魔：狱界破笼", role: "角色图鉴与界面 / CODEX & UI" },
         { id: "1-4", title: "深渊恶魔：狱界破笼", role: "界面、道具与视觉资产 / UI & PROPS" },
-        { id: "1-5", title: "东方异闻录", role: "东方幻想企划 / EASTERN FANTASY · 2026" },
-        { id: "1-6", title: "东方异闻录", role: "场景与界面系统 / SCENE & UI" },
+        { id: "1-5", title: "东方纹章录", role: "东方幻想企划 / EASTERN FANTASY · 2026" },
+        { id: "1-6", title: "东方纹章录", role: "场景与界面系统 / SCENE & UI" },
         { id: "1-7", title: "游戏视觉企划", role: "版本活动视觉 / EVENT VISUAL", videos: [
           { label: "游戏特效", src: "assets/video/game-vfx.mp4", poster: "assets/img/video/game-vfx.webp", duration: "0:11" }
         ] },
