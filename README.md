@@ -32,7 +32,7 @@ assets/img/wide/           1800px WebP plates (chapter grids + srcset)
 assets/img/full/           1800–2800px WebP plates (chapter lightbox)
 assets/img/covers/         Hero and chapter-cover crops
 assets/img/video/          Video poster frames
-assets/img/about/          Privacy-safe illustrated portrait
+assets/img/about/          Illustrated portrait and its transparent cutout
 assets/img/loader-cover.webp  Duotone 0-1 cover for the opening screen
 assets/img/og-cover.jpg    1200 × 630 social card
 assets/resume/resume.pdf    Public CV opened from the about section
@@ -46,7 +46,7 @@ assets/video/              Compressed H.264 films (faststart)
 - **One-page catalogue** — six wide flip cards in a 3 × 2 grid that still fits one desktop screen. At rest the cards show their backs: chapter number, title, counts and a ghosted English label. Hovering or keyboard-focusing one card flips only that card to its cover; touch screens show the covers directly. Each card states its film count and links to its chapter.
 - **Chapter pages** — every catalogue row and the hero print open `chapter.html?c=…`. A chapter shows every plate at full width / two columns first, then its films as native HTML5 players, with previous/next chapter links. This is where the actual work and all videos live.
 - **All films** — `films.html` is a single visible index of all twelve films across the six chapters, each playable inline and linked back to its chapter. It is reachable from the `04 影像` nav item and the catalogue.
-- **Artist card** — the about portrait is a deliberate flip card: front is the drawn portrait on bone stock, back is a short statement on black. Click to turn it over; the state is exposed with `aria-pressed`.
+- **Artist card** — the about portrait is a deliberate flip card: the front is a smaller, transparent cutout of the drawn portrait with no paper backing, and the back is a short statement on black. Click to turn it over; the state is exposed with `aria-pressed`.
 - **CV folder** — the small red card under the portrait opens the public PDF resume in a new tab; it replaces the old “currently” sticky note.
 - **Opening reveal** — the hero headline masks up once the loader clears. A single transition, not a sequence of effects.
 - **Work lightbox** — on chapter pages, clicking any plate opens the full-resolution image; `Esc`, the close button or the backdrop closes it. The link still falls back to the image file if JavaScript is unavailable.
