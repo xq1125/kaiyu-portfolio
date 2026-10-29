@@ -30,6 +30,7 @@ assets/img/thumb/          900px WebP plates (mobile / card thumbnails)
 assets/img/wide/           1800px WebP plates (chapter grids + srcset)
 assets/img/full/           1800–2800px WebP plates (chapter lightbox)
 assets/img/covers/         Hero and chapter-cover crops
+assets/img/covers/mobile/  720 px cover crops served to phones
 assets/img/video/          Video poster frames
 assets/img/about/          Illustrated portrait and its transparent cutout
 assets/img/loader-cover.webp  Duotone 0-1 cover for the opening screen
@@ -52,6 +53,7 @@ assets/video/              Compressed H.264 films (faststart)
 - **Contact postcard** — the email is click-to-copy, phone opens the dialer, and QQ / WeChat copy with a toast. The “聊聊合作或实习” link in the about block jumps straight to this contact room.
 - **Chapter cursor** — on fine-pointer devices every chapter page replaces the hidden native pointer with a drawn bone-and-red arrow. A thin red ring trails it, interactive elements turn the arrow red, and each click sends out a short expanding ripple; touch devices keep the native cursor.
 - **Touch layout** — phones get a stacked opening poster, full-bleed catalogue covers, a single-tap route from a hero ticket into its chapter, tap ripples, pressed-card scaling and a short vibration on supported Android browsers. Hover-only flips and lifts are disabled on touch.
+- **Image weight** — desktop keeps the 2800 px full-resolution lightbox files. Phones request 720 px covers through `srcset`, use the 1800 px wide files for the lightbox, and defer the hidden loader art and CV image until needed.
 - **Small things** — custom red cursor labels, live Hangzhou clock, scroll reveals, mobile menu, keyboard focus states.
 - **Keyboard** — `Esc` closes the chapter lightbox; native video controls handle playback, seeking and volume.
 

@@ -16,10 +16,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://xq1125.github.io/kaiyu-portfolio/assets/img/og-cover.jpg?v=nocturne">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="preload" as="image" href="assets/img/loader-cover.webp">
-  <link rel="preload" as="image" href="assets/img/covers/hero-art.webp">
-  <link rel="preload" as="image" href="assets/img/covers/card-aigc.webp?v=cards">
-  <link rel="preload" as="image" href="assets/img/about/portrait-cutout.webp">
+  <link rel="preload" as="image" href="assets/img/loader-cover.webp" media="(min-width: 601px)">
   <script>document.documentElement.classList.add('js');</script>
   <link rel="stylesheet" href="assets/css/style.css">
   <noscript><style>.loader{display:none!important}body.is-loading{overflow:auto!important}</style></noscript>
@@ -39,7 +36,7 @@
         <span class="lf-script">Portfolio</span>
         <span class="lf-en">STYLES COME AND GO<br>BUT GOOD DESIGN IS A LANGUAGE<br>IT'S NOT A STYLE</span>
       </div>
-      <img src="assets/img/loader-cover.webp" alt="" width="2000" height="1162">
+      <img src="assets/img/loader-cover.webp" alt="" width="2000" height="1162" loading="lazy" decoding="async">
     </div>
     <div class="loader-top">
       <span>( PORTFOLIO / 2027 )</span>
@@ -200,7 +197,7 @@
           <div class="about-card" data-reveal>
             <button class="about-flip" id="aboutFlip" type="button" aria-pressed="false" aria-label="翻转艺术家卡片，查看背面">
               <span class="about-face about-face--front">
-                <img src="assets/img/about/portrait-cutout.webp" alt="郑铠妤的插画头像" width="705" height="825">
+                <img src="assets/img/about/portrait-cutout.webp" alt="郑铠妤的插画头像" width="705" height="825" loading="lazy" decoding="async">
                 <span class="about-face-caption"><span>me, drawn by me</span><span>2026</span></span>
               </span>
               <span class="about-face about-face--back" aria-hidden="true">
@@ -273,9 +270,9 @@
       <div class="resume-sheet" role="dialog" aria-modal="true" aria-label="郑铠妤的简历">
         <button class="resume-sheet-close" type="button" data-resume-close aria-label="关闭简历预览">关闭 ×</button>
         <figure class="resume-sheet-preview">
-          <img src="assets/resume/resume.webp"
+          <img data-src="assets/resume/resume.webp"
                alt="郑铠妤的简历：教育背景、实践经历、校园经历与个人优势"
-               width="1309" height="1853" decoding="async">
+               width="1309" height="1853" loading="lazy" decoding="async">
         </figure>
         <div class="resume-sheet-foot">
           <span>郑铠妤 / KAIYU ZHENG · CV 2026</span>

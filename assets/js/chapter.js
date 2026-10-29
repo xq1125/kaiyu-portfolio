@@ -209,7 +209,8 @@
   const openLightbox = (link) => {
     if (!lightbox || !lightboxImage) return;
     const image = link.querySelector("img");
-    lightboxImage.src = link.href;
+    const narrow = window.matchMedia("(max-width: 720px)").matches;
+    lightboxImage.src = narrow ? link.href.replace("/full/", "/wide/") : link.href;
     lightboxImage.alt = image ? image.alt : "";
     if (lightboxIndex) lightboxIndex.textContent = link.dataset.index || "";
     if (lightboxTitle) {

@@ -20,6 +20,8 @@
   const $$ = (selector, scope = doc) => Array.from(scope.querySelectorAll(selector));
   const pad = (number) => String(number).padStart(2, "0");
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+  const isNarrowViewport = () => window.matchMedia("(max-width: 720px)").matches;
+  const fullImagePath = (id) => `assets/img/${isNarrowViewport() ? "wide" : "full"}/${id}.webp`;
   const isFinePointer = window.matchMedia("(pointer: fine)").matches;
   const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -97,6 +99,7 @@
           0
         );
         const filmWord = filmCount === 1 ? "FILM" : "FILMS";
+        const mobileCover = category.cover.replace("/covers/", "/covers/mobile/");
         return `
           <a class="catalogue-card" href="chapter.html?c=${category.id}"
              data-reveal aria-label="打开章节：${category.title}${filmCount ? `，含 ${filmCount} 部影像` : ""}">
@@ -114,7 +117,10 @@
                 <span class="catalogue-bottom"><span>鼠标停留 · 翻开</span><span>↻</span></span>
               </span>
               <span class="catalogue-face catalogue-face--front" aria-hidden="true">
-                <img src="${category.cover}?v=cards" alt="" width="1200" height="800" loading="eager" decoding="async">
+                <img src="${category.cover}?v=cards"
+                     srcset="${mobileCover}?v=cards 720w, ${category.cover}?v=cards 1200w"
+                     sizes="(max-width: 620px) 92vw, (max-width: 900px) 46vw, 31vw"
+                     alt="" width="1200" height="800" loading="lazy" decoding="async" fetchpriority="low">
                 <span class="catalogue-front-shade"></span>
                 <span class="catalogue-front-meta">
                   <span>${category.num} / ${category.en}</span>
@@ -143,6 +149,7 @@
         );
         const filmWord = filmCount === 1 ? "FILM" : "FILMS";
         const count = `${pad(category.plates.length)} P${filmCount ? ` · ${filmCount} F` : ""}`;
+        const mobileCover = category.cover.replace("/covers/", "/covers/mobile/");
         return `
           <a class="hero-cell" href="chapter.html?c=${category.id}"
              data-hero-cell data-title="${category.title}"
@@ -153,7 +160,10 @@
               <span class="hero-cell-poke">戳开 <i>↗</i></span>
             </span>
             <span class="hero-cell-front" aria-hidden="true">
-              <img src="${category.cover}?v=cards" alt="" width="1200" height="800" loading="eager" decoding="async">
+              <img src="${category.cover}?v=cards"
+                   srcset="${mobileCover}?v=cards 720w, ${category.cover}?v=cards 1200w"
+                   sizes="(max-width: 620px) 46vw, 31vw"
+                   alt="" width="1200" height="800" loading="lazy" decoding="async" fetchpriority="low">
               <span class="hero-cell-shade"></span>
               <span class="hero-cell-meta">
                 <b>${category.title}</b>
@@ -870,7 +880,7 @@
     [-1, 1].forEach((offset) => {
       const index = (lbState.index + offset + total) % total;
       const image = new Image();
-      image.src = `assets/img/full/${lbState.category.plates[index].id}.webp`;
+      image.src = fullImagePath(lbState.category.plates[index].id);
     });
   }
 
@@ -989,7 +999,7 @@
     if (lightboxImage) lightboxImage.hidden = false;
     if (lightboxFull) {
       const plate = activePlate();
-      lightboxFull.href = plate ? `assets/img/full/${plate.id}.webp` : "#";
+      lightboxFull.href = plate ? fullImagePath(plate.id) : "#";
       lightboxFull.textContent = "OPEN FULL IMAGE ↗";
     }
   }
@@ -1014,7 +1024,7 @@
     if (lightboxTitle) lightboxTitle.textContent = plate.title;
     if (lightboxRole) lightboxRole.textContent = plate.role;
     if (lightboxFull) {
-      lightboxFull.href = `assets/img/full/${plate.id}.webp`;
+      lightboxFull.href = fullImagePath(plate.id);
       lightboxFull.textContent = "OPEN FULL IMAGE ↗";
     }
 
@@ -1028,7 +1038,7 @@
       if (token !== lbState.loadToken) return;
       lightboxStage?.classList.remove("is-loading");
     };
-    loader.src = `assets/img/full/${plate.id}.webp`;
+    loader.src = fullImagePath(plate.id);
     preloadNeighbors();
   }
 
@@ -1563,6 +1573,10 @@
       if (isOpen) return;
       isOpen = true;
       lastFocus = document.activeElement;
+      const resumeImage = modal.querySelector(".resume-sheet-preview img[data-src]");
+      if (resumeImage && !resumeImage.hasAttribute("src")) {
+        resumeImage.src = resumeImage.dataset.src;
+      }
       card.classList.add("is-opening");
       if (reducedMotion) {
         showModal();
