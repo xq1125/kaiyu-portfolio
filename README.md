@@ -4,7 +4,7 @@ Live site: **https://xq1125.github.io/kaiyu-portfolio/**
 
 A hand-built, dependency-free portfolio for game visual, AIGC film, UI/UX, 3D, IP and personal experiments. The art direction is a black-and-deep-red private view: near-black rooms, bone Songti, vermilion accents, a matted game key-art print and full-bleed work sheets. No dark-neon template, no external fonts, no tracking.
 
-**32 pieces · 6 chapters · 12 films · 1 fragment game.**
+**34 pieces · 6 chapters · 14 films · 1 fragment game.**
 
 ## Run locally
 
@@ -43,12 +43,12 @@ assets/video/              Compressed H.264 films (faststart)
 - **Click gate** — the darkroom loader fills to 100%, then waits. It does not auto-enter: the visitor presses the red **点击进入 / ENTER** button (or clicks anywhere on the ready loader) to reveal the homepage. Keyboard focus lands on the button, and the loader is removed only after that click.
 - **Hero poke board** — the hero’s single print is now six numbered red tickets in a dark frame, one for each chapter. The first click on a ticket peels it back to that chapter’s cover with a short red sweep and ring; a second click opens the chapter. At most two tickets stay open, so opening a third sends the earliest one back down; `全部盖上` resets the set and the counter tracks `00 / 02`.
 - **One-page catalogue** — six wide flip cards in a 3 × 2 grid that still fits one desktop screen. At rest the cards show their backs: chapter number, title, counts and a ghosted English label. Hovering or keyboard-focusing one card flips only that card to its cover; touch screens show the covers directly. Each card states its film count and links to its chapter.
-- **Chapter pages** — every catalogue row and every hero ticket open `chapter.html?c=…`. A chapter shows every plate at full width / two columns first, then its films as native HTML5 players, with previous/next chapter links. This is where the actual work and all videos live; there is no separate all-films page.
+- **Chapter pages** — every catalogue row and every hero ticket open `chapter.html?c=…`. A chapter shows every plate at full width / two columns first, then its films as native HTML5 players, with previous/next chapter links. This is where the actual work and all videos live; there is no separate all-films page. Chapter 06 also has two live-site cards: the screenshot itself links to the live URL, with a small `访问网站` badge, and each site has a silent demo reel in the film strip.
 - **Artist card** — the about portrait is a deliberate flip card: the front is a smaller, transparent cutout of the drawn portrait with no paper backing, and the back is a short statement on black. Click to turn it over; the state is exposed with `aria-pressed`.
 - **CV folder** — the small red card under the portrait opens the public PDF resume in a new tab; it replaces the old “currently” sticky note.
 - **Opening reveal** — the hero headline masks up once the loader clears. A single transition, not a sequence of effects.
 - **Work lightbox** — on chapter pages, clicking any plate opens the full-resolution image; `Esc`, the close button or the backdrop closes it. The link still falls back to the image file if JavaScript is unavailable.
-- **Fragment game** — “这是哪一章的碎片？” A five-round game built from real close-ups of the 32 plates. Guess the chapter, reveal the full work, then open it directly in the lightbox. It opens from a small “猜碎片” tab in the header into a compact dark popup, not a page section.
+- **Fragment game** — “这是哪一章的碎片？” A five-round game built from real close-ups of the 34 plates. Guess the chapter, reveal the full work, then open it directly in the lightbox. It opens from a small “猜碎片” tab in the header into a compact dark popup, not a page section.
 - **Contact postcard** — the email is click-to-copy, phone opens the dialer, and QQ / WeChat copy with a toast. The “聊聊合作或实习” link in the about block jumps straight to this contact room.
 - **Chapter cursor** — on fine-pointer devices every chapter page replaces the hidden native pointer with a drawn bone-and-red arrow. A thin red ring trails it, interactive elements turn the arrow red, and each click sends out a short expanding ripple; touch devices keep the native cursor.
 - **Small things** — custom red cursor labels, live Hangzhou clock, scroll reveals, mobile menu, keyboard focus states.
@@ -64,7 +64,7 @@ assets/video/              Compressed H.264 films (faststart)
 
 ## Video map
 
-The twelve films from the Feishu `视频作品集` are placed as follows:
+The twelve films from the Feishu `视频作品集` are placed as follows, plus two silent demo reels recorded from the live websites:
 
 | Feishu position | Site plate | Local film |
 | --- | --- | --- |
@@ -80,6 +80,8 @@ The twelve films from the Feishu `视频作品集` are placed as follows:
 | 动画研讨会 / 动画作品集 | 06 · 动画研讨会 | `animation-reel.mp4` |
 | AE动效视频 / 二十四节气 | 06 · 二十四节气 | `solar-terms.mp4` |
 | TouchDesigner / 交互设计衍生 | 06 · TouchDesigner 交互衍生 | `touchdesigner.mp4` |
+| Self-designed site | 06 · 黑洞便利店 | `blackhole-demo.mp4` |
+| Self-designed site | 06 · 豆季 · 手工精品咖啡 | `coffee-demo.mp4` |
 
 The Feishu `开始动画（东方纹章录）` entry is the same 224 MB `unity游戏demo.mp4` as the demo entry, so it is represented once rather than uploading a duplicate file.
 

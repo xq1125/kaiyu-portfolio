@@ -90,15 +90,17 @@
     const workTotal = category.plates.length;
     workGrid.classList.toggle("is-even-grid", workTotal > 2 && workTotal % 2 === 0);
     workGrid.innerHTML = category.plates
-      .map(
-        (plate, index) => `
-          <a class="chapter-work" href="assets/img/full/${esc(plate.id)}.webp"
+      .map((plate, index) => {
+        const isSite = Boolean(plate.site);
+        const cardHref = isSite ? esc(plate.site) : `assets/img/full/${esc(plate.id)}.webp`;
+        return `
+          <a class="chapter-work${isSite ? " chapter-work--site" : ""}" href="${cardHref}"
              target="_blank" rel="noopener"
-             data-lightbox
+             ${isSite ? "" : "data-lightbox"}
              data-title="${esc(plate.title)}"
              data-role="${esc(plate.role)}"
              data-index="${pad(index + 1)} / ${pad(category.plates.length)}"
-             aria-label="查看大图：${esc(plate.title)}，${esc(plate.role)}">
+             aria-label="${isSite ? "访问网站" : "查看大图"}：${esc(plate.title)}，${esc(plate.role)}">
             <figure>
               <span class="chapter-work-photo">
                 <img src="assets/img/wide/${esc(plate.id)}.webp"
@@ -107,6 +109,7 @@
                      width="1800" height="636"
                      alt="${esc(plate.title)} — ${esc(plate.role)}"
                      loading="lazy" decoding="async">
+                ${isSite ? '<span class="site-badge">访问网站 ↗</span>' : ""}
               </span>
               <figcaption>
                 <span class="work-index">${pad(index + 1)} / ${pad(category.plates.length)}</span>
@@ -115,8 +118,8 @@
               </figcaption>
             </figure>
           </a>
-        `
-      )
+        `;
+      })
       .join("");
   }
 

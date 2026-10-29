@@ -129,7 +129,7 @@ window.PORTFOLIO = (() => {
       accent: "#466b86",
       soft: "#e2ebf0",
       cover: "assets/img/covers/card-lab.webp",
-      desc: "不被定义的练习：分镜、动效和一点点交互胡闹。比起正确答案，更想保留好奇心。",
+      desc: "不被定义的练习：分镜、动效、网页和一点点交互胡闹。比起正确答案，更想保留好奇心。",
       tags: ["Motion", "Storyboard", "Interaction", "Experiment"],
       noteTitle: "草稿里藏着最好玩的部分",
       note: "这些作品不一定“完整”，但它们都很诚实。是我在正式项目之外，自己跟自己玩的证据。",
@@ -143,6 +143,12 @@ window.PORTFOLIO = (() => {
         { id: "6-3", title: "情绪可视化", role: "电话手表交互实验 / INTERACTION" },
         { id: "6-4", title: "TouchDesigner 交互衍生", role: "实时生成视觉 / REAL-TIME VISUAL · 2026", videos: [
           { label: "交互衍生", src: "assets/video/touchdesigner.mp4", poster: "assets/img/video/touchdesigner.webp", duration: "0:15" }
+        ] },
+        { id: "6-5", title: "黑洞便利店", role: "个人品牌网站 / WEB DESIGN · 2026", site: "https://xq1125.github.io/blackhole-mart/#community", videos: [
+          { label: "网站演示", src: "assets/video/blackhole-demo.mp4", poster: "assets/img/video/blackhole-demo.webp", duration: "0:10" }
+        ] },
+        { id: "6-6", title: "豆季 · 手工精品咖啡", role: "咖啡品牌网站 / WEB DESIGN · 2026", site: "https://xq1125.github.io/coffee-website/", videos: [
+          { label: "网站演示", src: "assets/video/coffee-demo.mp4", poster: "assets/img/video/coffee-demo.webp", duration: "0:11" }
         ] }
       ]
     }

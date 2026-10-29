@@ -7042,6 +7042,43 @@ html {
   transform: scale(1.012);
 }
 
+.chapter-work--site .chapter-work-photo {
+  position: relative;
+  aspect-ratio: 1800 / 636;
+}
+
+.chapter-work--site .chapter-work-photo img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.site-badge {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 10px;
+  border: 1px solid rgba(242, 231, 216, .36);
+  background: rgba(11, 8, 7, .82);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 7px;
+  letter-spacing: .08em;
+  line-height: 1;
+  text-decoration: none;
+  transition: background .25s, border-color .25s, transform .35s var(--ease);
+  backdrop-filter: blur(6px);
+}
+
+.chapter-work--site:hover .site-badge {
+  border-color: var(--red);
+  background: var(--red-deep);
+  transform: translateY(-2px);
+}
+
 .chapter-work figcaption {
   display: grid;
   grid-template-columns: 44px minmax(0, 1fr) auto;
