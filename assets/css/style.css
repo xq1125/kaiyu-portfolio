@@ -6883,6 +6883,12 @@ html {
   line-height: .95;
 }
 
+[data-chapter="ip"] .chapter-title-wrap h1 {
+  font-size: clamp(44px, 6.2vw, 104px);
+  letter-spacing: -.08em;
+  white-space: nowrap;
+}
+
 .chapter-hand {
   margin-top: 15px;
   color: var(--red);
