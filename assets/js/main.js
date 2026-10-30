@@ -1921,6 +1921,33 @@
     mascot.classList.add("is-visible");
   }
 
+  function initMascotHearts() {
+    const bubble = $("#mascotBubble");
+    if (!bubble) return;
+
+    const colors = ["#dd5b4b", "#ef8a7c", "#f0c35a", "#f6e3c4"];
+    bubble.addEventListener("click", (event) => {
+      event.stopPropagation();
+      bubble.classList.remove("is-loved");
+      void bubble.offsetWidth;
+      bubble.classList.add("is-loved");
+      window.setTimeout(() => bubble.classList.remove("is-loved"), 360);
+      if (prefersReduced) return;
+
+      const count = 7 + Math.floor(Math.random() * 5);
+      for (let index = 0; index < count; index += 1) {
+        const heart = document.createElement("i");
+        heart.className = "mascot-heart";
+        heart.style.left = `${8 + Math.random() * 82}%`;
+        heart.style.setProperty("--drift", `${(Math.random() * 2 - 1) * 28}px`);
+        heart.style.setProperty("--heart", colors[index % colors.length]);
+        heart.style.animationDelay = `${index * 38 + Math.random() * 40}ms`;
+        bubble.appendChild(heart);
+        window.setTimeout(() => heart.remove(), 1600);
+      }
+    });
+  }
+
   function initResumeEnvelope() {
     const card = $("#resumeCard");
     const modal = $("#resumeModal");
@@ -2245,6 +2272,7 @@
   initChapterReader();
   initPortraitScratch();
   initDesktopMascot();
+  initMascotHearts();
   initResumeEnvelope();
   initTouchFeedback();
   initEmailCopy();

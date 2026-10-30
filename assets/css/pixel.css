@@ -5028,3 +5028,66 @@ body.peek-open .px-taskbar {
     animation: none;
   }
 }
+
+/* HELLO bubble: clickable, with pixel hearts. */
+.mascot-bubble {
+  pointer-events: auto;
+  cursor: pointer;
+  appearance: none;
+  font: inherit;
+}
+
+.mascot-bubble:hover {
+  filter: brightness(1.04);
+}
+
+.mascot-bubble:focus-visible {
+  outline: 2px dashed var(--px-red);
+  outline-offset: 4px;
+}
+
+.mascot-bubble.is-loved {
+  animation: mascotLovePop .34s steps(3, end);
+}
+
+.mascot-heart {
+  position: absolute;
+  z-index: 5;
+  bottom: 100%;
+  width: 3px;
+  height: 3px;
+  color: var(--heart, #dd5b4b);
+  background: currentColor;
+  box-shadow:
+    3px 0 0 currentColor, 9px 0 0 currentColor,
+    0 3px 0 currentColor, 3px 3px 0 currentColor, 6px 3px 0 currentColor, 9px 3px 0 currentColor, 12px 3px 0 currentColor,
+    0 6px 0 currentColor, 3px 6px 0 currentColor, 6px 6px 0 currentColor, 9px 6px 0 currentColor, 12px 6px 0 currentColor,
+    3px 9px 0 currentColor, 6px 9px 0 currentColor, 9px 9px 0 currentColor,
+    6px 12px 0 currentColor;
+  pointer-events: none;
+  animation: mascotHeartFloat 1.3s steps(11, end) forwards;
+}
+
+@keyframes mascotLovePop {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
+@keyframes mascotHeartFloat {
+  0% { opacity: 0; transform: translate(0, 0) scale(.55); }
+  12% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--drift, 0), -78px) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mascot-bubble,
+  .mascot-bubble.is-loved,
+  .mascot-heart {
+    animation: none;
+  }
+}
+
+.mascot-bubble .mascot-heart {
+  color: var(--heart, #dd5b4b);
+}
