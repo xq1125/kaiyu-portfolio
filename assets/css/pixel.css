@@ -3529,3 +3529,141 @@ body.peek-open .px-taskbar {
 .honor-note--wide p:last-child {
   text-wrap: pretty;
 }
+
+/* --------------------------------------------------------------------------
+   Desktop mascot — waving from the teal gutter beside EXPLORER.EXE
+   -------------------------------------------------------------------------- */
+
+.desktop-mascot {
+  position: fixed;
+  z-index: 900;
+  top: clamp(58px, 7vh, 78px);
+  left: max(10px, calc((100vw - 1500px) / 2 - 190px));
+  width: min(170px, calc((100vw - 1500px) / 2 - 20px));
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity .3s steps(4, end), transform .3s steps(4, end);
+}
+
+.desktop-mascot.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mascot-bubble {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  width: 100%;
+  padding: 5px 4px 4px;
+  border: 2px solid;
+  border-color: var(--px-face-hi) var(--px-face-lo) var(--px-face-lo) var(--px-face-hi);
+  background: var(--px-face);
+  box-shadow: 3px 3px 0 var(--px-shadow);
+  text-align: center;
+  animation: mascotBubble 2.4s steps(2, end) infinite;
+}
+
+.mascot-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -7px;
+  left: 48%;
+  width: 6px;
+  height: 6px;
+  border-right: 2px solid var(--px-face-lo);
+  border-bottom: 2px solid var(--px-face-lo);
+  background: var(--px-face);
+  transform: rotate(45deg);
+}
+
+.mascot-bubble b {
+  color: var(--px-ink);
+  font-family: var(--px-en);
+  font-size: 8px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.mascot-bubble i {
+  color: var(--px-red);
+  font-size: 10px;
+  font-style: normal;
+  line-height: 1;
+}
+
+.mascot-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 8px;
+  filter: drop-shadow(4px 4px 0 rgba(0, 0, 0, .25));
+}
+
+.mascot-arm {
+  transform-box: fill-box;
+  transform-origin: 18% 90%;
+  animation: mascotWave 1.7s steps(4, end) infinite;
+}
+
+.mascot-head {
+  transform-box: fill-box;
+  transform-origin: 50% 92%;
+  animation: mascotNod 3.2s steps(3, end) infinite;
+}
+
+.mascot-eyes {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: mascotBlink 4.6s steps(1, end) infinite;
+}
+
+.mascot-tail {
+  transform-box: fill-box;
+  transform-origin: 10% 90%;
+  animation: mascotTail 2.4s steps(3, end) infinite;
+}
+
+@keyframes mascotWave {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(12deg); }
+}
+
+@keyframes mascotNod {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(1.5px); }
+}
+
+@keyframes mascotBlink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  94%, 96% { transform: scaleY(.08); }
+}
+
+@keyframes mascotTail {
+  0%, 100% { transform: rotate(-10deg); }
+  50% { transform: rotate(16deg); }
+}
+
+@keyframes mascotBubble {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+@media (max-width: 1740px) {
+  .desktop-mascot {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mascot-bubble,
+  .mascot-arm,
+  .mascot-head,
+  .mascot-eyes,
+  .mascot-tail {
+    animation: none;
+  }
+}
