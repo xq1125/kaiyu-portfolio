@@ -243,6 +243,12 @@
   };
 
   const installEvents = () => {
+    document.addEventListener("kaiyu:ui", (event) => {
+      const sound = event.detail && event.detail.sound;
+      if (sound === "open") playSfx("open", 0.22);
+      else if (sound === "close") playSfx("close", 0.20);
+    });
+
     const toast = document.querySelector("#toast");
     if (toast) {
       new MutationObserver(() => {

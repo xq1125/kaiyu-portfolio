@@ -155,6 +155,146 @@
     });
   }
 
+  let peek = null;
+  let peekTrigger = null;
+  let peekTimer = 0;
+
+  function ensureChapterPeek() {
+    if (peek) return peek;
+    peek = document.createElement("div");
+    peek.className = "chapter-peek";
+    peek.id = "chapterPeek";
+    peek.setAttribute("role", "dialog");
+    peek.setAttribute("aria-modal", "true");
+    peek.setAttribute("aria-labelledby", "peekTitle");
+    peek.hidden = true;
+    peek.innerHTML = `
+      <div class="peek-scrim" data-peek-close></div>
+      <div class="peek-sheet">
+        <div class="peek-bar">
+          <span class="peek-bar-title">PREVIEW.EXE — CHAPTER PEEK</span>
+          <span class="peek-bar-actions">
+            <a class="peek-jump" href="#" data-peek-jump>完整章节 ↗</a>
+            <button class="peek-close" type="button" data-peek-close>合上 <span>×</span></button>
+          </span>
+        </div>
+        <div class="peek-scroll" id="peekContent"></div>
+      </div>
+    `;
+    document.body.appendChild(peek);
+
+    peek.addEventListener("click", (event) => {
+      if (event.target.closest("[data-peek-close]")) closeChapterPeek();
+    });
+
+    peek.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeChapterPeek();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const focusables = Array.from(
+        peek.querySelectorAll("a[href], button:not([disabled])")
+      ).filter((node) => node.offsetParent !== null);
+      if (!focusables.length) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+
+    return peek;
+  }
+
+  function peekMarkup(category) {
+    const filmCount = category.plates.reduce(
+      (sum, plate) => sum + (Array.isArray(plate.videos) ? plate.videos.length : 0),
+      0
+    );
+    const slices = category.plates.slice(0, 3)
+      .map((plate, index) => `
+        <figure class="peek-slice peek-slice--${index + 1}">
+          <img src="assets/img/thumb/${plate.id}.webp" alt="" width="900" height="318"
+               loading="lazy" decoding="async">
+          <figcaption><span>${pad(index + 1)}</span><b>${plate.title}</b></figcaption>
+        </figure>
+      `)
+      .join("");
+    const toc = category.plates
+      .map((plate, index) => `
+        <li>
+          <span class="peek-toc-num">${pad(index + 1)}</span>
+          <span class="peek-toc-title">${plate.title}</span>
+          <span class="peek-toc-role">${plate.role}</span>
+        </li>
+      `)
+      .join("");
+
+    return `
+      <header class="peek-head">
+        <span class="peek-index">${category.num}</span>
+        <div class="peek-heading">
+          <p class="peek-kicker">${category.en} / ${pad(category.plates.length)} PIECES${filmCount ? ` / ${pad(filmCount)} FILMS` : ""}</p>
+          <h2 id="peekTitle">${category.title}</h2>
+          <p class="peek-desc">${category.desc}</p>
+          <ul class="peek-tags">${category.tags.slice(0, 5).map((tag) => `<li>${tag}</li>`).join("")}</ul>
+        </div>
+      </header>
+
+      <div class="peek-slices">${slices}</div>
+
+      <div class="peek-lower">
+        <section class="peek-toc-wrap" aria-label="本章目录">
+          <div class="peek-section-head"><span>目录 / CONTENTS</span><span>${pad(category.plates.length)} FILES</span></div>
+          <ol class="peek-toc">${toc}</ol>
+        </section>
+        <aside class="peek-note">
+          <span class="peek-note-kicker">A SLICE, NOT THE WHOLE BOOK</span>
+          <p>这里只是这一章的三块切片和目录。完整作品、影像与细节，在章节页里。</p>
+          <a class="peek-cta" href="chapter.html?c=${category.id}">打开完整章节 <span>↗</span></a>
+        </aside>
+      </div>
+    `;
+  }
+
+  function openChapterPeek(category, trigger) {
+    if (!category) return;
+    const dialog = ensureChapterPeek();
+    if (dialog.classList.contains("is-open")) return;
+    window.clearTimeout(peekTimer);
+    peekTrigger = trigger || null;
+    const content = $("#peekContent", dialog);
+    if (content) content.innerHTML = peekMarkup(category);
+    const jump = dialog.querySelector("[data-peek-jump]");
+    if (jump) jump.href = `chapter.html?c=${category.id}`;
+    dialog.hidden = false;
+    document.body.classList.add("peek-open");
+    window.requestAnimationFrame(() => dialog.classList.add("is-open"));
+    const close = dialog.querySelector(".peek-close");
+    if (close) window.setTimeout(() => close.focus({ preventScroll: true }), 60);
+    document.dispatchEvent(new CustomEvent("kaiyu:ui", { detail: { sound: "open" } }));
+  }
+
+  function closeChapterPeek() {
+    if (!peek || peek.hidden) return;
+    peek.classList.remove("is-open");
+    document.body.classList.remove("peek-open");
+    document.dispatchEvent(new CustomEvent("kaiyu:ui", { detail: { sound: "close" } }));
+    const trigger = peekTrigger;
+    peekTrigger = null;
+    window.clearTimeout(peekTimer);
+    peekTimer = window.setTimeout(() => {
+      if (!peek.classList.contains("is-open")) peek.hidden = true;
+      if (trigger && typeof trigger.focus === "function") trigger.focus({ preventScroll: true });
+    }, 180);
+  }
+
   function initHeroBoard() {
     const board = $("#heroBoard");
     const grid = $("#heroBoardGrid");
@@ -171,8 +311,8 @@
         const mobileCover = category.cover.replace("/covers/", "/covers/mobile/");
         return `
           <a class="hero-cell" href="chapter.html?c=${category.id}"
-             data-hero-cell data-title="${category.title}"
-             aria-label="揭开章节：${category.title}">
+             data-hero-cell data-chapter="${category.id}" data-title="${category.title}"
+             aria-label="揭开章节预览：${category.title}">
             <span class="hero-cell-back" aria-hidden="true">
               <span class="hero-cell-top"><span>CH. ${category.num}</span><span>${count}</span></span>
               <span class="hero-cell-name">${category.title}</span>
@@ -187,7 +327,7 @@
               <span class="hero-cell-meta">
                 <b>${category.title}</b>
                 <em>${pad(category.plates.length)} PIECES${filmCount ? ` · ${filmCount} ${filmWord}` : ""}</em>
-                <span>再点进入 ↗</span>
+                <span>查看预览 ↗</span>
               </span>
             </span>
           </a>
@@ -204,7 +344,7 @@
 
     const closeCell = (cell) => {
       cell.classList.remove("is-revealed", "is-opening");
-      cell.setAttribute("aria-label", `揭开章节：${cell.dataset.title}`);
+      cell.setAttribute("aria-label", `揭开章节预览：${cell.dataset.title}`);
       const index = openCells.indexOf(cell);
       if (index !== -1) openCells.splice(index, 1);
     };
@@ -214,9 +354,9 @@
       if (count) count.textContent = `${pad(open)} / 02`;
       if (note) {
         note.textContent = open === 2
-          ? "再点一张，会收起最早的一张"
+          ? "再点一张，切换章节预览"
           : open === 1
-            ? "还能再翻开一张"
+            ? "再点一次，打开章节切片"
             : "最多同时翻开两张";
       }
       if (reset) reset.disabled = open === 0;
@@ -230,16 +370,18 @@
         event.preventDefault();
         if (openCells.length >= 2) closeCell(openCells[0]);
         cell.classList.add("is-revealed", "is-opening");
-        cell.setAttribute("aria-label", `已揭开章节：${cell.dataset.title}，点击进入`);
+        cell.setAttribute("aria-label", `打开《${cell.dataset.title}》章节预览`);
         openCells.push(cell);
         window.setTimeout(() => cell.classList.remove("is-opening"), 650);
         paint();
         if (coarsePointer) {
-          window.setTimeout(() => {
-            window.location.href = cell.href;
-          }, 380);
+          const category = categoryById.get(cell.dataset.chapter);
+          window.setTimeout(() => openChapterPeek(category, cell), 260);
         }
+        return;
       }
+      event.preventDefault();
+      openChapterPeek(categoryById.get(cell.dataset.chapter), cell);
     });
 
     if (reset) {
