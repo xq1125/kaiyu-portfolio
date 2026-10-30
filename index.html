@@ -18,7 +18,7 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <script>document.documentElement.classList.add('js');</script>
   <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/pixel.css?v=7">
+  <link rel="stylesheet" href="assets/css/pixel.css?v=8">
   <noscript><style>.loader{display:none!important}body.is-loading{overflow:auto!important}</style></noscript>
 </head>
 <body class="is-loading">
@@ -207,9 +207,11 @@
       <div class="about-grid">
         <div class="about-left">
           <div class="about-card" data-reveal>
-            <button class="about-flip" id="aboutFlip" type="button" aria-pressed="false" aria-label="翻转艺术家卡片，查看背面">
+            <button class="about-flip" id="aboutFlip" type="button" aria-pressed="false" aria-label="移动到插画上可擦除，点击翻面查看艺术家卡片">
               <span class="about-face about-face--front">
-                <img src="assets/img/about/portrait-cutout.webp" alt="郑铠妤的插画头像" width="705" height="825" loading="lazy" decoding="async">
+                <img class="about-photo" src="assets/img/about/portrait-photo.webp" alt="" width="1440" height="1080" loading="lazy" decoding="async">
+                <img class="about-ink" src="assets/img/about/portrait-cutout.webp" alt="郑铠妤的插画头像" width="705" height="825" loading="lazy" decoding="async">
+                <canvas class="about-scratch" aria-hidden="true"></canvas>
                 <span class="about-face-caption"><span>me, drawn by me</span><span>2026</span></span>
               </span>
               <span class="about-face about-face--back" aria-hidden="true">
@@ -219,7 +221,7 @@
                 <span class="about-back-hint">再次翻面 ↻</span>
               </span>
             </button>
-            <p class="about-flip-hint">点击翻面 <span>FLIP CARD</span></p>
+            <p class="about-flip-hint">移动擦除 · 点击翻面 <span>SCRATCH / FLIP CARD</span></p>
           </div>
 
           <a class="resume-card" id="resumeCard" href="assets/resume/resume.webp" data-reveal data-cursor="打开信封" aria-label="打开郑铠妤的简历信封">
@@ -503,6 +505,6 @@
   <script src="assets/js/pixel.js?v=1" defer></script>
   <script src="assets/js/audio.js?v=2" defer></script>
   <script src="assets/js/data.js" defer></script>
-  <script src="assets/js/main.js?v=3" defer></script>
+  <script src="assets/js/main.js?v=4" defer></script>
 </body>
 </html>

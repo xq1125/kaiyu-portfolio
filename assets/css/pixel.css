@@ -3437,3 +3437,62 @@ body.peek-open .px-taskbar {
 .resume-card.is-opening .resume-wax {
   transform: rotate(25deg) scale(.6);
 }
+
+/* Hover-erased artist portrait: paper and ink hide a real photo underneath. */
+.about-face--front .about-photo {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  max-height: none !important;
+  margin: 0 !important;
+  object-fit: cover;
+  object-position: 72% 38%;
+  opacity: 0;
+  filter: none !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+  image-rendering: auto !important;
+}
+
+.about-scratch {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: none;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.about-face--front .about-ink {
+  position: relative;
+  z-index: 2;
+}
+
+.about-face-caption {
+  position: relative;
+  z-index: 3;
+}
+
+.about-card.is-scratch-ready .about-photo {
+  opacity: 1;
+}
+
+.about-card.is-scratch-ready .about-scratch {
+  display: block;
+  opacity: 1;
+}
+
+.about-card.is-scratch-ready .about-ink {
+  opacity: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .about-card.is-scratch-ready .about-face--front {
+    cursor: crosshair;
+  }
+}

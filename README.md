@@ -37,7 +37,7 @@ assets/img/full/           1800–2800px WebP plates (desktop chapter lightbox)
 assets/img/covers/         Hero and chapter-cover crops
 assets/img/covers/mobile/  720 px cover crops served to phones
 assets/img/video/          Video poster frames
-assets/img/about/          Illustrated portrait and its transparent cutout
+assets/img/about/          Illustrated portrait, its cutout, and the real photo beneath
 assets/img/loader-cover.webp  Original opening cover, framed as a CRT on desktop
 assets/img/loader-cover-mobile.webp  Portrait crop of the original cover for phones
 assets/img/og-cover.jpg    1200 × 630 social card
@@ -51,7 +51,7 @@ assets/video/              Compressed H.264 films (faststart)
 - **Hero folder shortcuts** — the six numbered chapter shortcuts are beige desktop folders in a small explorer window. Hovering reveals the cover; a second click (or the first tap on touch) opens `PREVIEW.EXE`, a compact window with three cropped work slices, the full chapter contents list and a jump to the complete chapter. The preview never loads the whole chapter, so it does not duplicate the six catalogue books below. At most two folders stay open, and `全部盖上` resets the set.
 - **One-page catalogue** — six cover cards are framed as file windows with a `C:\KAIYU\WORKS` title strip. Hovering or keyboard-focusing a card turns it over with a stepped 3D flip and a red scanline sweep, revealing a beige chapter card on the back. Touch layouts get a small `↻` window button on each card; tapping it pins the back, and tapping the card itself still opens the chapter.
 - **Chapter pages** — every catalogue card opens `chapter.html?c=…`; hero folders open the small preview first, with its own **打开完整章节** link. A chapter shows every plate as an image-viewer window, then its films as beveled video players, with previous/next chapter buttons. This is where the actual work and all videos live; there is no separate all-films page. Chapter 06 also has two live-site windows: the screenshot itself links to the live URL, with a small `访问网站` badge, and each site has a silent demo reel in the film strip.
-- **Artist card** — the about portrait is still a flip card, but framed as a computer monitor; the front is the drawn portrait and the back is a short statement. Click to turn it over; the state is exposed with `aria-pressed`.
+- **Artist card** — the about portrait is a flip card framed as a computer monitor. On a mouse, the front is a scratch-off: moving across the paper-and-ink canvas erases it to reveal the real photo underneath, and leaving the card restores the illustration. Click still turns the card over to its short statement; the state is exposed with `aria-pressed`. Touch layouts keep the drawn portrait and use the click-to-flip behaviour.
 - **CV dialog** — the small red CV card opens the actual CV image in a `RESUME.PNG` window. There is no PDF link and no download button. The image is loaded only when the dialog opens.
 - **Opening reveal** — the hero headline unmasks in a short stepped animation once the boot screen clears.
 - **Work lightbox** — on chapter pages, clicking any plate opens the full-resolution image in a viewer window; `Esc`, the close button or the backdrop closes it. The link still falls back to the image file if JavaScript is unavailable.

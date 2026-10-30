@@ -1678,9 +1678,167 @@
       const flipped = card.classList.toggle("is-flipped");
       card.setAttribute("aria-pressed", String(flipped));
       if (hint && hint.firstChild) {
-        hint.firstChild.textContent = flipped ? "再次翻面 " : "点击翻面 ";
+        hint.firstChild.textContent = flipped ? "再次翻面 " : "移动擦除 · 点击翻面 ";
       }
     });
+  }
+
+  function initPortraitScratch() {
+    const flip = $("#aboutFlip");
+    if (!flip) return;
+    const card = flip.closest(".about-card") || flip;
+    const face = flip.querySelector(".about-face--front");
+    const canvas = flip.querySelector(".about-scratch");
+    const ink = flip.querySelector(".about-ink");
+    if (!face || !canvas || !ink) return;
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let width = 1;
+    let height = 1;
+    let dpr = 1;
+    let ready = false;
+    let last = null;
+    let resizeTimer = 0;
+
+    const brushSize = () => Math.max(20, Math.min(52, width * 0.105));
+
+    const paperColor = () => {
+      const color = getComputedStyle(card).backgroundColor;
+      return color && color !== "rgba(0, 0, 0, 0)" ? color : "#d7ceb3";
+    };
+
+    const paint = () => {
+      if (!ink.complete || !ink.naturalWidth) return false;
+      const rect = face.getBoundingClientRect();
+      width = Math.max(1, Math.round(rect.width));
+      height = Math.max(1, Math.round(rect.height));
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      const pixelWidth = Math.round(width * dpr);
+      const pixelHeight = Math.round(height * dpr);
+      if (canvas.width !== pixelWidth || canvas.height !== pixelHeight) {
+        canvas.width = pixelWidth;
+        canvas.height = pixelHeight;
+      }
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.globalCompositeOperation = "source-over";
+      ctx.clearRect(0, 0, width, height);
+
+      const paper = paperColor();
+      ctx.fillStyle = paper;
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.fillStyle = "rgba(0, 0, 0, .028)";
+      for (let y = 2; y < height; y += 3) ctx.fillRect(0, y, width, 1);
+
+      const inkX = ink.offsetLeft;
+      const inkY = ink.offsetTop;
+      const inkW = ink.offsetWidth;
+      const inkH = ink.offsetHeight;
+
+      ctx.save();
+      ctx.imageSmoothingEnabled = false;
+      ctx.shadowColor = "rgba(0, 0, 0, .52)";
+      ctx.shadowBlur = Math.max(10, width * 0.05);
+      ctx.shadowOffsetY = Math.max(8, width * 0.035);
+      ctx.drawImage(ink, inkX, inkY, inkW, inkH);
+      ctx.restore();
+
+      const rgb = paper.match(/\d+/g);
+      if (rgb && rgb.length >= 3) {
+        const fade = Math.min(inkH * 0.13, 42);
+        const gradient = ctx.createLinearGradient(0, inkY + inkH - fade, 0, inkY + inkH);
+        gradient.addColorStop(0, `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0)`);
+        gradient.addColorStop(1, `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 1)`);
+        ctx.fillStyle = gradient;
+        ctx.fillRect(inkX, inkY + inkH - fade, inkW, fade);
+      }
+
+      canvas.classList.add("is-painted");
+      card.classList.add("is-scratch-ready");
+      ready = true;
+      return true;
+    };
+
+    const point = (event) => {
+      const rect = canvas.getBoundingClientRect();
+      return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top
+      };
+    };
+
+    const stamp = (x, y) => {
+      const radius = brushSize();
+      const gradient = ctx.createRadialGradient(x, y, radius * 0.12, x, y, radius);
+      gradient.addColorStop(0, "rgba(0, 0, 0, 1)");
+      gradient.addColorStop(0.7, "rgba(0, 0, 0, .96)");
+      gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+      ctx.save();
+      ctx.globalCompositeOperation = "destination-out";
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(x, y, radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    };
+
+    const eraseTo = (x, y) => {
+      if (!last) {
+        stamp(x, y);
+        last = { x, y };
+        return;
+      }
+      const radius = brushSize();
+      const dx = x - last.x;
+      const dy = y - last.y;
+      const steps = Math.max(1, Math.ceil(Math.hypot(dx, dy) / (radius * 0.35)));
+      for (let step = 1; step <= steps; step += 1) {
+        stamp(last.x + (dx * step) / steps, last.y + (dy * step) / steps);
+      }
+      last = { x, y };
+    };
+
+    const isFinePointer = (event) =>
+      !event.pointerType || event.pointerType === "mouse" || event.pointerType === "pen";
+
+    face.addEventListener("pointerenter", (event) => {
+      if (!ready || !isFinePointer(event) || flip.classList.contains("is-flipped")) return;
+      last = null;
+      const { x, y } = point(event);
+      eraseTo(x, y);
+    });
+
+    face.addEventListener("pointermove", (event) => {
+      if (!ready || !isFinePointer(event) || flip.classList.contains("is-flipped")) return;
+      const { x, y } = point(event);
+      eraseTo(x, y);
+    });
+
+    face.addEventListener("pointerleave", () => {
+      last = null;
+      if (ready) paint();
+    });
+
+    flip.addEventListener("click", () => {
+      window.setTimeout(() => {
+        if (ready) paint();
+      }, 360);
+    });
+
+    window.addEventListener("resize", () => {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => {
+        if (ready) paint();
+      }, 160);
+    });
+
+    if (ink.complete && ink.naturalWidth) paint();
+    else ink.addEventListener("load", paint, { once: true });
   }
 
   function initTouchFeedback() {
@@ -1977,6 +2135,7 @@
   initFragmentGame();
   initChapterReader();
   initAboutFlip();
+  initPortraitScratch();
   initResumeEnvelope();
   initTouchFeedback();
   initEmailCopy();
