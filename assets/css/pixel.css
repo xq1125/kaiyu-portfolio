@@ -4802,10 +4802,10 @@ body.peek-open .px-taskbar {
 
 .mascot-hand-art {
   position: absolute;
-  right: -12%;
-  bottom: 32%;
+  right: -5%;
+  bottom: 12%;
   left: auto;
-  width: 43%;
+  width: 33%;
   height: auto;
   image-rendering: pixelated;
   transform-origin: 50% 90%;
@@ -5614,4 +5614,15 @@ body.peek-open .px-taskbar {
   .loader-familiar {
     display: none;
   }
+}
+
+/* Lift the mascot clear of the taskbar so the shoulder and paw stay visible. */
+.desktop-mascot {
+  bottom: 44px;
+}
+
+.mascot-hand-art {
+  right: -4%;
+  bottom: 10%;
+  width: 31%;
 }
