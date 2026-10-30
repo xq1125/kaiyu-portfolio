@@ -2449,25 +2449,25 @@
     }
 
     const params = new URLSearchParams(window.location.search);
-    let returning = params.get("from") === "chapter";
-    try {
-      returning = returning || sessionStorage.getItem("kaiyu-entered") === "1";
-    } catch (error) {
-      /* Storage can be unavailable in private modes; the query still works. */
-    }
+    const returning = params.get("from") === "chapter";
 
     if (returning) {
+      /* Consume the return flag so a later refresh boots through the loader again. */
+      const cleanUrl = `${window.location.pathname}${window.location.hash}`;
+      try {
+        window.history.replaceState(window.history.state, "", cleanUrl);
+      } catch (error) {
+        /* A clean URL is nice but not required. */
+      }
       loader.remove();
       doc.body.classList.remove("is-loading");
       doc.body.classList.add("is-ready");
-      if (params.get("from") === "chapter" || window.location.hash) {
-        window.setTimeout(() => {
-          const hash = window.location.hash;
-          const target =
-            hash && hash !== "#works" ? document.querySelector(hash) : $("#heroBoard");
-          target?.scrollIntoView({ block: "center", behavior: "auto" });
-        }, 60);
-      }
+      window.setTimeout(() => {
+        const hash = window.location.hash;
+        const target =
+          hash && hash !== "#works" ? document.querySelector(hash) : $("#heroBoard");
+        target?.scrollIntoView({ block: "center", behavior: "auto" });
+      }, 60);
       return;
     }
 
@@ -2513,11 +2513,6 @@
     const enter = () => {
       if (!ready || exiting) return;
       exiting = true;
-      try {
-        sessionStorage.setItem("kaiyu-entered", "1");
-      } catch (error) {
-        /* Storage is optional. */
-      }
       if (enterButton) enterButton.disabled = true;
       loader.classList.add("is-done");
       loader.setAttribute("aria-label", "正在进入作品集");
