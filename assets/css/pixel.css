@@ -6327,15 +6327,19 @@ body.resume-open .paper-grain {
   display: none;
 }
 
-/* A slow, soft idle sway on the CV envelope; hover still lifts the card. */
+/* The contact postcard sways gently on its own; hovering steadies it. */
 @media (prefers-reduced-motion: no-preference) {
-  .resume-card:not(.is-opening) {
-    animation: letterIdle 4.8s ease-in-out infinite;
+  .postcard {
+    animation: postcardIdle 5.6s ease-in-out infinite;
   }
 }
 
-@keyframes letterIdle {
+.postcard:hover {
+  animation: none;
+}
+
+@keyframes postcardIdle {
   0%, 100% { rotate: 0deg; }
-  25% { rotate: -.5deg; }
-  75% { rotate: .5deg; }
+  25% { rotate: -.45deg; }
+  75% { rotate: .45deg; }
 }
