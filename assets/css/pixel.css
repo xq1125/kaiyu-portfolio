@@ -4519,3 +4519,16 @@ body.peek-open .px-taskbar {
     animation: none;
   }
 }
+
+@media (max-width: 600px) {
+  .loader-enter {
+    bottom: auto;
+    margin-bottom: 18px;
+  }
+}
+
+@media (max-width: 600px) {
+  .loader-enter {
+    margin-top: 8px;
+  }
+}
