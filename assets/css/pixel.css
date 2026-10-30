@@ -4545,3 +4545,9 @@ body.peek-open .px-taskbar {
     display: none !important;
   }
 }
+
+/* The portrait is scratchable with a finger as well as a mouse. */
+.about-card.is-scratch-ready .about-face--front,
+.about-card.is-scratch-ready .about-scratch {
+  touch-action: none;
+}

@@ -1687,10 +1687,14 @@
     if (!card) return;
     const hint = $(".about-flip-copy");
     const toggle = $("#aboutFaceToggle");
+    const coarse = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+    const idleCopy = coarse ? "手指擦除 · 轻点翻面" : "拖动擦除 · 点击翻面";
+    const backCopy = coarse ? "轻点翻回正面 · 可继续擦除" : "点击翻回正面 · 可继续擦除";
+    if (hint) hint.textContent = idleCopy;
     const setFlipped = (flipped) => {
       card.classList.toggle("is-flipped", flipped);
       card.setAttribute("aria-pressed", String(flipped));
-      if (hint) hint.textContent = flipped ? "点击翻回正面 · 可继续擦除" : "移动擦除 · 点击翻面";
+      if (hint) hint.textContent = flipped ? backCopy : idleCopy;
       if (toggle) {
         toggle.textContent = flipped ? "看正面" : "看背面";
         toggle.setAttribute("aria-pressed", String(flipped));
@@ -1716,7 +1720,6 @@
     const canvas = flip.querySelector(".about-scratch");
     const ink = flip.querySelector(".about-ink");
     if (!face || !canvas || !ink) return;
-    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
@@ -1727,6 +1730,8 @@
     let ready = false;
     let last = null;
     let resizeTimer = 0;
+    let touchScratch = null;
+    let suppressClickUntil = 0;
 
     const brushSize = () => Math.max(20, Math.min(52, width * 0.105));
 
@@ -1838,6 +1843,20 @@
     const isFinePointer = (event) =>
       !event.pointerType || event.pointerType === "mouse" || event.pointerType === "pen";
 
+    face.addEventListener("pointerdown", (event) => {
+      if (!ready || isFinePointer(event) || flip.classList.contains("is-flipped")) return;
+      touchScratch = {
+        id: event.pointerId,
+        x: event.clientX,
+        y: event.clientY,
+        moved: false
+      };
+      last = null;
+      if (typeof face.setPointerCapture === "function") {
+        face.setPointerCapture(event.pointerId);
+      }
+    });
+
     face.addEventListener("pointerenter", (event) => {
       if (!ready || !isFinePointer(event) || flip.classList.contains("is-flipped")) return;
       last = null;
@@ -1846,12 +1865,55 @@
     });
 
     face.addEventListener("pointermove", (event) => {
-      if (!ready || !isFinePointer(event) || flip.classList.contains("is-flipped")) return;
+      if (!ready || flip.classList.contains("is-flipped")) return;
+
+      if (isFinePointer(event)) {
+        const { x, y } = point(event);
+        eraseTo(x, y);
+        return;
+      }
+
+      if (!touchScratch || touchScratch.id !== event.pointerId) return;
+      const dx = event.clientX - touchScratch.x;
+      const dy = event.clientY - touchScratch.y;
+      if (!touchScratch.moved && Math.hypot(dx, dy) < 6) return;
+
+      touchScratch.moved = true;
+      suppressClickUntil = Date.now() + 700;
+      if (event.cancelable) event.preventDefault();
       const { x, y } = point(event);
       eraseTo(x, y);
     });
 
-    face.addEventListener("pointerleave", () => {
+    const endTouchScratch = (event) => {
+      if (!touchScratch || touchScratch.id !== event.pointerId) return;
+      if (touchScratch.moved) suppressClickUntil = Date.now() + 700;
+      touchScratch = null;
+      last = null;
+      if (typeof face.releasePointerCapture === "function") {
+        try {
+          face.releasePointerCapture(event.pointerId);
+        } catch (error) {
+          /* pointer capture may already be released */
+        }
+      }
+    };
+
+    face.addEventListener("pointerup", endTouchScratch);
+    face.addEventListener("pointercancel", endTouchScratch);
+
+    flip.addEventListener(
+      "click",
+      (event) => {
+        if (Date.now() >= suppressClickUntil) return;
+        event.preventDefault();
+        event.stopPropagation();
+      },
+      true
+    );
+
+    face.addEventListener("pointerleave", (event) => {
+      if (!isFinePointer(event)) return;
       last = null;
       if (ready) paint();
     });
