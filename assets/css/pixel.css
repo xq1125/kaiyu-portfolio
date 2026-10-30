@@ -6193,3 +6193,12 @@ body.peek-open .px-taskbar {
     color: #5e5747 !important;
   }
 }
+
+.hero-board.is-all .hero-board-head span:last-child,
+.hero-board.is-all .hero-board-reset {
+  color: var(--px-red);
+}
+
+.hero-board.is-all .hero-board-reset {
+  border-color: var(--px-red);
+}

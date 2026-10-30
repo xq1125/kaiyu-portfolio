@@ -334,20 +334,24 @@
 
     const paint = () => {
       const open = openCells.length;
-      if (count) count.textContent = `${pad(open)} / 02`;
+      const total = cells.length;
+      if (count) count.textContent = `${pad(open)} / ${pad(total)}`;
       if (note) {
-        note.textContent = compactBoard
-          ? open
-            ? "再点一次，直接进入章节"
-            : "点开一张，再点进入章节"
-          : open === 2
-            ? "再点一张，切换章节预览"
-            : open === 1
-              ? "再点一次，打开章节切片"
-              : "最多同时翻开两张";
+        if (open === total) {
+          note.textContent = "全部戳开了 · 点「全部翻回」重新戳";
+        } else {
+          note.textContent = compactBoard
+            ? open
+              ? "继续戳开其他文件夹"
+              : "点开一张，再点进入章节"
+            : open
+              ? "继续戳开其他文件夹"
+              : "全部都可以戳开";
+        }
       }
       if (reset) reset.disabled = open === 0;
       board.classList.toggle("is-pair", open === 2);
+      board.classList.toggle("is-all", open === total);
     };
 
     grid.addEventListener("click", (event) => {
@@ -355,7 +359,6 @@
       if (!cell) return;
       if (!cell.classList.contains("is-revealed")) {
         event.preventDefault();
-        if (openCells.length >= 2) closeCell(openCells[0]);
         cell.classList.add("is-revealed", "is-opening");
         cell.setAttribute(
           "aria-label",
