@@ -4223,3 +4223,9 @@ body.peek-open .px-taskbar {
     text-align: left;
   }
 }
+
+@media (min-width: 761px) {
+  .resume-card {
+    min-height: 228px;
+  }
+}
