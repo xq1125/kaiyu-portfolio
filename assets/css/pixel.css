@@ -6295,3 +6295,21 @@ body.peek-open .px-taskbar {
   cursor: default;
   filter: none;
 }
+
+/* The second collectible sits in a random safe spot in the open middle lane. */
+.level-coin--b {
+  top: 26%;
+  left: 50%;
+}
+
+.loader-level--right .level-coin--b {
+  left: 50%;
+}
+
+/* A question block pays once, then stays as an empty used block. */
+.level-block--q.is-used {
+  background: var(--lv-block);
+  color: transparent;
+  text-shadow: none;
+  cursor: default;
+}

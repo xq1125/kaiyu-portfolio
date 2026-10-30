@@ -1924,6 +1924,11 @@
       let coins = 0;
       let celebrated = false;
 
+      level.querySelectorAll(".level-coin--b").forEach((coin) => {
+        coin.style.left = `${47 + Math.random() * 9}%`;
+        coin.style.top = `${24 + Math.random() * 5}%`;
+      });
+
       const celebrate = () => {
         level.classList.add("is-99");
         const banner = document.createElement("span");
@@ -1969,17 +1974,28 @@
       });
 
       const hitBlock = (block) => {
-        if (!block || !block.classList.contains("level-block--q") || block.classList.contains("is-hit")) return;
+        if (
+          !block ||
+          !block.classList.contains("level-block--q") ||
+          block.classList.contains("is-hit") ||
+          block.classList.contains("is-used")
+        ) {
+          return;
+        }
         block.classList.add("is-hit");
         paintScore(1);
-        window.setTimeout(() => block.classList.remove("is-hit"), 340);
+        window.setTimeout(() => {
+          block.classList.remove("is-hit");
+          block.classList.add("is-used");
+          block.setAttribute("aria-label", "已经顶过的问号方块");
+        }, 340);
       };
 
       const takeCoin = (coin) => {
         if (!coin || coin.classList.contains("is-collected")) return;
         coin.classList.add("is-collected");
         paintScore(1);
-        window.setTimeout(() => coin.classList.remove("is-collected"), 620);
+        window.setTimeout(() => coin.remove(), 480);
       };
 
       const stompGoomba = (goomba) => {
