@@ -1980,6 +1980,141 @@
     });
   }
 
+  function initLoaderPlayers() {
+    const loader = $("#loader");
+    if (!loader || !window.matchMedia("(min-width: 1200px)").matches) return;
+
+    const levels = Array.from(document.querySelectorAll(".loader-level"));
+    if (!levels.length) return;
+
+    const states = levels.map((level, index) => {
+      const player = level.querySelector(".level-player");
+      if (!player) return null;
+      return {
+        level,
+        player,
+        index,
+        x: 0,
+        y: 16,
+        vy: 0,
+        onGround: true,
+        left: false,
+        right: false
+      };
+    }).filter(Boolean);
+
+    if (!states.length) return;
+
+    const place = (state) => {
+      const width = state.level.clientWidth;
+      const playerWidth = state.player.offsetWidth || 24;
+      const ratio = state.index === 0 ? 0.72 : 0.48;
+      state.x = Math.max(0, Math.min(width - playerWidth, width * ratio - playerWidth / 2));
+      state.player.style.left = `${state.x}px`;
+      state.player.style.bottom = "16px";
+    };
+
+    states.forEach(place);
+    window.addEventListener("resize", () => states.forEach(place), { passive: true });
+
+    const input = new Map([
+      ["a", [0, "left"]],
+      ["A", [0, "left"]],
+      ["d", [0, "right"]],
+      ["D", [0, "right"]],
+      ["w", [0, "jump"]],
+      ["W", [0, "jump"]],
+      ["ArrowLeft", [1, "left"]],
+      ["ArrowRight", [1, "right"]],
+      ["ArrowUp", [1, "jump"]]
+    ]);
+
+    document.addEventListener("keydown", (event) => {
+      if (!loader.isConnected || loader.classList.contains("is-done")) return;
+      if (event.metaKey || event.ctrlKey || event.altKey) return;
+      const action = input.get(event.key);
+      if (!action) return;
+      const state = states.find((item) => item.index === action[0]);
+      if (!state) return;
+      event.preventDefault();
+      if (action[1] === "jump") {
+        if (!event.repeat && state.onGround) {
+          state.vy = 530;
+          state.onGround = false;
+        }
+        return;
+      }
+      state[action[1]] = true;
+    });
+
+    document.addEventListener("keyup", (event) => {
+      const action = input.get(event.key);
+      if (!action || action[1] === "jump") return;
+      const state = states.find((item) => item.index === action[0]);
+      if (state) state[action[1]] = false;
+    });
+
+    const release = () => states.forEach((state) => {
+      state.left = false;
+      state.right = false;
+    });
+    window.addEventListener("blur", release);
+
+    const overlaps = (a, b) => (
+      a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top
+    );
+
+    const checkPickups = (state) => {
+      const playerBox = state.player.getBoundingClientRect();
+      state.level.querySelectorAll(".level-coin").forEach((coin) => {
+        if (!coin.classList.contains("is-collected") && overlaps(playerBox, coin.getBoundingClientRect())) {
+          coin.click();
+        }
+      });
+      state.level.querySelectorAll(".level-block--q").forEach((block) => {
+        if (state.vy <= 0 || block.classList.contains("is-hit")) return;
+        if (overlaps(playerBox, block.getBoundingClientRect())) block.click();
+      });
+      state.level.querySelectorAll(".level-goomba").forEach((goomba) => {
+        if (!goomba.classList.contains("is-stomped") && overlaps(playerBox, goomba.getBoundingClientRect())) {
+          goomba.click();
+        }
+      });
+    };
+
+    let last = performance.now();
+    const step = (now) => {
+      if (!loader.isConnected || loader.classList.contains("is-done")) return;
+      const dt = Math.min(0.032, (now - last) / 1000);
+      last = now;
+
+      states.forEach((state) => {
+        const width = state.level.clientWidth;
+        const playerWidth = state.player.offsetWidth || 24;
+        const direction = (state.right ? 1 : 0) - (state.left ? 1 : 0);
+
+        state.x = Math.max(0, Math.min(width - playerWidth, state.x + direction * 92 * dt));
+        state.y += state.vy * dt;
+        state.vy -= 1000 * dt;
+
+        if (state.y <= 16) {
+          state.y = 16;
+          state.vy = 0;
+          state.onGround = true;
+        }
+
+        state.player.style.left = `${state.x}px`;
+        state.player.style.bottom = `${state.y}px`;
+        state.player.classList.toggle("is-walking", direction !== 0 && state.onGround);
+        checkPickups(state);
+      });
+
+      window.requestAnimationFrame(step);
+    };
+
+    window.requestAnimationFrame(step);
+  }
+
   function initDesktopMascot() {
     const mascot = $("#desktopMascot");
     if (!mascot) return;
@@ -2327,6 +2462,7 @@
 
   initLoader();
   initLoaderGames();
+  initLoaderPlayers();
   initFamiliarPlay();
   initHeader();
   initScrollSpy();

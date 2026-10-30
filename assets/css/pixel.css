@@ -5863,7 +5863,7 @@ body.peek-open .px-taskbar {
   position: absolute;
   z-index: 12;
   bottom: 14px;
-  left: 64%;
+  left: 72%;
   width: 22px;
   height: 28px;
   pointer-events: none;
@@ -5907,4 +5907,35 @@ body.peek-open .px-taskbar {
 .loader-level .level-player {
   width: 24px;
   height: 30px;
+}
+
+.level-controls {
+  position: absolute;
+  z-index: 20;
+  top: -2px;
+  right: 0;
+  color: #f2e7d5;
+  font-family: var(--px-cn);
+  font-size: 6px;
+  letter-spacing: .02em;
+  text-shadow: 1px 1px 0 #173d22;
+  pointer-events: none;
+}
+
+.level-player.is-walking {
+  animation: levelPlayerWalk .28s steps(2, end) infinite;
+}
+
+@keyframes levelPlayerWalk {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+.level-controls {
+  top: auto;
+  right: 0;
+  bottom: -16px;
+  font-family: var(--sans);
+  font-size: 7px;
+  letter-spacing: .05em;
 }
