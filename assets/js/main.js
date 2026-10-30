@@ -2021,10 +2021,12 @@
         level,
         player,
         index,
+        platforms: Array.from(level.querySelectorAll(".level-platform")),
         x: 0,
         y: 16,
         vy: 0,
         onGround: true,
+        won: false,
         left: false,
         right: false
       };
@@ -2043,6 +2045,14 @@
 
     states.forEach(place);
     window.addEventListener("resize", () => states.forEach(place), { passive: true });
+
+    const winLevel = (state) => {
+      if (state.won) return;
+      state.won = true;
+      state.player.classList.add("is-pipe");
+      state.level.classList.add("is-won");
+      window.setTimeout(() => $("#loaderEnter")?.click(), 720);
+    };
 
     const input = new Map([
       ["a", [0, "left"]],
@@ -2118,13 +2128,36 @@
       last = now;
 
       states.forEach((state) => {
+        if (state.won) return;
         const width = state.level.clientWidth;
         const playerWidth = state.player.offsetWidth || 24;
         const direction = (state.right ? 1 : 0) - (state.left ? 1 : 0);
 
         state.x = Math.max(0, Math.min(width - playerWidth, state.x + direction * 92 * dt));
+        const previousY = state.y;
         state.y += state.vy * dt;
         state.vy -= 1000 * dt;
+        state.onGround = false;
+
+        const levelBox = state.level.getBoundingClientRect();
+        const playerCenter = state.x + playerWidth / 2;
+        state.platforms.forEach((platform) => {
+          const box = platform.getBoundingClientRect();
+          const top = levelBox.bottom - box.top;
+          const left = box.left - levelBox.left;
+          const right = box.right - levelBox.left;
+          if (
+            state.vy <= 0 &&
+            playerCenter >= left &&
+            playerCenter <= right &&
+            previousY >= top &&
+            state.y <= top
+          ) {
+            state.y = top;
+            state.vy = 0;
+            state.onGround = true;
+          }
+        });
 
         if (state.y <= 16) {
           state.y = 16;
@@ -2135,6 +2168,22 @@
         state.player.style.left = `${state.x}px`;
         state.player.style.bottom = `${state.y}px`;
         state.player.classList.toggle("is-walking", direction !== 0 && state.onGround);
+
+        const pipe = state.level.querySelector(".level-pipe--goal");
+        if (pipe && state.vy <= 0) {
+          const playerBox = state.player.getBoundingClientRect();
+          const pipeBox = pipe.getBoundingClientRect();
+          if (
+            playerBox.right > pipeBox.left + 5 &&
+            playerBox.left < pipeBox.right - 5 &&
+            playerBox.bottom >= pipeBox.top - 2 &&
+            playerBox.bottom <= pipeBox.top + 16
+          ) {
+            winLevel(state);
+            return;
+          }
+        }
+
         checkPickups(state);
       });
 
