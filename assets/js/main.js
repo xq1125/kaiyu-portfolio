@@ -2448,6 +2448,29 @@
       return;
     }
 
+    const params = new URLSearchParams(window.location.search);
+    let returning = params.get("from") === "chapter";
+    try {
+      returning = returning || sessionStorage.getItem("kaiyu-entered") === "1";
+    } catch (error) {
+      /* Storage can be unavailable in private modes; the query still works. */
+    }
+
+    if (returning) {
+      loader.remove();
+      doc.body.classList.remove("is-loading");
+      doc.body.classList.add("is-ready");
+      if (params.get("from") === "chapter" || window.location.hash) {
+        window.setTimeout(() => {
+          const hash = window.location.hash;
+          const target =
+            hash && hash !== "#works" ? document.querySelector(hash) : $("#heroBoard");
+          target?.scrollIntoView({ block: "center", behavior: "auto" });
+        }, 60);
+      }
+      return;
+    }
+
     const cover = $(".loader-bg img");
     if (cover) {
       cover.addEventListener("error", () => {
@@ -2490,6 +2513,11 @@
     const enter = () => {
       if (!ready || exiting) return;
       exiting = true;
+      try {
+        sessionStorage.setItem("kaiyu-entered", "1");
+      } catch (error) {
+        /* Storage is optional. */
+      }
       if (enterButton) enterButton.disabled = true;
       loader.classList.add("is-done");
       loader.setAttribute("aria-label", "正在进入作品集");
