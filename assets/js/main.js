@@ -1960,19 +1960,18 @@
         }
       };
 
-      level.querySelectorAll(".level-block, .level-coin, .level-goomba").forEach((item) => {
+      level.querySelectorAll(".level-block--q, .level-coin, .level-goomba").forEach((item) => {
         item.tabIndex = 0;
         item.setAttribute("role", "button");
         if (item.classList.contains("level-block--q")) item.setAttribute("aria-label", "顶一下问号方块");
-        else if (item.classList.contains("level-block")) item.setAttribute("aria-label", "顶一下砖块");
         else if (item.classList.contains("level-coin")) item.setAttribute("aria-label", "收集金币");
         else item.setAttribute("aria-label", "踩一下小怪");
       });
 
       const hitBlock = (block) => {
-        if (!block || block.classList.contains("is-hit")) return;
+        if (!block || !block.classList.contains("level-block--q") || block.classList.contains("is-hit")) return;
         block.classList.add("is-hit");
-        if (block.classList.contains("level-block--q")) paintScore(1);
+        paintScore(1);
         window.setTimeout(() => block.classList.remove("is-hit"), 340);
       };
 
@@ -1992,7 +1991,7 @@
 
       level.addEventListener("click", (event) => {
         event.stopPropagation();
-        const block = event.target.closest(".level-block");
+        const block = event.target.closest(".level-block--q");
         const coin = event.target.closest(".level-coin");
         const goomba = event.target.closest(".level-goomba");
         if (block) hitBlock(block);
@@ -2002,7 +2001,7 @@
 
       level.addEventListener("keydown", (event) => {
         if (event.key !== "Enter" && event.key !== " ") return;
-        const item = event.target.closest(".level-block, .level-coin, .level-goomba");
+        const item = event.target.closest(".level-block--q, .level-coin, .level-goomba");
         if (!item) return;
         event.preventDefault();
         event.stopPropagation();
@@ -2184,7 +2183,7 @@
           ) {
             state.y = box.bottom - playerHeight;
             state.vy = 0;
-            box.block.click();
+            if (box.block.classList.contains("level-block--q")) box.block.click();
             return;
           }
 

@@ -6283,3 +6283,15 @@ body.peek-open .px-taskbar {
 .loader-level--left .level-platform--b {
   left: 46%;
 }
+
+/* Bricks are rigid: no idle bob, no bump reaction, no payout. */
+.level-block {
+  animation: none;
+}
+
+.level-block--brick,
+.level-block--brick:hover {
+  pointer-events: none;
+  cursor: default;
+  filter: none;
+}
