@@ -6250,3 +6250,36 @@ body.peek-open .px-taskbar {
 .loader-level--right .level-coin--b {
   left: 80%;
 }
+
+/* Wider, overlapping tiers so the shorter jump can still climb them in two steps. */
+.loader-level--left .level-platform--a {
+  width: 42%;
+}
+
+.loader-level--left .level-platform--b {
+  left: 50%;
+  width: 46%;
+}
+
+.loader-level--right .level-platform--a {
+  left: 40%;
+  width: 44%;
+}
+
+.loader-level--right .level-platform--b {
+  left: 4%;
+  width: 44%;
+}
+
+/* Keep the left climb lane clear of the block row. */
+.loader-level--left .level-block--b {
+  left: 23%;
+}
+
+.loader-level--left .level-coin--b {
+  left: 23%;
+}
+
+.loader-level--left .level-platform--b {
+  left: 46%;
+}

@@ -2081,7 +2081,7 @@
       event.preventDefault();
       if (action[1] === "jump") {
         if (!event.repeat && state.onGround) {
-          state.vy = 530;
+          state.vy = 420;
           state.onGround = false;
         }
         return;
