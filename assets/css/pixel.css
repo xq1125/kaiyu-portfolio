@@ -3496,3 +3496,36 @@ body.peek-open .px-taskbar {
     cursor: crosshair;
   }
 }
+
+.honor-note--wide {
+  grid-template-columns: 190px minmax(0, 1fr);
+  opacity: 1;
+}
+
+.honor-note--wide .note-kicker {
+  color: #3c362a !important;
+  font-size: 6px;
+  line-height: 1.7;
+  letter-spacing: .04em;
+}
+
+.honor-note--wide p:last-child {
+  color: #17140e !important;
+  font-family: var(--px-cn);
+  font-size: 12px;
+  line-height: 1.85;
+}
+
+@media (max-width: 760px) {
+  .honor-note--wide {
+    grid-template-columns: 1fr;
+  }
+
+  .honor-note--wide p:last-child {
+    font-size: 11px;
+  }
+}
+
+.honor-note--wide p:last-child {
+  text-wrap: pretty;
+}
