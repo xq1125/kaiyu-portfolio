@@ -5626,3 +5626,23 @@ body.peek-open .px-taskbar {
   bottom: 10%;
   width: 31%;
 }
+
+/* On phones the brand sits on one line instead of wrapping into three. */
+@media (max-width: 760px) {
+  .site-header .brand-type {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .site-header .brand-type b,
+  .site-header .brand-type em {
+    white-space: nowrap;
+  }
+
+  .site-header .brand-type em {
+    margin-top: 0;
+    font-size: 6px;
+  }
+}
