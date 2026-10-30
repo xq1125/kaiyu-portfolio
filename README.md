@@ -114,4 +114,4 @@ videos: [
 - The site opens at the top unless a chapter hash is present; old `#contact` links and browser scroll restoration are reset so a fresh visit never lands on the contact section.
 - No third-party JavaScript, build step, external font, third-party audio, analytics or cookies.
 - The contact postcard publishes only the details the artist chose to share: email, phone, WeChat and QQ. The full profile-board image with other personal fields is intentionally not published.
-- Edit portfolio copy in `assets/js/data.js`; edit the page-level manifesto and postcard copy in `index.html`.
+- Edit portfolio copy in `assets/js/data.js`; edit the page-level about and postcard copy in `index.html`.
