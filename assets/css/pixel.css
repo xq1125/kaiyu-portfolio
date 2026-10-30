@@ -3732,3 +3732,19 @@ body.peek-open .px-taskbar {
     aspect-ratio: 1 / 1;
   }
 }
+
+/* Align the honours strip with both about columns. */
+.honor-note--wide {
+  width: 100%;
+  max-width: none;
+  margin: 28px 0 0;
+  grid-template-columns: minmax(240px, .72fr) minmax(0, 1.28fr);
+  gap: clamp(36px, 8vw, 130px);
+}
+
+@media (max-width: 760px) {
+  .honor-note--wide {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+}
