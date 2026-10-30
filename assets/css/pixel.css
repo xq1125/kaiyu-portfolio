@@ -6211,3 +6211,18 @@ body.peek-open .px-taskbar {
 .hero-board.is-all .hero-board-reset {
   border-color: var(--px-red);
 }
+
+/* Both bricks and ? blocks are solid and can be bumped. */
+.level-block {
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.level-block:hover {
+  filter: brightness(1.16);
+}
+
+.level-block:focus-visible {
+  outline: 2px solid var(--lv-light);
+  outline-offset: 2px;
+}

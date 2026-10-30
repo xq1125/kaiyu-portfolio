@@ -1960,10 +1960,11 @@
         }
       };
 
-      level.querySelectorAll(".level-block--q, .level-coin, .level-goomba").forEach((item) => {
+      level.querySelectorAll(".level-block, .level-coin, .level-goomba").forEach((item) => {
         item.tabIndex = 0;
         item.setAttribute("role", "button");
         if (item.classList.contains("level-block--q")) item.setAttribute("aria-label", "顶一下问号方块");
+        else if (item.classList.contains("level-block")) item.setAttribute("aria-label", "顶一下砖块");
         else if (item.classList.contains("level-coin")) item.setAttribute("aria-label", "收集金币");
         else item.setAttribute("aria-label", "踩一下小怪");
       });
@@ -1971,7 +1972,7 @@
       const hitBlock = (block) => {
         if (!block || block.classList.contains("is-hit")) return;
         block.classList.add("is-hit");
-        paintScore(1);
+        if (block.classList.contains("level-block--q")) paintScore(1);
         window.setTimeout(() => block.classList.remove("is-hit"), 340);
       };
 
@@ -1991,7 +1992,7 @@
 
       level.addEventListener("click", (event) => {
         event.stopPropagation();
-        const block = event.target.closest(".level-block--q");
+        const block = event.target.closest(".level-block");
         const coin = event.target.closest(".level-coin");
         const goomba = event.target.closest(".level-goomba");
         if (block) hitBlock(block);
@@ -2001,7 +2002,7 @@
 
       level.addEventListener("keydown", (event) => {
         if (event.key !== "Enter" && event.key !== " ") return;
-        const item = event.target.closest(".level-block--q, .level-coin, .level-goomba");
+        const item = event.target.closest(".level-block, .level-coin, .level-goomba");
         if (!item) return;
         event.preventDefault();
         event.stopPropagation();
@@ -2025,6 +2026,7 @@
         player,
         index,
         platforms: Array.from(level.querySelectorAll(".level-platform")),
+        blocks: Array.from(level.querySelectorAll(".level-block")),
         x: 0,
         y: 16,
         vy: 0,
@@ -2134,15 +2136,66 @@
         if (state.won) return;
         const width = state.level.clientWidth;
         const playerWidth = state.player.offsetWidth || 24;
+        const playerHeight = state.player.offsetHeight || 38;
         const direction = (state.right ? 1 : 0) - (state.left ? 1 : 0);
+        const levelBox = state.level.getBoundingClientRect();
+        const previousX = state.x;
 
         state.x = Math.max(0, Math.min(width - playerWidth, state.x + direction * 92 * dt));
+
+        const blockBoxes = state.blocks.map((block) => {
+          const box = block.getBoundingClientRect();
+          return {
+            block,
+            left: box.left - levelBox.left,
+            right: box.right - levelBox.left,
+            top: levelBox.bottom - box.top,
+            bottom: levelBox.bottom - box.bottom
+          };
+        });
+
+        /* Blocks are solid on their sides too; don't let the player walk through them. */
+        blockBoxes.forEach((box) => {
+          const verticalOverlap = state.y < box.top && state.y + playerHeight > box.bottom;
+          if (!verticalOverlap) return;
+          const horizontalOverlap = state.x < box.right && state.x + playerWidth > box.left;
+          if (!horizontalOverlap) return;
+          if (direction > 0 && previousX + playerWidth <= box.left) {
+            state.x = box.left - playerWidth;
+          } else if (direction < 0 && previousX >= box.right) {
+            state.x = box.right;
+          }
+        });
+
         const previousY = state.y;
         state.y += state.vy * dt;
         state.vy -= 1000 * dt;
         state.onGround = false;
 
-        const levelBox = state.level.getBoundingClientRect();
+        blockBoxes.forEach((box) => {
+          const horizontalOverlap = state.x < box.right && state.x + playerWidth > box.left;
+          if (!horizontalOverlap) return;
+
+          /* Jumping into the underside stops the jump and bumps the block. */
+          if (
+            state.vy > 0 &&
+            previousY + playerHeight <= box.bottom &&
+            state.y + playerHeight >= box.bottom
+          ) {
+            state.y = box.bottom - playerHeight;
+            state.vy = 0;
+            box.block.click();
+            return;
+          }
+
+          /* The top is a solid ledge as well. */
+          if (state.vy <= 0 && previousY >= box.top && state.y <= box.top) {
+            state.y = box.top;
+            state.vy = 0;
+            state.onGround = true;
+          }
+        });
+
         const playerCenter = state.x + playerWidth / 2;
         state.platforms.forEach((platform) => {
           const box = platform.getBoundingClientRect();
