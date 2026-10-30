@@ -2104,6 +2104,14 @@
     };
 
     figures.forEach((figure, index) => {
+      const goomba = figure.querySelector(".familiar-goomba");
+      if (goomba) {
+        goomba.style.animationDuration = `${(3.4 + Math.random() * 2.4).toFixed(2)}s`;
+        goomba.style.animationDelay = `${(-Math.random() * 2).toFixed(2)}s`;
+      }
+      const star = figure.querySelector(".familiar-star");
+      if (star) star.style.animationDelay = `${(-Math.random() * 2).toFixed(2)}s`;
+
       const jump = () => {
         if (stopped || !document.body.contains(loader) || loader.classList.contains("is-done")) {
           stop();
