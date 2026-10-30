@@ -4568,3 +4568,55 @@ body.peek-open .px-taskbar {
     font-size: 8px;
   }
 }
+
+/* Awards: keep each prize intact on desktop and give every one its own line on narrow screens. */
+.honor-note--wide p:last-child > span {
+  white-space: nowrap;
+}
+
+.honor-note--wide p:last-child > .honor-sep {
+  color: #6b6250;
+}
+
+@media (max-width: 760px) {
+  .honor-note--wide p:last-child > span {
+    display: block;
+    white-space: normal;
+  }
+
+  .honor-note--wide p:last-child > .honor-sep {
+    display: none;
+  }
+}
+
+/* Awards: keep each prize intact, but allow the line to break between prizes. */
+.honor-note--wide p:last-child > span:not(.honor-sep) {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .honor-note--wide p:last-child > span:not(.honor-sep) {
+    display: block;
+    white-space: normal;
+  }
+}
+
+.honor-note--wide p:last-child > span:not(:last-child) {
+  margin-right: .55em;
+}
+
+.honor-note--wide p:last-child > span:not(:last-child)::after {
+  content: " /";
+  color: #6b6250;
+}
+
+@media (max-width: 760px) {
+  .honor-note--wide p:last-child > span:not(:last-child) {
+    margin-right: 0;
+  }
+
+  .honor-note--wide p:last-child > span:not(:last-child)::after {
+    content: none;
+  }
+}
