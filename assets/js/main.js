@@ -1925,7 +1925,8 @@
       let celebrated = false;
 
       level.querySelectorAll(".level-coin--b").forEach((coin) => {
-        coin.style.left = `${47 + Math.random() * 9}%`;
+        const isRight = level.classList.contains("loader-level--right");
+        coin.style.left = `${(isRight ? 37 : 42) + Math.random() * 6}%`;
         coin.style.top = `${24 + Math.random() * 5}%`;
       });
 

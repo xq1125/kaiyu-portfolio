@@ -6313,3 +6313,11 @@ body.peek-open .px-taskbar {
   text-shadow: none;
   cursor: default;
 }
+
+.loader-level--left .level-coin--b {
+  left: 45%;
+}
+
+.loader-level--right .level-coin--b {
+  left: 40%;
+}
