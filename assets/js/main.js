@@ -220,9 +220,9 @@
       { src: "assets/img/peek/game-3.webp", label: "界面 / 恶魔形态" }
     ],
     aigc: [
-      { src: "assets/img/peek/aigc-1.webp", label: "镜头 / 山海一念" },
-      { src: "assets/img/peek/aigc-2.webp", label: "原画 / 墨龙" },
-      { src: "assets/img/peek/aigc-3.webp", label: "概念 / 未发送" }
+      { src: "assets/img/peek/aigc-film-1.webp", label: "正片 / 山海一念" },
+      { src: "assets/img/peek/aigc-film-2.webp", label: "正片 / 未发送" },
+      { src: "assets/img/peek/aigc-film-3.webp", label: "正片 / 打铁花" }
     ],
     uiux: [
       { src: "assets/img/peek/uiux-1.webp", label: "界面 / HRM 系统" },

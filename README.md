@@ -38,7 +38,7 @@ assets/img/covers/         Hero and chapter-cover crops
 assets/img/covers/mobile/  720 px cover crops served to phones
 assets/img/video/          Video poster frames
 assets/img/about/          Illustrated portrait, its cutout, and the real photo beneath
-assets/img/peek/           Curated 720 × 315 detail crops for the chapter previews
+assets/img/peek/           Curated preview crops and frames pulled from the films
 assets/img/loader-cover.webp  Original opening cover, framed as a CRT on desktop
 assets/img/loader-cover-mobile.webp  Portrait crop of the original cover for phones
 assets/img/og-cover.jpg    1200 × 630 social card
@@ -61,7 +61,7 @@ assets/video/              Compressed H.264 films (faststart)
 - **Contact postcard** — a red `MAIL.EXE` window with a beige postcard. Email is click-to-copy, phone opens the dialer, and QQ / WeChat copy with a toast.
 - **Desktop cursor** — the old drawn cursor is disabled; desktop uses a small pixel arrow. All interactive controls keep a visible focus ring.
 - **Touch layout** — phones get stacked windows, a compact taskbar, tap ripples, pressed-card scaling and a short vibration on supported Android browsers. Hover-only behaviours are disabled on touch.
-- **Image weight** — desktop keeps the 2800 px full-resolution lightbox files. Phones request 720 px covers through `srcset`, use the 1800 px wide files for the lightbox, and defer the CV image. The opening cover is the one deliberate exception: desktop loads the 2000 px original, phones a 37 KB portrait crop. A chapter preview loads three pre-cropped detail images of roughly 10–50 KB each.
+- **Image weight** — desktop keeps the 2800 px full-resolution lightbox files. Phones request 720 px covers through `srcset`, use the 1800 px wide files for the lightbox, and defer the CV image. The opening cover is the one deliberate exception: desktop loads the 2000 px original, phones a 37 KB portrait crop. A chapter preview loads three cropped images of roughly 10–65 KB each; the AIGC chapter preview uses three stills pulled from 山海一念, 未发送 and 打铁花.
 - **Soundtrack** — an original 42-second chiptune loop (`os95-theme.mp3`) and tiny synthesized UI sounds. Music is off until the first real gesture; the **点击进入** click starts it with a soft boot chime. The taskbar `♪` control mutes or resumes it, the preference is remembered, and a best-effort timestamp is carried between index and chapter pages.
 - **Small things** — live Hangzhou clock in the taskbar, scroll reveals, mobile start menu, window chrome and keyboard focus states.
 - **Keyboard** — `Esc` closes the chapter lightbox; native video controls handle playback, seeking and volume.
