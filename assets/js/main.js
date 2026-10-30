@@ -1778,23 +1778,30 @@
       const inkY = ink.offsetTop;
       const inkW = ink.offsetWidth;
       const inkH = ink.offsetHeight;
+      const naturalW = ink.naturalWidth || inkW;
+      const naturalH = ink.naturalHeight || inkH;
+      const fit = Math.min(inkW / naturalW, inkH / naturalH);
+      const drawW = naturalW * fit;
+      const drawH = naturalH * fit;
+      const drawX = inkX + (inkW - drawW) / 2;
+      const drawY = inkY + (inkH - drawH);
 
       ctx.save();
       ctx.imageSmoothingEnabled = false;
       ctx.shadowColor = "rgba(0, 0, 0, .52)";
       ctx.shadowBlur = Math.max(10, width * 0.05);
       ctx.shadowOffsetY = Math.max(8, width * 0.035);
-      ctx.drawImage(ink, inkX, inkY, inkW, inkH);
+      ctx.drawImage(ink, drawX, drawY, drawW, drawH);
       ctx.restore();
 
       const rgb = paper.match(/\d+/g);
       if (rgb && rgb.length >= 3) {
-        const fade = Math.min(inkH * 0.13, 42);
-        const gradient = ctx.createLinearGradient(0, inkY + inkH - fade, 0, inkY + inkH);
+        const fade = Math.min(drawH * 0.13, 42);
+        const gradient = ctx.createLinearGradient(0, drawY + drawH - fade, 0, drawY + drawH);
         gradient.addColorStop(0, `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0)`);
         gradient.addColorStop(1, `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 1)`);
         ctx.fillStyle = gradient;
-        ctx.fillRect(inkX, inkY + inkH - fade, inkW, fade);
+        ctx.fillRect(drawX, drawY + drawH - fade, drawW, fade);
       }
 
       canvas.classList.add("is-painted");
