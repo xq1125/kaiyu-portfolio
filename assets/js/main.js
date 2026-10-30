@@ -1975,21 +1975,10 @@
       });
 
       const hitBlock = (block) => {
-        if (
-          !block ||
-          !block.classList.contains("level-block--q") ||
-          block.classList.contains("is-hit") ||
-          block.classList.contains("is-used")
-        ) {
-          return;
-        }
+        if (!block || !block.classList.contains("level-block--q") || block.classList.contains("is-hit")) return;
         block.classList.add("is-hit");
         paintScore(1);
-        window.setTimeout(() => {
-          block.classList.remove("is-hit");
-          block.classList.add("is-used");
-          block.setAttribute("aria-label", "已经顶过的问号方块");
-        }, 340);
+        window.setTimeout(() => block.classList.remove("is-hit"), 340);
       };
 
       const takeCoin = (coin) => {
