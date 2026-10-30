@@ -710,35 +710,196 @@ body.is-ready .hero h1 {
 
 .index-grid {
   gap: 12px;
+  align-items: stretch;
+}
+
+.catalogue-item {
+  position: relative;
+  min-width: 0;
+  isolation: isolate;
 }
 
 .catalogue-card {
+  position: relative;
+  display: block;
+  width: 100%;
   aspect-ratio: 2 / 1;
   border: 2px solid;
   border-color: var(--px-face-hi) var(--px-face-lo) var(--px-face-lo) var(--px-face-hi);
   background: var(--px-face);
   box-shadow: 4px 4px 0 var(--px-shadow);
-  perspective: none;
+  perspective: 1000px;
+  transition: transform .12s steps(2, end), box-shadow .12s steps(2, end);
 }
 
-.catalogue-inner,
-.catalogue-card:hover .catalogue-inner,
-.catalogue-card:focus-visible .catalogue-inner {
-  transform: none !important;
+.catalogue-inner {
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transition: transform .58s steps(7, end);
+}
+
+.catalogue-card:focus-visible .catalogue-inner,
+.catalogue-item.is-flipped .catalogue-inner {
+  transform: rotateY(180deg);
+}
+
+@media (hover: hover) {
+  .catalogue-card:hover .catalogue-inner {
+    transform: rotateY(180deg);
+  }
+
+  .catalogue-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0 var(--px-shadow);
+  }
 }
 
 .catalogue-face {
   border: 0;
-  backface-visibility: visible;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .catalogue-face--back {
-  display: none !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 22px 12px 9px;
+  background-color: var(--px-face);
+  background-image:
+    linear-gradient(45deg, rgba(0, 0, 0, .055) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, .055) 75%);
+  background-size: 6px 6px;
+  color: var(--px-ink);
+  transform: rotateY(180deg);
+}
+
+.catalogue-face--back::before {
+  content: "C:\\KAIYU\\CHAPTER";
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 15px;
+  padding: 4px 5px 0;
+  background: var(--px-navy);
+  color: var(--px-face-hi);
+  font-family: var(--px-en);
+  font-size: 5px;
+  line-height: 1;
 }
 
 .catalogue-face--front {
-  transform: none;
+  transform: rotateY(0deg);
   background: #080807;
+}
+
+.catalogue-card::before {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  top: 15px;
+  right: 0;
+  left: 0;
+  height: 2px;
+  background: var(--px-red);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.catalogue-item.is-flipped .catalogue-card::before,
+.catalogue-card:hover::before,
+.catalogue-card:focus-visible::before {
+  animation: catalogueScan .56s steps(8, end) both;
+}
+
+@keyframes catalogueScan {
+  0% { top: 15px; opacity: .9; }
+  100% { top: calc(100% - 2px); opacity: 0; }
+}
+
+.catalogue-top,
+.catalogue-bottom {
+  border-color: rgba(21, 21, 15, .25);
+  color: #544d3d;
+  font-family: var(--px-en);
+  font-size: 4.5px;
+}
+
+.catalogue-bottom {
+  color: #544d3d;
+  font-family: var(--px-cn);
+  font-size: 8px;
+}
+
+.catalogue-bottom span:last-child {
+  color: var(--px-red);
+  font-family: var(--px-en);
+  font-size: 8px;
+}
+
+.catalogue-num {
+  color: rgba(169, 47, 36, .32);
+  font-family: var(--px-en);
+  font-size: clamp(38px, 4vw, 58px);
+  letter-spacing: -.04em;
+}
+
+.catalogue-name b {
+  color: var(--px-ink);
+  font-family: var(--px-cn);
+  font-size: clamp(22px, 2.3vw, 32px);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-shadow: 2px 2px 0 rgba(76, 23, 18, .12);
+}
+
+.catalogue-name em {
+  color: #5a5343;
+  font-family: var(--px-en);
+  font-size: 5px;
+}
+
+.catalogue-watermark {
+  color: rgba(21, 21, 15, .075);
+  font-family: var(--px-en);
+  font-size: clamp(18px, 2.2vw, 30px);
+  letter-spacing: 0;
+}
+
+.catalogue-turn {
+  position: absolute;
+  z-index: 8;
+  top: 3px;
+  right: 3px;
+  display: none;
+  place-items: center;
+  width: 24px;
+  height: 17px;
+  padding: 0;
+  border: 1px solid;
+  border-color: var(--px-face-hi) var(--px-face-lo) var(--px-face-lo) var(--px-face-hi);
+  background: var(--px-face);
+  color: var(--px-ink);
+  font-family: var(--px-en);
+  font-size: 9px;
+  line-height: 1;
+}
+
+.catalogue-turn:hover {
+  background: var(--px-ink);
+  color: var(--px-face-hi);
+}
+
+.catalogue-turn[aria-pressed="true"] {
+  background: var(--px-red);
+  color: var(--px-face-hi);
+}
+
+@media (hover: none), (pointer: coarse) {
+  .catalogue-turn {
+    display: grid;
+  }
 }
 
 .catalogue-face--front::after {
@@ -2707,5 +2868,17 @@ body.lightbox-open .px-taskbar {
   .loader-monitor {
     width: min(980px, 78vw);
     max-width: calc((100svh - 300px) * 1.721);
+  }
+}
+
+@media (hover: hover) {
+  .catalogue-face--front::after {
+    content: "C:\\KAIYU\\WORKS  ·  HOVER ↻";
+  }
+}
+
+@media (hover: none) {
+  .catalogue-face--front::after {
+    content: "C:\\KAIYU\\WORKS  ·  TAP ↻";
   }
 }

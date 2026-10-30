@@ -101,39 +101,58 @@
         const filmWord = filmCount === 1 ? "FILM" : "FILMS";
         const mobileCover = category.cover.replace("/covers/", "/covers/mobile/");
         return `
-          <a class="catalogue-card" href="chapter.html?c=${category.id}"
-             data-reveal aria-label="打开章节：${category.title}${filmCount ? `，含 ${filmCount} 部影像` : ""}">
-            <span class="catalogue-inner">
-              <span class="catalogue-face catalogue-face--back" aria-hidden="true">
-                <span class="catalogue-top">
-                  <span>CHAPTER ${category.num}</span>
-                  <span>${pad(category.plates.length)} PIECES${filmCount ? ` / ${filmCount} ${filmWord}` : ""}</span>
+          <div class="catalogue-item" data-reveal>
+            <a class="catalogue-card" href="chapter.html?c=${category.id}"
+               aria-label="打开章节：${category.title}${filmCount ? `，含 ${filmCount} 部影像` : ""}">
+              <span class="catalogue-inner">
+                <span class="catalogue-face catalogue-face--back" aria-hidden="true">
+                  <span class="catalogue-top">
+                    <span>CHAPTER ${category.num}</span>
+                    <span>${pad(category.plates.length)} PIECES${filmCount ? ` / ${filmCount} ${filmWord}` : ""}</span>
+                  </span>
+                  <span class="catalogue-back-main">
+                    <span class="catalogue-num">${category.num}</span>
+                    <span class="catalogue-name"><b>${category.title}</b><em>${category.en}</em></span>
+                  </span>
+                  <span class="catalogue-watermark" aria-hidden="true">${category.en}</span>
+                  <span class="catalogue-bottom"><span>点击进入 · ENTER</span><span>↗</span></span>
                 </span>
-                <span class="catalogue-back-main">
-                  <span class="catalogue-num">${category.num}</span>
-                  <span class="catalogue-name"><b>${category.title}</b><em>${category.en}</em></span>
+                <span class="catalogue-face catalogue-face--front" aria-hidden="true">
+                  <img src="${category.cover}?v=cards"
+                       srcset="${mobileCover}?v=cards 720w, ${category.cover}?v=cards 1200w"
+                       sizes="(max-width: 620px) 92vw, (max-width: 900px) 46vw, 31vw"
+                       alt="" width="1200" height="800" loading="lazy" decoding="async" fetchpriority="low">
+                  <span class="catalogue-front-shade"></span>
+                  <span class="catalogue-front-meta">
+                    <span>${category.num} / ${category.en}</span>
+                    <b>${category.title}</b>
+                    <em>${pad(category.plates.length)} PIECES${filmCount ? ` · ${filmCount} ${filmWord}` : ""}</em>
+                    <span class="catalogue-open">进入章节 ↗</span>
+                  </span>
                 </span>
-                <span class="catalogue-watermark" aria-hidden="true">${category.en}</span>
-                <span class="catalogue-bottom"><span>鼠标停留 · 翻开</span><span>↻</span></span>
               </span>
-              <span class="catalogue-face catalogue-face--front" aria-hidden="true">
-                <img src="${category.cover}?v=cards"
-                     srcset="${mobileCover}?v=cards 720w, ${category.cover}?v=cards 1200w"
-                     sizes="(max-width: 620px) 92vw, (max-width: 900px) 46vw, 31vw"
-                     alt="" width="1200" height="800" loading="lazy" decoding="async" fetchpriority="low">
-                <span class="catalogue-front-shade"></span>
-                <span class="catalogue-front-meta">
-                  <span>${category.num} / ${category.en}</span>
-                  <b>${category.title}</b>
-                  <em>${pad(category.plates.length)} PIECES${filmCount ? ` · ${filmCount} ${filmWord}` : ""}</em>
-                  <span class="catalogue-open">进入章节 ↗</span>
-                </span>
-              </span>
-            </span>
-          </a>
+            </a>
+            <button class="catalogue-turn" type="button" data-title="${category.title}"
+                    aria-label="翻到《${category.title}》的背面" aria-pressed="false">
+              <span aria-hidden="true">↻</span>
+            </button>
+          </div>
         `;
       })
       .join("");
+
+    grid.addEventListener("click", (event) => {
+      const turn = event.target.closest(".catalogue-turn");
+      if (!turn || !grid.contains(turn)) return;
+      event.preventDefault();
+      event.stopPropagation();
+      const item = turn.closest(".catalogue-item");
+      if (!item) return;
+      const flipped = item.classList.toggle("is-flipped");
+      turn.setAttribute("aria-pressed", String(flipped));
+      const title = turn.dataset.title || "这一本";
+      turn.setAttribute("aria-label", flipped ? `翻回《${title}》的封面` : `翻到《${title}》的背面`);
+    });
   }
 
   function initHeroBoard() {
