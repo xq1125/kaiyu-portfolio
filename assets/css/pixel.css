@@ -5242,3 +5242,376 @@ body.peek-open .px-taskbar {
   border-top: 0;
   padding-top: 0;
 }
+
+/* Mario-style filler for the empty loader gutters. */
+.loader-familiar {
+  width: clamp(112px, 10vw, 172px);
+}
+
+.loader-familiar .loader-familiar-body,
+.loader-familiar figcaption {
+  display: none;
+}
+
+.loader-level {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 218px;
+  image-rendering: pixelated;
+}
+
+.level-ground {
+  position: absolute;
+  z-index: 8;
+  right: -6%;
+  bottom: 0;
+  left: -6%;
+  height: 14px;
+  border-top: 3px solid #2a140e;
+  border-bottom: 3px solid #2a140e;
+  background-color: #a65537;
+  background-image:
+    repeating-linear-gradient(90deg, transparent 0 14px, #5c2a1c 14px 17px),
+    repeating-linear-gradient(0deg, transparent 0 5px, #5c2a1c 5px 7px);
+}
+
+.level-hill {
+  position: absolute;
+  z-index: 1;
+  bottom: 9px;
+  width: 58%;
+  height: 32%;
+  background: #2f7549;
+  filter: drop-shadow(2px 0 0 #153b27) drop-shadow(-2px 0 0 #153b27) drop-shadow(0 2px 0 #153b27);
+  clip-path: polygon(0 100%, 0 70%, 16% 70%, 16% 52%, 32% 52%, 32% 36%, 50% 36%, 50% 52%, 68% 52%, 68% 70%, 100% 70%, 100% 100%);
+}
+
+.level-hill--a {
+  left: -14%;
+}
+
+.level-hill--b {
+  right: -10%;
+  width: 42%;
+  height: 23%;
+  background: #28643e;
+}
+
+.level-cloud {
+  position: absolute;
+  z-index: 0;
+  width: 11px;
+  height: 8px;
+  background: #eee2cc;
+  box-shadow:
+    11px -7px 0 #eee2cc,
+    22px 0 0 #eee2cc,
+    33px 0 0 #eee2cc,
+    44px -7px 0 #eee2cc;
+  animation: levelCloud 9s steps(2, end) infinite alternate;
+}
+
+.level-cloud--a {
+  top: 12%;
+  left: 2%;
+}
+
+.level-cloud--b {
+  top: 29%;
+  right: 2%;
+  transform: scale(.72);
+  animation-delay: -4s;
+}
+
+.level-coin {
+  position: absolute;
+  z-index: 5;
+  width: 10px;
+  height: 14px;
+  border: 2px solid #6d430e;
+  background: #f4c744;
+  box-shadow: inset -2px 0 0 #d49119, inset 2px 0 0 #ffe27a;
+  animation: levelCoin 2.1s steps(2, end) infinite;
+}
+
+.level-coin--a {
+  top: 18%;
+  left: 10%;
+}
+
+.level-coin--b {
+  top: 10%;
+  left: 37%;
+  animation-delay: -.7s;
+}
+
+.level-coin--c {
+  top: 17%;
+  left: 64%;
+  animation-delay: -1.3s;
+}
+
+.level-block {
+  position: absolute;
+  z-index: 6;
+  top: 38%;
+  width: 24px;
+  height: 24px;
+  border: 2px solid #3b1b0d;
+  background: #c97732;
+  box-shadow: inset 0 3px 0 #efb879, inset -3px 0 0 #8d421f;
+  animation: levelBlock 2.8s steps(2, end) infinite;
+}
+
+.level-block--a {
+  left: 5%;
+}
+
+.level-block--b {
+  left: 31%;
+  animation-delay: -.8s;
+}
+
+.level-block--c {
+  left: 57%;
+}
+
+.level-block--q {
+  display: grid;
+  place-items: center;
+  background: #e5a52f;
+  color: #3b1b0d;
+  font-family: var(--px-en);
+  font-size: 11px;
+  line-height: 1;
+  text-shadow: 1px 1px 0 #f8d274;
+}
+
+.level-block--brick {
+  background-color: #b35f36;
+  background-image:
+    linear-gradient(90deg, transparent 46%, #6b2e1c 46% 54%, transparent 54%),
+    linear-gradient(0deg, transparent 46%, #6b2e1c 46% 54%, transparent 54%);
+}
+
+.level-pipe {
+  position: absolute;
+  z-index: 9;
+  bottom: 10px;
+  left: 2%;
+  width: 30px;
+  height: 44px;
+  border: 2px solid #173d22;
+  background: #3f8b48;
+  box-shadow: inset -6px 0 0 #286a36, inset 4px 0 0 #69b75c;
+}
+
+.level-pipe::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  right: -4px;
+  left: -4px;
+  height: 9px;
+  border: 2px solid #173d22;
+  background: #4d9b50;
+  box-shadow: inset 0 -3px 0 #286a36;
+}
+
+.loader-level--right .level-pipe {
+  right: 2%;
+  left: auto;
+}
+
+.level-goomba {
+  position: absolute;
+  z-index: 10;
+  bottom: 11px;
+  left: 39%;
+  width: 22px;
+  height: 18px;
+  border: 2px solid #2a160e;
+  background: #9b5a2f;
+  box-shadow: inset 0 5px 0 #c9824c;
+  animation: levelGoomba 3.7s steps(2, end) infinite alternate;
+}
+
+.loader-level--right .level-goomba {
+  left: 18%;
+  animation-duration: 4.4s;
+  animation-delay: -1.1s;
+}
+
+.level-goomba::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 3px;
+  width: 5px;
+  height: 5px;
+  background: #fff4df;
+  box-shadow: 9px 0 0 #fff4df;
+}
+
+.level-goomba::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 7px;
+  height: 4px;
+  background: #2a160e;
+  box-shadow: 12px 0 0 #2a160e;
+}
+
+.level-flag {
+  position: absolute;
+  z-index: 9;
+  right: 5%;
+  bottom: 10px;
+  width: 3px;
+  height: 72%;
+  border: 1px solid #2a140e;
+  background: #d8d2c1;
+}
+
+.level-flag::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -4px;
+  width: 9px;
+  height: 9px;
+  border: 2px solid #2a140e;
+  border-radius: 50%;
+  background: #e5a52f;
+}
+
+.level-flag i {
+  position: absolute;
+  top: 5px;
+  left: 3px;
+  width: 26px;
+  height: 18px;
+  border: 2px solid #173d22;
+  background: #3f8b48;
+  clip-path: polygon(0 0, 100% 18%, 100% 82%, 0 100%);
+  transform-origin: 0 50%;
+  animation: levelFlag 1.8s steps(2, end) infinite alternate;
+}
+
+@keyframes levelCoin {
+  0%, 100% { transform: scaleX(1); }
+  50% { transform: scaleX(.25); }
+}
+
+@keyframes levelBlock {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+@keyframes levelGoomba {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(26px); }
+}
+
+@keyframes levelFlag {
+  0% { transform: skewY(0deg) scaleX(1); }
+  100% { transform: skewY(2deg) scaleX(.86); }
+}
+
+@keyframes levelCloud {
+  0% { translate: 0 0; }
+  100% { translate: 8px 0; }
+}
+
+@media (max-width: 900px) {
+  .loader-familiar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .level-coin,
+  .level-block,
+  .level-goomba,
+  .level-flag,
+  .level-cloud {
+    animation: none;
+  }
+}
+
+/* Fill more of the gutter and make the little level readable at a glance. */
+.loader-familiar {
+  width: min(180px, 13vw);
+}
+
+.loader-level {
+  height: 240px;
+}
+
+.level-ground {
+  height: 16px;
+}
+
+.level-block {
+  top: 37%;
+  width: 28px;
+  height: 28px;
+}
+
+.level-block--q {
+  font-size: 13px;
+}
+
+.level-coin {
+  width: 12px;
+  height: 17px;
+}
+
+.level-pipe {
+  width: 34px;
+  height: 50px;
+}
+
+.level-pipe::before {
+  height: 10px;
+}
+
+.level-goomba {
+  width: 25px;
+  height: 20px;
+}
+
+.level-goomba::before {
+  width: 6px;
+  height: 6px;
+  box-shadow: 10px 0 0 #fff4df;
+}
+
+.level-goomba::after {
+  width: 8px;
+  height: 4px;
+  box-shadow: 13px 0 0 #2a160e;
+}
+
+.level-flag {
+  height: 76%;
+}
+
+.level-flag i {
+  width: 30px;
+  height: 20px;
+}
+
+@keyframes levelGoomba {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(30px); }
+}
+
+@media (max-width: 1199px) {
+  .loader-familiar {
+    display: none;
+  }
+}
