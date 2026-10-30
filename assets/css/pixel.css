@@ -6226,3 +6226,27 @@ body.peek-open .px-taskbar {
   outline: 2px solid var(--lv-light);
   outline-offset: 2px;
 }
+
+/* Coins sit directly over the brick row, clear of the drifting clouds. */
+.level-coin--a {
+  top: 22%;
+  left: 10%;
+}
+
+.level-coin--b {
+  top: 22%;
+  left: 37%;
+}
+
+.level-coin--c {
+  top: 22%;
+  left: 64%;
+}
+
+.loader-level--right .level-coin--a {
+  left: 62%;
+}
+
+.loader-level--right .level-coin--b {
+  left: 80%;
+}
