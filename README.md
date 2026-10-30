@@ -1,8 +1,8 @@
-# 郑铠妤 KAIYU — Nocturne Portfolio
+# 郑铠妤 KAIYU — KAIYU.OS 95
 
 Live site: **https://xq1125.github.io/kaiyu-portfolio/**
 
-A hand-built, dependency-free portfolio for game visual, AIGC film, UI/UX, 3D, IP and personal experiments. The art direction is a black-and-deep-red private view: near-black rooms, bone Songti, vermilion accents, a matted game key-art print and full-bleed work sheets. No dark-neon template, no external fonts, no tracking.
+A hand-built, dependency-free portfolio for game visual, AIGC film, UI/UX, 3D, IP and personal experiments. The art direction is now **KAIYU.OS 95**: a teal pixel desktop, beige and navy computer windows, a fixed taskbar, dotted dither, CRT scanlines and real 12 px Chinese pixel type. The work itself stays full-bleed inside image-viewer windows, so the old computer frame never gets in the way of the pictures.
 
 **33 pieces · 6 chapters · 14 films · 1 fragment game.**
 
@@ -22,18 +22,21 @@ Or double-click `index.html`; every asset uses a relative path. A local server i
 index.html                 Homepage: hero, one-page catalogue, about, contact
 chapter.html               Chapter detail page: every plate first, then inline films
 assets/css/style.css       Gallery styling and responsive layout
+assets/css/pixel.css       KAIYU.OS 95 desktop skin, windows, taskbar, boot screen
 assets/js/data.js          Categories, plate captions, film sources, facts, contact data
 assets/js/main.js          Homepage catalogue, fragment game, menu, copy, clocks
 assets/js/chapter.js       Chapter renderer, native video cards, full-image lightbox
-assets/js/cursor.js        Drawn chapter cursor, trailing ring and click ripple
+assets/js/pixel.js         Window wrappers, title bars and the fixed taskbar
+assets/js/cursor.js        Legacy drawn cursor (hidden by the pixel theme on desktop)
+assets/fonts/              Self-hosted Fusion Pixel 12 px subset + Press Start 2P
 assets/img/thumb/          900px WebP plates (mobile / card thumbnails)
 assets/img/wide/           1800px WebP plates (chapter grids + srcset)
-assets/img/full/           1800–2800px WebP plates (chapter lightbox)
+assets/img/full/           1800–2800px WebP plates (desktop chapter lightbox)
 assets/img/covers/         Hero and chapter-cover crops
 assets/img/covers/mobile/  720 px cover crops served to phones
 assets/img/video/          Video poster frames
 assets/img/about/          Illustrated portrait and its transparent cutout
-assets/img/loader-cover.webp  Duotone 0-1 cover for the opening screen
+assets/img/loader-cover.webp  Unused legacy opening image (kept for the archive)
 assets/img/og-cover.jpg    1200 × 630 social card
 assets/resume/resume.webp   Public CV image opened from the about section
 assets/video/              Compressed H.264 films (faststart)
@@ -41,20 +44,20 @@ assets/video/              Compressed H.264 films (faststart)
 
 ## Interactions
 
-- **Click gate** — the darkroom loader fills to 100%, then waits. It does not auto-enter: the visitor presses the red **点击进入 / ENTER** button (or clicks anywhere on the ready loader) to reveal the homepage. Keyboard focus lands on the button, and the loader is removed only after that click.
-- **Hero poke board** — the hero’s single print is now six numbered red tickets in a dark frame, one for each chapter. The first click on a ticket peels it back to that chapter’s cover with a short red sweep and ring; a second click opens the chapter. At most two tickets stay open, so opening a third sends the earliest one back down; `全部盖上` resets the set and the counter tracks `00 / 02`.
-- **One-page catalogue** — six wide flip cards in a 3 × 2 grid that still fits one desktop screen. At rest the cards show their backs: chapter number, title, counts and a ghosted English label. Hovering or keyboard-focusing one card flips only that card to its cover; touch screens show the covers directly. Each card states its film count and links to its chapter.
-- **Chapter pages** — every catalogue row and every hero ticket open `chapter.html?c=…`. A chapter shows every plate at full width / two columns first, then its films as native HTML5 players, with previous/next chapter links. This is where the actual work and all videos live; there is no separate all-films page. Chapter 06 also has two live-site cards: the screenshot itself links to the live URL, with a small `访问网站` badge, and each site has a silent demo reel in the film strip.
-- **Artist card** — the about portrait is a deliberate flip card: the front is a smaller, transparent cutout of the drawn portrait with no paper backing, and the back is a short statement on black. Click to turn it over; the state is exposed with `aria-pressed`.
-- **CV folder** — the small red card under the portrait lifts its flap and opens the actual CV page as an image inside the envelope modal. There is no PDF link and no download button.
-- **Opening reveal** — the hero headline masks up once the loader clears. A single transition, not a sequence of effects.
-- **Work lightbox** — on chapter pages, clicking any plate opens the full-resolution image; `Esc`, the close button or the backdrop closes it. The link still falls back to the image file if JavaScript is unavailable.
-- **Fragment game** — “这是哪一章的碎片？” A five-round game built from real close-ups of the 33 plates. Guess the chapter, reveal the full work, then open it directly in the lightbox. It opens from a small “猜碎片” tab in the header into a compact dark popup, not a page section.
-- **Contact postcard** — the email is click-to-copy, phone opens the dialer, and QQ / WeChat copy with a toast. The “聊聊合作或实习” link in the about block jumps straight to this contact room.
-- **Chapter cursor** — on fine-pointer devices every chapter page replaces the hidden native pointer with a drawn bone-and-red arrow. A thin red ring trails it, interactive elements turn the arrow red, and each click sends out a short expanding ripple; touch devices keep the native cursor.
-- **Touch layout** — phones get a stacked opening poster, full-bleed catalogue covers, a single-tap route from a hero ticket into its chapter, tap ripples, pressed-card scaling and a short vibration on supported Android browsers. Hover-only flips and lifts are disabled on touch.
-- **Image weight** — desktop keeps the 2800 px full-resolution lightbox files. Phones request 720 px covers through `srcset`, use the 1800 px wide files for the lightbox, and defer the hidden loader art and CV image until needed.
-- **Small things** — custom red cursor labels, live Hangzhou clock, scroll reveals, mobile menu, keyboard focus states.
+- **Boot gate** — the opening screen is a KAIYU.OS 95 boot poster: a pixel terminal frame, a segmented progress bar and the red **点击进入 / ENTER** button. It does not auto-enter; the visitor presses the button (or clicks anywhere on the ready boot screen). Keyboard focus lands on the button, and the boot screen is removed only after that click.
+- **Hero folder shortcuts** — the six numbered chapter shortcuts are beige desktop folders in a small explorer window. Hovering reveals the cover; touch taps reveal it briefly and then open the chapter directly. At most two folders stay open, and `全部盖上` resets the set.
+- **One-page catalogue** — six cover cards are framed as file windows with a `C:\KAIYU\WORKS` title strip. Covers are always visible now; there is no 3D flip to hide the work. Each card states its film count and links to its chapter.
+- **Chapter pages** — every catalogue card and every hero folder opens `chapter.html?c=…`. A chapter shows every plate as an image-viewer window, then its films as beveled video players, with previous/next chapter buttons. This is where the actual work and all videos live; there is no separate all-films page. Chapter 06 also has two live-site windows: the screenshot itself links to the live URL, with a small `访问网站` badge, and each site has a silent demo reel in the film strip.
+- **Artist card** — the about portrait is still a flip card, but framed as a computer monitor; the front is the drawn portrait and the back is a short statement. Click to turn it over; the state is exposed with `aria-pressed`.
+- **CV dialog** — the small red CV card opens the actual CV image in a `RESUME.PNG` window. There is no PDF link and no download button. The image is loaded only when the dialog opens.
+- **Opening reveal** — the hero headline unmasks in a short stepped animation once the boot screen clears.
+- **Work lightbox** — on chapter pages, clicking any plate opens the full-resolution image in a viewer window; `Esc`, the close button or the backdrop closes it. The link still falls back to the image file if JavaScript is unavailable.
+- **Fragment game** — “这是哪一章的碎片？” A five-round game built from real close-ups of the 33 plates. It opens from the `猜碎片` tab as a beige guessing-game window, not a page section.
+- **Contact postcard** — a red `MAIL.EXE` window with a beige postcard. Email is click-to-copy, phone opens the dialer, and QQ / WeChat copy with a toast.
+- **Desktop cursor** — the old drawn cursor is disabled; desktop uses a small pixel arrow. All interactive controls keep a visible focus ring.
+- **Touch layout** — phones get stacked windows, a compact taskbar, tap ripples, pressed-card scaling and a short vibration on supported Android browsers. Hover-only behaviours are disabled on touch.
+- **Image weight** — desktop keeps the 2800 px full-resolution lightbox files. Phones request 720 px covers through `srcset`, use the 1800 px wide files for the lightbox, and defer the CV image. The old loader raster is no longer downloaded; the boot screen is pure type.
+- **Small things** — live Hangzhou clock in the taskbar, scroll reveals, mobile start menu, window chrome and keyboard focus states.
 - **Keyboard** — `Esc` closes the chapter lightbox; native video controls handle playback, seeking and volume.
 
 ## GitHub Pages
@@ -99,7 +102,8 @@ videos: [
 ## Notes
 
 - Plates were optimized from the supplied 7073 × 2500 portfolio boards.
-- The opening cover reuses the **0-1** cover composition as a black / deep-red / bone duotone. The right-hand contact block is cropped out so phone / QQ / WeChat are never published.
+- The boot screen is CSS and type only. The old `loader-cover.webp` is kept in the archive but is no longer requested.
+- The type is self-hosted: a site-text subset of **Fusion Pixel 12 px** (OFL) for Chinese and **Press Start 2P** (OFL, Reserved Font Name) for machine labels. Licenses live in `assets/fonts/`.
 - The site opens at the top unless a chapter hash is present; old `#contact` links and browser scroll restoration are reset so a fresh visit never lands on the contact section.
 - No third-party JavaScript, build step, external font, analytics or cookies.
 - The contact postcard publishes only the details the artist chose to share: email, phone, WeChat and QQ. The full profile-board image with other personal fields is intentionally not published.

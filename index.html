@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>郑铠妤 KAIYU — 把想象剪下来 / Portfolio</title>
-  <meta name="description" content="郑铠妤（KAIYU ZHENG）作品集：游戏视觉、AI 图像与视频、UI/UX、3D 建模、IP 叙事造物与个人创作。黑与深红的展览空间，一次安静的私览。">
+  <meta name="description" content="郑铠妤（KAIYU ZHENG）作品集：游戏视觉、AI 图像与视频、UI/UX、3D 建模、IP 叙事造物与个人创作。KAIYU.OS 95 像素桌面，六个章节，33 件作品。">
   <meta name="author" content="郑铠妤 KAIYU ZHENG">
-  <meta name="theme-color" content="#0b0807">
+  <meta name="theme-color" content="#073b38">
   <link rel="canonical" href="https://xq1125.github.io/kaiyu-portfolio/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://xq1125.github.io/kaiyu-portfolio/">
   <meta property="og:title" content="郑铠妤 KAIYU — 把想象剪下来">
-  <meta property="og:description" content="游戏视觉 · AI 图像与视频 · UI/UX · 3D · IP。一个黑与深红的作品集，2023—2027。">
+  <meta property="og:description" content="游戏视觉 · AI 图像与视频 · UI/UX · 3D · IP。一个 KAIYU.OS 95 像素桌面的作品集，2023—2027。">
   <meta property="og:image" content="https://xq1125.github.io/kaiyu-portfolio/assets/img/og-cover.jpg?v=nocturne">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://xq1125.github.io/kaiyu-portfolio/assets/img/og-cover.jpg?v=nocturne">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="preload" as="image" href="assets/img/loader-cover.webp" media="(min-width: 601px)">
   <script>document.documentElement.classList.add('js');</script>
   <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/pixel.css?v=1">
   <noscript><style>.loader{display:none!important}body.is-loading{overflow:auto!important}</style></noscript>
 </head>
 <body class="is-loading">
@@ -36,7 +36,6 @@
         <span class="lf-script">Portfolio</span>
         <span class="lf-en">STYLES COME AND GO<br>BUT GOOD DESIGN IS A LANGUAGE<br>IT'S NOT A STYLE</span>
       </div>
-      <img src="assets/img/loader-cover.webp" alt="" width="2000" height="1162" loading="lazy" decoding="async">
     </div>
     <div class="loader-top">
       <span>( PORTFOLIO / 2027 )</span>
@@ -108,7 +107,7 @@
   </div>
 
   <main id="main">
-    <section class="hero" id="top" data-section="top">
+    <section class="hero px-window" id="top" data-section="top" data-px-title="KAIYU.EXE — 把我的想象剪下来">
       <div class="hero-topline">
         <span>( 作品集 / PORTFOLIO )</span>
         <span>视觉设计师 &amp; 图像制作者</span>
@@ -153,7 +152,7 @@
       </div>
     </section>
 
-    <section class="index-section" id="works" data-section="works">
+    <section class="index-section px-window" id="works" data-section="works" data-px-title="EXPLORER.EXE — C:\KAIYU\WORKS">
       <div class="section-label">
         <span>( 01 ) — INDEX</span>
         <span>挑一本，慢慢翻</span>
@@ -179,7 +178,7 @@
       <div class="index-grid" id="indexGrid"></div>
     </section>
 
-    <section class="about-section" id="about" data-section="about">
+    <section class="about-section px-window" id="about" data-section="about" data-px-title="README.TXT — 关于郑铠妤">
       <div class="section-label section-label--about">
         <span>( 02 ) — ABOUT</span>
         <span>一个正在长大的人</span>
@@ -281,7 +280,7 @@
       </div>
     </div>
 
-    <section class="contact-section" id="contact" data-section="contact">
+    <section class="contact-section px-window" id="contact" data-section="contact" data-px-title="MAIL.EXE — 写封信给我">
       <div class="contact-head">
         <span>( 03 ) — CONTACT</span>
         <span>OPEN FOR A GOOD CONVERSATION</span>
@@ -344,7 +343,7 @@
     </section>
   </main>
 
-  <footer class="site-footer">
+  <footer class="site-footer px-window" data-px-title="SYSTEM — 当前状态">
     <div class="footer-left">
       <span class="brand-seal">郑</span>
       <p>© 2026 郑铠妤 KAIYU ZHENG<br><span>所有图像均由本人创作 / ALL IMAGES BY THE ARTIST.</span></p>
@@ -490,6 +489,7 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+  <script src="assets/js/pixel.js?v=1" defer></script>
   <script src="assets/js/data.js" defer></script>
   <script src="assets/js/main.js" defer></script>
 </body>

@@ -6,9 +6,11 @@
   <title>章节 — 郑铠妤 KAIYU</title>
   <meta name="description" content="郑铠妤作品集章节：游戏视觉、AIGC 影像、UI/UX、3D、IP 与个人创作。">
   <meta name="author" content="郑铠妤 KAIYU ZHENG">
-  <meta name="theme-color" content="#0b0807">
+  <meta name="theme-color" content="#073b38">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/pixel.css?v=1">
+  <script defer src="assets/js/pixel.js?v=1"></script>
   <script defer src="assets/js/data.js"></script>
   <script defer src="assets/js/chapter.js"></script>
   <script defer src="assets/js/cursor.js"></script>
@@ -39,7 +41,7 @@
 
   <main class="work-main" id="main">
     <div class="chapter-shell">
-      <section class="chapter-hero">
+      <section class="chapter-hero px-window" data-px-title="CHAPTER.EXE — 章节阅读器">
         <div class="chapter-topline">
           <span id="chapterKicker">CHAPTER / 01</span>
           <span id="chapterCount">01 / 06</span>
@@ -57,7 +59,7 @@
         </div>
       </section>
 
-      <section class="chapter-section">
+      <section class="chapter-section px-window" data-px-title="WORKS.DIR — 作品">
         <div class="work-section-head">
           <span>( 作品 / WORKS )</span>
           <span id="workCount"></span>
@@ -65,7 +67,7 @@
         <div class="chapter-works" id="workGrid"></div>
       </section>
 
-      <section class="chapter-section chapter-site-section" id="siteLinks" hidden>
+      <section class="chapter-section chapter-site-section px-window" id="siteLinks" hidden data-px-title="LIVE_SITES.URL — 线上体验">
         <div class="work-section-head">
           <span>( 线上体验 / LIVE SITES )</span>
           <span id="siteCount"></span>
@@ -73,7 +75,7 @@
         <div class="chapter-site-grid" id="siteLinkGrid"></div>
       </section>
 
-      <section class="chapter-section" id="filmSection" hidden>
+      <section class="chapter-section px-window" id="filmSection" hidden data-px-title="FILMS.AVI — 影像">
         <div class="work-section-head">
           <span>( 影像 / FILMS )</span>
           <span id="filmCount"></span>
