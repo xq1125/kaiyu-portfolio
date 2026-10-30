@@ -18,7 +18,7 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <script>document.documentElement.classList.add('js');</script>
   <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/pixel.css?v=28">
+  <link rel="stylesheet" href="assets/css/pixel.css?v=29">
   <noscript><style>.loader{display:none!important}body.is-loading{overflow:auto!important}</style></noscript>
 </head>
 <body class="is-loading">
@@ -451,21 +451,15 @@
       <div class="about-grid">
         <div class="about-left">
           <div class="about-card" data-reveal>
-            <button class="about-flip" id="aboutFlip" type="button" aria-pressed="false" aria-label="移动到插画上可擦除，点击翻面查看艺术家卡片">
+            <div class="about-flip" id="aboutFlip">
               <span class="about-face about-face--front">
                 <img class="about-photo" src="assets/img/about/portrait-photo.webp" alt="" width="1440" height="1080" loading="lazy" decoding="async">
                 <img class="about-ink" src="assets/img/about/portrait-cutout.webp" alt="郑铠妤的插画头像" width="705" height="825" loading="lazy" decoding="async">
                 <canvas class="about-scratch" aria-hidden="true"></canvas>
                 <span class="about-face-caption"><span>me, drawn by me</span><span>2026</span></span>
               </span>
-              <span class="about-face about-face--back" aria-hidden="true">
-                <span class="about-back-kicker">ARTIST CARD / 01</span>
-                <span class="about-back-quote">把想象剪下来，<br>再让它自己长回去。</span>
-                <span class="about-back-meta">郑铠妤 / KAIYU ZHENG<br>VISUAL DESIGNER &amp; IMAGE MAKER</span>
-                <span class="about-back-hint">再次翻面 ↻</span>
-              </span>
-            </button>
-            <p class="about-flip-hint"><span class="about-flip-copy">拖动擦除 · 点击翻面</span><button class="about-face-toggle" id="aboutFaceToggle" type="button" aria-pressed="false" aria-label="切换到艺术家卡片背面">看背面</button></p>
+            </div>
+            <p class="about-flip-hint"><span class="about-flip-copy">移动擦除 · 点击复原</span><span>SCRATCH CARD</span></p>
           </div>
 
           <a class="resume-card" id="resumeCard" href="assets/resume/resume.webp" data-reveal data-cursor="打开信封" aria-label="打开郑铠妤的简历信封">
@@ -743,6 +737,6 @@
   <script src="assets/js/pixel.js?v=1" defer></script>
   <script src="assets/js/audio.js?v=2" defer></script>
   <script src="assets/js/data.js?v=2" defer></script>
-  <script src="assets/js/main.js?v=15" defer></script>
+  <script src="assets/js/main.js?v=16" defer></script>
 </body>
 </html>

@@ -1682,36 +1682,6 @@
     });
   }
 
-  function initAboutFlip() {
-    const card = $("#aboutFlip");
-    if (!card) return;
-    const hint = $(".about-flip-copy");
-    const toggle = $("#aboutFaceToggle");
-    const coarse = window.matchMedia("(hover: none), (pointer: coarse)").matches;
-    const idleCopy = coarse ? "手指擦除 · 轻点翻面" : "拖动擦除 · 点击翻面";
-    const backCopy = coarse ? "轻点翻回正面 · 可继续擦除" : "点击翻回正面 · 可继续擦除";
-    if (hint) hint.textContent = idleCopy;
-    const setFlipped = (flipped) => {
-      card.classList.toggle("is-flipped", flipped);
-      card.setAttribute("aria-pressed", String(flipped));
-      if (hint) hint.textContent = flipped ? backCopy : idleCopy;
-      if (toggle) {
-        toggle.textContent = flipped ? "看正面" : "看背面";
-        toggle.setAttribute("aria-pressed", String(flipped));
-        toggle.setAttribute("aria-label", flipped ? "切换到插画正面" : "切换到艺术家卡片背面");
-      }
-    };
-    card.addEventListener("click", () => {
-      setFlipped(!card.classList.contains("is-flipped"));
-    });
-    if (toggle) {
-      toggle.addEventListener("click", (event) => {
-        event.stopPropagation();
-        setFlipped(!card.classList.contains("is-flipped"));
-      });
-    }
-  }
-
   function initPortraitScratch() {
     const flip = $("#aboutFlip");
     if (!flip) return;
@@ -1723,6 +1693,11 @@
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+
+    const hint = $(".about-flip-copy");
+    if (hint && !window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      hint.textContent = "手指擦除 · 轻点复原";
+    }
 
     let width = 1;
     let height = 1;
@@ -1879,7 +1854,7 @@
       if (!touchScratch.moved && Math.hypot(dx, dy) < 6) return;
 
       touchScratch.moved = true;
-      suppressClickUntil = Date.now() + 700;
+      suppressClickUntil = Date.now() + 350;
       if (event.cancelable) event.preventDefault();
       const { x, y } = point(event);
       eraseTo(x, y);
@@ -1887,7 +1862,7 @@
 
     const endTouchScratch = (event) => {
       if (!touchScratch || touchScratch.id !== event.pointerId) return;
-      if (touchScratch.moved) suppressClickUntil = Date.now() + 700;
+      if (touchScratch.moved) suppressClickUntil = Date.now() + 350;
       touchScratch = null;
       last = null;
       if (typeof face.releasePointerCapture === "function") {
@@ -2280,7 +2255,6 @@
   initLightbox();
   initFragmentGame();
   initChapterReader();
-  initAboutFlip();
   initPortraitScratch();
   initDesktopMascot();
   initResumeEnvelope();
