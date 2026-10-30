@@ -38,7 +38,8 @@ assets/img/covers/         Hero and chapter-cover crops
 assets/img/covers/mobile/  720 px cover crops served to phones
 assets/img/video/          Video poster frames
 assets/img/about/          Illustrated portrait and its transparent cutout
-assets/img/loader-cover.webp  Unused legacy opening image (kept for the archive)
+assets/img/loader-cover.webp  Original opening cover, framed as a CRT on desktop
+assets/img/loader-cover-mobile.webp  Portrait crop of the original cover for phones
 assets/img/og-cover.jpg    1200 × 630 social card
 assets/resume/resume.webp   Public CV image opened from the about section
 assets/video/              Compressed H.264 films (faststart)
@@ -46,7 +47,7 @@ assets/video/              Compressed H.264 films (faststart)
 
 ## Interactions
 
-- **Boot gate** — the opening screen is a KAIYU.OS 95 boot poster: a pixel terminal frame, a segmented progress bar and the red **点击进入 / ENTER** button. It does not auto-enter; the visitor presses the button (or clicks anywhere on the ready boot screen). Keyboard focus lands on the button, and the boot screen is removed only after that click.
+- **Boot gate** — the opening screen is the original portfolio cover displayed inside a beige CRT monitor: navy status strip, black screen with scanlines, power LED and a pixel chin. Desktop shows the full 2000 × 1162 cover; phones show a portrait crop of the same artwork so the type stays readable. A segmented progress bar and the red **点击进入 / ENTER** button sit below. It does not auto-enter; the visitor presses the button (or clicks anywhere on the ready boot screen). Keyboard focus lands on the button, and the boot screen is removed only after that click.
 - **Hero folder shortcuts** — the six numbered chapter shortcuts are beige desktop folders in a small explorer window. Hovering reveals the cover; touch taps reveal it briefly and then open the chapter directly. At most two folders stay open, and `全部盖上` resets the set.
 - **One-page catalogue** — six cover cards are framed as file windows with a `C:\KAIYU\WORKS` title strip. Covers are always visible now; there is no 3D flip to hide the work. Each card states its film count and links to its chapter.
 - **Chapter pages** — every catalogue card and every hero folder opens `chapter.html?c=…`. A chapter shows every plate as an image-viewer window, then its films as beveled video players, with previous/next chapter buttons. This is where the actual work and all videos live; there is no separate all-films page. Chapter 06 also has two live-site windows: the screenshot itself links to the live URL, with a small `访问网站` badge, and each site has a silent demo reel in the film strip.
@@ -58,7 +59,7 @@ assets/video/              Compressed H.264 films (faststart)
 - **Contact postcard** — a red `MAIL.EXE` window with a beige postcard. Email is click-to-copy, phone opens the dialer, and QQ / WeChat copy with a toast.
 - **Desktop cursor** — the old drawn cursor is disabled; desktop uses a small pixel arrow. All interactive controls keep a visible focus ring.
 - **Touch layout** — phones get stacked windows, a compact taskbar, tap ripples, pressed-card scaling and a short vibration on supported Android browsers. Hover-only behaviours are disabled on touch.
-- **Image weight** — desktop keeps the 2800 px full-resolution lightbox files. Phones request 720 px covers through `srcset`, use the 1800 px wide files for the lightbox, and defer the CV image. The old loader raster is no longer downloaded; the boot screen is pure type.
+- **Image weight** — desktop keeps the 2800 px full-resolution lightbox files. Phones request 720 px covers through `srcset`, use the 1800 px wide files for the lightbox, and defer the CV image. The opening cover is the one deliberate exception: desktop loads the 2000 px original, phones a 37 KB portrait crop.
 - **Soundtrack** — an original 42-second chiptune loop (`os95-theme.mp3`) and tiny synthesized UI sounds. Music is off until the first real gesture; the **点击进入** click starts it with a soft boot chime. The taskbar `♪` control mutes or resumes it, the preference is remembered, and a best-effort timestamp is carried between index and chapter pages.
 - **Small things** — live Hangzhou clock in the taskbar, scroll reveals, mobile start menu, window chrome and keyboard focus states.
 - **Keyboard** — `Esc` closes the chapter lightbox; native video controls handle playback, seeking and volume.
@@ -105,7 +106,7 @@ videos: [
 ## Notes
 
 - Plates were optimized from the supplied 7073 × 2500 portfolio boards.
-- The boot screen is CSS and type only. The old `loader-cover.webp` is kept in the archive but is no longer requested.
+- The boot screen uses the original portfolio cover inside a CSS CRT frame. Desktop loads the 2000 px image; phones load a 1170 px portrait crop of the same cover.
 - The type is self-hosted: a site-text subset of **Fusion Pixel 12 px** (OFL) for Chinese and **Press Start 2P** (OFL, Reserved Font Name) for machine labels. Licenses live in `assets/fonts/`.
 - The soundtrack and UI effects are original synthesized audio, generated for this site. No samples, no third-party music and no licensing dependencies.
 - The site opens at the top unless a chapter hash is present; old `#contact` links and browser scroll restoration are reset so a fresh visit never lands on the contact section.

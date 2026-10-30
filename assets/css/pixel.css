@@ -2493,3 +2493,219 @@ body.lightbox-open .px-taskbar {
     font-size: 11px;
   }
 }
+
+/* The opening screen now shows the original portfolio cover inside a CRT. */
+.loader-bg {
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 50px 0 180px;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.loader-bg::after {
+  display: none;
+}
+
+.loader-bg img {
+  position: relative;
+  z-index: 1;
+  display: block !important;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  image-rendering: auto;
+  transform: none;
+  filter: saturate(.96) contrast(1.02);
+}
+
+.loader-fallback {
+  display: none !important;
+}
+
+.loader-monitor {
+  width: min(980px, 78vw, calc((100svh - 300px) * 1.721));
+  padding: 8px 10px 7px;
+  border: 3px solid;
+  border-color: var(--px-face-hi) var(--px-face-lo) var(--px-face-lo) var(--px-face-hi);
+  background: var(--px-face);
+  box-shadow: 8px 8px 0 var(--px-shadow), inset 0 0 0 2px #b8af97;
+}
+
+.loader-monitor-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  height: 19px;
+  padding: 0 6px;
+  border: 1px solid var(--px-ink);
+  background: linear-gradient(90deg, var(--px-navy), var(--px-navy-hi));
+  color: var(--px-face-hi);
+  font-family: var(--px-en);
+  font-size: 5px;
+  line-height: 1;
+}
+
+.loader-screen {
+  position: relative;
+  aspect-ratio: 2000 / 1162;
+  margin: 5px 0 6px;
+  overflow: hidden;
+  border: 4px solid #16140f;
+  background: #030303;
+  box-shadow: inset 0 0 0 2px #050505, inset 0 0 34px rgba(207, 75, 50, .08);
+}
+
+.loader-screen::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, .18) 0,
+    rgba(0, 0, 0, .18) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+.loader-screen-nosignal {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #6f8f83;
+  font-family: var(--px-en);
+  font-size: 8px;
+  letter-spacing: .12em;
+}
+
+.loader-monitor-chin {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 22px;
+  padding: 0 3px;
+  color: #4f493a;
+  font-family: var(--px-en);
+  font-size: 4.5px;
+  line-height: 1;
+}
+
+.loader-monitor-led {
+  width: 6px;
+  height: 6px;
+  background: var(--px-red);
+  box-shadow: 0 0 0 1px #6f211a, 0 0 5px rgba(211, 75, 53, .5);
+}
+
+.loader-monitor-vents {
+  flex: 1;
+  height: 6px;
+  margin: 0 4px;
+  background: repeating-linear-gradient(
+    to bottom,
+    #9f9680 0,
+    #9f9680 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+@media (max-width: 600px) {
+  .loader-bg {
+    position: relative;
+    inset: auto;
+    grid-row: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    overflow: visible;
+    transform: none;
+  }
+
+  .loader-monitor {
+    width: 100%;
+    max-width: 342px;
+    padding: 5px 6px 4px;
+    box-shadow: 4px 4px 0 var(--px-shadow), inset 0 0 0 1px #b8af97;
+  }
+
+  .loader-monitor-bar {
+    height: 15px;
+    padding: 0 4px;
+    font-size: 3.8px;
+  }
+
+  .loader-screen {
+    margin: 3px 0 4px;
+    border-width: 3px;
+  }
+
+  .loader-screen-nosignal {
+    font-size: 6px;
+  }
+
+  .loader-monitor-chin {
+    height: 16px;
+    font-size: 3.5px;
+  }
+
+  .loader-monitor-led {
+    width: 5px;
+    height: 5px;
+  }
+
+  .loader-monitor-vents {
+    height: 4px;
+  }
+}
+
+.loader-screen picture {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: block;
+}
+
+.loader-bg img {
+  object-fit: cover;
+  animation: none !important;
+  filter: brightness(1.1) saturate(.98) contrast(1.03);
+}
+
+.loader-screen::after {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, .14) 0,
+    rgba(0, 0, 0, .14) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+@media (max-width: 600px) {
+  .loader-screen {
+    aspect-ratio: 1170 / 1162;
+  }
+
+  .loader-monitor {
+    max-width: 354px;
+  }
+}
+
+@media (min-width: 601px) {
+  .loader-monitor {
+    width: min(980px, 78vw);
+    max-width: calc((100svh - 300px) * 1.721);
+  }
+}
