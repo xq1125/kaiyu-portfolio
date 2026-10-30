@@ -175,7 +175,6 @@
         <div class="peek-bar">
           <span class="peek-bar-title">PREVIEW.EXE — CHAPTER PEEK</span>
           <span class="peek-bar-actions">
-            <a class="peek-jump" href="#" data-peek-jump>完整章节 ↗</a>
             <button class="peek-close" type="button" data-peek-close>合上 <span>×</span></button>
           </span>
         </div>
@@ -213,58 +212,12 @@
     return peek;
   }
 
-  const PEEK_SLICES = {
-    game: [
-      { src: "assets/img/peek/game-1.webp", label: "角色 / 深渊恶魔" },
-      { src: "assets/img/peek/game-2.webp", label: "设定 / 天使与恶魔" },
-      { src: "assets/img/peek/game-3.webp", label: "界面 / 恶魔形态" }
-    ],
-    aigc: [
-      { src: "assets/img/peek/aigc-film-1.webp", label: "正片 / 山海一念" },
-      { src: "assets/img/peek/aigc-film-2.webp", label: "正片 / 未发送" },
-      { src: "assets/img/peek/aigc-film-3.webp", label: "正片 / 打铁花" }
-    ],
-    uiux: [
-      { src: "assets/img/peek/uiux-1.webp", label: "界面 / HRM 系统" },
-      { src: "assets/img/peek/uiux-2.webp", label: "用户 / 画像" },
-      { src: "assets/img/peek/uiux-3.webp", label: "规范 / 情绪色彩" }
-    ],
-    "three-d": [
-      { src: "assets/img/peek/three-d-1.webp", label: "角色 / 课堂练习" },
-      { src: "assets/img/peek/three-d-2.webp", label: "场景 / 岛屿旅行" },
-      { src: "assets/img/peek/three-d-3.webp", label: "海报 / 立体质感" }
-    ],
-    ip: [
-      { src: "assets/img/peek/ip-1.webp", label: "IP / 森林合唱团" },
-      { src: "assets/img/peek/ip-2.webp", label: "衍生 / 产品陈列" },
-      { src: "assets/img/peek/ip-3.webp", label: "研究 / 色彩结构" }
-    ],
-    lab: [
-      { src: "assets/img/peek/lab-1.webp", label: "手稿 / 表情" },
-      { src: "assets/img/peek/lab-2.webp", label: "角色 / 定格设定" },
-      { src: "assets/img/peek/lab-3.webp", label: "视觉 / BREATH" }
-    ]
-  };
-
   function peekMarkup(category) {
     const filmCount = category.plates.reduce(
       (sum, plate) => sum + (Array.isArray(plate.videos) ? plate.videos.length : 0),
       0
     );
-    const configured = PEEK_SLICES[category.id];
-    const sliceItems = configured || category.plates.slice(0, 3).map((plate) => ({
-      src: `assets/img/thumb/${plate.id}.webp`,
-      label: plate.title
-    }));
-    const slices = sliceItems
-      .map((slice, index) => `
-        <figure class="peek-slice peek-slice--${index + 1}">
-          <img src="${slice.src}" alt="${category.title}：${slice.label}" width="720" height="315"
-               loading="lazy" decoding="async">
-          <figcaption><span>${pad(index + 1)}</span><b>${slice.label}</b></figcaption>
-        </figure>
-      `)
-      .join("");
+    const home = category.plates[0];
     const toc = category.plates
       .map((plate, index) => `
         <li>
@@ -286,7 +239,18 @@
         </div>
       </header>
 
-      <div class="peek-slices">${slices}</div>
+      <figure class="peek-home">
+        <picture>
+          <source media="(max-width: 600px)" srcset="assets/img/thumb/${home.id}.webp">
+          <img src="assets/img/full/${home.id}.webp" alt="${category.title}首页：${home.title}" width="2800" height="991"
+               loading="eager" decoding="async">
+        </picture>
+        <figcaption>
+          <span>CHAPTER HOME / ${category.num}</span>
+          <b>${home.title}</b>
+          <em>${home.role}</em>
+        </figcaption>
+      </figure>
 
       <div class="peek-lower">
         <section class="peek-toc-wrap" aria-label="本章目录">
@@ -294,9 +258,8 @@
           <ol class="peek-toc">${toc}</ol>
         </section>
         <aside class="peek-note">
-          <span class="peek-note-kicker">A SLICE, NOT THE WHOLE BOOK</span>
-          <p>这里只是这一章的三块切片和目录。完整作品、影像与细节，在章节页里。</p>
-          <a class="peek-cta" href="chapter.html?c=${category.id}">打开完整章节 <span>↗</span></a>
+          <span class="peek-note-kicker">CHAPTER HOME</span>
+          <p>这里先放这一章的首页。完整目录在左侧，作品从下方章节卡进入。</p>
         </aside>
       </div>
     `;
@@ -310,8 +273,6 @@
     peekTrigger = trigger || null;
     const content = $("#peekContent", dialog);
     if (content) content.innerHTML = peekMarkup(category);
-    const jump = dialog.querySelector("[data-peek-jump]");
-    if (jump) jump.href = `chapter.html?c=${category.id}`;
     dialog.hidden = false;
     document.body.classList.add("peek-open");
     window.requestAnimationFrame(() => dialog.classList.add("is-open"));

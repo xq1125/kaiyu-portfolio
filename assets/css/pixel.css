@@ -4153,3 +4153,73 @@ body.peek-open .px-taskbar {
     animation: none;
   }
 }
+
+/* Chapter preview: one full-bleed section homepage instead of detail crops. */
+.peek-home {
+  margin: 14px 0;
+  padding: 3px;
+  border: 2px solid;
+  border-color: var(--px-ink) var(--px-face-lo) var(--px-face-lo) var(--px-ink);
+  background: var(--px-face-hi);
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, .32);
+}
+
+.peek-home picture {
+  display: block;
+  border: 1px solid var(--px-ink);
+  background: #0e0b0a;
+  overflow: hidden;
+}
+
+.peek-home img {
+  display: block;
+  width: 100%;
+  height: auto;
+  image-rendering: auto;
+}
+
+.peek-home figcaption {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 8px;
+  padding: 6px 6px 3px;
+  color: var(--px-ink);
+  font-family: var(--px-en);
+  font-size: 5px;
+  line-height: 1.3;
+}
+
+.peek-home figcaption span {
+  color: var(--px-red);
+  white-space: nowrap;
+}
+
+.peek-home figcaption b {
+  font-family: var(--px-cn);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.peek-home figcaption em {
+  color: #6f6758;
+  font-family: var(--px-cn);
+  font-size: 9px;
+  font-style: normal;
+  text-align: right;
+}
+
+@media (max-width: 600px) {
+  .peek-home {
+    margin: 9px 0;
+  }
+
+  .peek-home figcaption {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .peek-home figcaption em {
+    grid-column: 1 / -1;
+    text-align: left;
+  }
+}
