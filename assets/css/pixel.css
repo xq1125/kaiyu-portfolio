@@ -5231,3 +5231,14 @@ body.peek-open .px-taskbar {
     line-height: 1.65;
   }
 }
+
+/* The about stats now hold two figures, so let them share one row on every screen. */
+.about-stats {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.about-stats > div:last-child {
+  grid-column: auto;
+  border-top: 0;
+  padding-top: 0;
+}
