@@ -4971,3 +4971,60 @@ body.peek-open .px-taskbar {
     display: none;
   }
 }
+
+/* Use the original Chapter 01 demon and angel character art in the loader. */
+.loader-familiar .loader-familiar-body > svg,
+.loader-familiar .familiar-game {
+  display: none;
+}
+
+.familiar-portrait {
+  position: relative;
+  display: block;
+  width: 100%;
+  border: 2px solid var(--px-face);
+  background: #1a1311;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, .32);
+  overflow: hidden;
+}
+
+.familiar-original {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.familiar-portrait::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  background: repeating-linear-gradient(to bottom, rgba(5, 20, 18, .22) 0 1px, transparent 1px 3px);
+  opacity: .3;
+  pointer-events: none;
+}
+
+.loader-familiar.is-hopping .familiar-portrait {
+  animation: familiarCardHop .7s steps(8, end);
+}
+
+@keyframes familiarCardHop {
+  0%, 100% { transform: translateY(0) scaleY(1); }
+  14% { transform: translateY(3px) scaleY(.97); }
+  38% { transform: translateY(-14px) scaleY(1.02); }
+  58% { transform: translateY(-18px) scaleY(1); }
+  80% { transform: translateY(0) scaleY(.98); }
+  90% { transform: translateY(-2px) scaleY(1); }
+}
+
+@media (max-width: 760px) {
+  .loader-familiar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader-familiar.is-hopping .familiar-portrait {
+    animation: none;
+  }
+}
