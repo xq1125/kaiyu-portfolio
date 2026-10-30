@@ -3410,3 +3410,30 @@ body.peek-open .px-taskbar {
   color: #302c23;
   font-size: 10.5px;
 }
+
+/* Keep the CV seal clear of the title. */
+.resume-title {
+  max-width: calc(100% - 68px);
+  font-size: clamp(26px, 2.3vw, 35px);
+  line-height: 1.1;
+}
+
+@media (min-width: 601px) {
+  .resume-wax {
+    top: 54%;
+    right: 16px;
+    left: auto;
+    width: 44px;
+    height: 44px;
+    font-size: 21px;
+    transform: rotate(-8deg);
+  }
+}
+
+.resume-card:hover .resume-wax {
+  transform: rotate(-2deg) scale(1.06);
+}
+
+.resume-card.is-opening .resume-wax {
+  transform: rotate(25deg) scale(.6);
+}
