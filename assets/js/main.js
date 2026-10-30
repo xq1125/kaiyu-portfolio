@@ -1956,7 +1956,7 @@
         if (!goomba || goomba.classList.contains("is-stomped")) return;
         goomba.classList.add("is-stomped");
         paintScore(2);
-        window.setTimeout(() => goomba.classList.remove("is-stomped"), 900);
+        window.setTimeout(() => goomba.classList.add("is-dead"), 460);
       };
 
       level.addEventListener("click", (event) => {
@@ -2076,7 +2076,9 @@
         if (overlaps(playerBox, block.getBoundingClientRect())) block.click();
       });
       state.level.querySelectorAll(".level-goomba").forEach((goomba) => {
-        if (!goomba.classList.contains("is-stomped") && overlaps(playerBox, goomba.getBoundingClientRect())) {
+        if (state.vy > 0 || goomba.classList.contains("is-stomped")) return;
+        const goombaBox = goomba.getBoundingClientRect();
+        if (playerBox.bottom <= goombaBox.top + 10 && overlaps(playerBox, goombaBox)) {
           goomba.click();
         }
       });

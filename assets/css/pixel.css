@@ -5961,3 +5961,38 @@ body.peek-open .px-taskbar {
 .mascot-heart {
   bottom: calc(100% + 7px);
 }
+
+/* Make the plumber read as the hero and let a stomped goomba stay dead. */
+.loader-level .level-player {
+  width: 30px;
+  height: 38px;
+}
+
+.level-goomba {
+  width: 22px;
+  height: 18px;
+}
+
+.level-goomba::before {
+  width: 5px;
+  height: 5px;
+  left: 3px;
+  box-shadow: 8px 0 0 #fff4df;
+}
+
+.level-goomba::after {
+  width: 7px;
+  height: 4px;
+  box-shadow: 11px 0 0 #2a160e;
+}
+
+.level-goomba.is-stomped {
+  animation: none;
+  transform: translateY(12px) scaleY(.18);
+  opacity: 0;
+  transition: transform .2s steps(3, end), opacity .18s steps(2, end) .18s;
+}
+
+.level-goomba.is-dead {
+  display: none;
+}
