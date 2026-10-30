@@ -5646,3 +5646,193 @@ body.peek-open .px-taskbar {
     font-size: 6px;
   }
 }
+
+/* Two colour-coded, clickable mini levels: blue on the left, orange on the right. */
+.loader-level--left {
+  --lv-main: #4a86cf;
+  --lv-light: #9cc8f5;
+  --lv-dark: #1d4777;
+  --lv-outline: #0b2747;
+  --lv-ground: #4b78ab;
+  --lv-hill: #3f78ad;
+  --lv-hill-dark: #2b5b86;
+  --lv-block: #4b7fb8;
+  --lv-q: #639bdb;
+  --lv-cloud: #d9e8f4;
+  --lv-goomba: #3b5c86;
+  --lv-goomba-light: #6f92bd;
+}
+
+.loader-level--right {
+  --lv-main: #d57b2f;
+  --lv-light: #f3b36a;
+  --lv-dark: #7c3a13;
+  --lv-outline: #4a210b;
+  --lv-ground: #b35d2b;
+  --lv-hill: #a9571f;
+  --lv-hill-dark: #7f3d13;
+  --lv-block: #bd632b;
+  --lv-q: #e39a45;
+  --lv-cloud: #f5dfc4;
+  --lv-goomba: #8a4a27;
+  --lv-goomba-light: #c47e4d;
+}
+
+.level-ground {
+  border-color: var(--lv-outline);
+  background-color: var(--lv-ground);
+  background-image:
+    repeating-linear-gradient(90deg, transparent 0 14px, var(--lv-dark) 14px 17px),
+    repeating-linear-gradient(0deg, transparent 0 5px, var(--lv-dark) 5px 7px);
+}
+
+.level-hill {
+  background: var(--lv-hill);
+  filter: drop-shadow(2px 0 0 var(--lv-outline)) drop-shadow(-2px 0 0 var(--lv-outline)) drop-shadow(0 2px 0 var(--lv-outline));
+}
+
+.level-hill--b {
+  background: var(--lv-hill-dark);
+}
+
+.level-cloud {
+  background: var(--lv-cloud);
+  box-shadow:
+    11px -7px 0 var(--lv-cloud),
+    22px 0 0 var(--lv-cloud),
+    33px 0 0 var(--lv-cloud),
+    44px -7px 0 var(--lv-cloud);
+}
+
+.level-block {
+  border-color: var(--lv-outline);
+  background: var(--lv-block);
+  box-shadow: inset 0 3px 0 var(--lv-light), inset -3px 0 0 var(--lv-dark);
+}
+
+.level-block--q {
+  background: var(--lv-q);
+  color: var(--lv-outline);
+  text-shadow: 1px 1px 0 var(--lv-light);
+}
+
+.level-block--brick {
+  background-color: var(--lv-block);
+  background-image:
+    linear-gradient(90deg, transparent 46%, var(--lv-dark) 46% 54%, transparent 54%),
+    linear-gradient(0deg, transparent 46%, var(--lv-dark) 46% 54%, transparent 54%);
+}
+
+.level-pipe {
+  border-color: var(--lv-outline);
+  background: var(--lv-main);
+  box-shadow: inset -6px 0 0 var(--lv-dark), inset 4px 0 0 var(--lv-light);
+}
+
+.level-pipe::before {
+  border-color: var(--lv-outline);
+  background: var(--lv-main);
+  box-shadow: inset 0 -3px 0 var(--lv-dark);
+}
+
+.level-flag {
+  border-color: var(--lv-outline);
+}
+
+.level-flag i {
+  border-color: var(--lv-outline);
+  background: var(--lv-main);
+}
+
+.level-goomba {
+  background: var(--lv-goomba);
+  box-shadow: inset 0 5px 0 var(--lv-goomba-light);
+}
+
+.level-score {
+  position: absolute;
+  z-index: 20;
+  top: -2px;
+  left: 0;
+  color: var(--lv-light);
+  font-family: var(--px-en);
+  font-size: 5px;
+  letter-spacing: .06em;
+  text-shadow: 1px 1px 0 var(--lv-outline);
+  pointer-events: none;
+}
+
+.level-score.is-scored {
+  animation: levelScore .26s steps(2, end);
+}
+
+.level-block--q,
+.level-coin,
+.level-goomba {
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.level-block--q:hover,
+.level-coin:hover,
+.level-goomba:hover {
+  filter: brightness(1.16);
+}
+
+.level-block.is-hit {
+  animation: levelBlockHit .32s steps(2, end);
+}
+
+.level-block.is-hit::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  width: 10px;
+  height: 14px;
+  margin-left: -5px;
+  border: 2px solid #6d430e;
+  background: #f4c744;
+  box-shadow: inset -2px 0 0 #d49119;
+  animation: levelCoinPop .58s steps(5, end) forwards;
+}
+
+.level-coin.is-collected {
+  animation: levelCoinGet .42s steps(4, end) forwards;
+  pointer-events: none;
+}
+
+.level-goomba.is-stomped {
+  animation: none;
+  transform: translateY(8px) scaleY(.4);
+  opacity: .55;
+  transition: transform .12s steps(2, end), opacity .12s steps(2, end);
+}
+
+@keyframes levelBlockHit {
+  0%, 100% { transform: translateY(0); }
+  45% { transform: translateY(-8px); }
+}
+
+@keyframes levelCoinPop {
+  0% { opacity: 0; transform: translateY(0) scale(.55); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-34px) scale(1); }
+}
+
+@keyframes levelCoinGet {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-28px) scale(.35); }
+}
+
+@keyframes levelScore {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.level-block--q:focus-visible,
+.level-coin:focus-visible,
+.level-goomba:focus-visible {
+  outline: 2px solid var(--lv-light);
+  outline-offset: 2px;
+}

@@ -18,7 +18,7 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <script>document.documentElement.classList.add('js');</script>
   <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/pixel.css?v=40">
+  <link rel="stylesheet" href="assets/css/pixel.css?v=41">
   <noscript><style>.loader{display:none!important}body.is-loading{overflow:auto!important}</style></noscript>
 </head>
 <body class="is-loading">
@@ -28,10 +28,11 @@
   <div class="cursor-tag" id="cursorTag" aria-hidden="true">翻开</div>
 
   <div class="loader" id="loader" aria-label="页面加载中">
-    <div class="loader-bg" aria-hidden="true">
+    <div class="loader-bg">
       <div class="loader-familiars">
         <figure class="loader-familiar loader-familiar--demon">
-          <div class="loader-level loader-level--left" aria-hidden="true">
+          <div class="loader-level loader-level--left" role="group" aria-label="蓝色马里奥小关卡，点击问号、金币和小怪">
+            <span class="level-score" aria-live="polite">COINS 00</span>
             <i class="level-cloud level-cloud--a"></i>
             <i class="level-cloud level-cloud--b"></i>
             <i class="level-hill level-hill--a"></i>
@@ -111,7 +112,8 @@
         </figure>
 
         <figure class="loader-familiar loader-familiar--angel">
-          <div class="loader-level loader-level--right" aria-hidden="true">
+          <div class="loader-level loader-level--right" role="group" aria-label="橙色马里奥小关卡，点击问号、金币和小怪">
+            <span class="level-score" aria-live="polite">COINS 00</span>
             <i class="level-cloud level-cloud--a"></i>
             <i class="level-cloud level-cloud--b"></i>
             <i class="level-hill level-hill--a"></i>
@@ -756,6 +758,6 @@
   <script src="assets/js/pixel.js?v=1" defer></script>
   <script src="assets/js/audio.js?v=2" defer></script>
   <script src="assets/js/data.js?v=2" defer></script>
-  <script src="assets/js/main.js?v=19" defer></script>
+  <script src="assets/js/main.js?v=20" defer></script>
 </body>
 </html>

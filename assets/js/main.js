@@ -1915,6 +1915,71 @@
     }, { passive: true });
   }
 
+  function initLoaderGames() {
+    $$(".loader-level").forEach((level) => {
+      const score = level.querySelector(".level-score");
+      let coins = 0;
+
+      const paintScore = (amount) => {
+        coins += amount;
+        if (score) {
+          score.textContent = `COINS ${String(coins).padStart(2, "0")}`;
+          score.classList.remove("is-scored");
+          void score.offsetWidth;
+          score.classList.add("is-scored");
+        }
+      };
+
+      level.querySelectorAll(".level-block--q, .level-coin, .level-goomba").forEach((item) => {
+        item.tabIndex = 0;
+        item.setAttribute("role", "button");
+        if (item.classList.contains("level-block--q")) item.setAttribute("aria-label", "顶一下问号方块");
+        else if (item.classList.contains("level-coin")) item.setAttribute("aria-label", "收集金币");
+        else item.setAttribute("aria-label", "踩一下小怪");
+      });
+
+      const hitBlock = (block) => {
+        if (!block || block.classList.contains("is-hit")) return;
+        block.classList.add("is-hit");
+        paintScore(1);
+        window.setTimeout(() => block.classList.remove("is-hit"), 340);
+      };
+
+      const takeCoin = (coin) => {
+        if (!coin || coin.classList.contains("is-collected")) return;
+        coin.classList.add("is-collected");
+        paintScore(1);
+        window.setTimeout(() => coin.classList.remove("is-collected"), 620);
+      };
+
+      const stompGoomba = (goomba) => {
+        if (!goomba || goomba.classList.contains("is-stomped")) return;
+        goomba.classList.add("is-stomped");
+        paintScore(2);
+        window.setTimeout(() => goomba.classList.remove("is-stomped"), 900);
+      };
+
+      level.addEventListener("click", (event) => {
+        event.stopPropagation();
+        const block = event.target.closest(".level-block--q");
+        const coin = event.target.closest(".level-coin");
+        const goomba = event.target.closest(".level-goomba");
+        if (block) hitBlock(block);
+        else if (goomba) stompGoomba(goomba);
+        else if (coin) takeCoin(coin);
+      });
+
+      level.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        const item = event.target.closest(".level-block--q, .level-coin, .level-goomba");
+        if (!item) return;
+        event.preventDefault();
+        event.stopPropagation();
+        item.click();
+      });
+    });
+  }
+
   function initDesktopMascot() {
     const mascot = $("#desktopMascot");
     if (!mascot) return;
@@ -2261,6 +2326,7 @@
   buildFacts();
 
   initLoader();
+  initLoaderGames();
   initFamiliarPlay();
   initHeader();
   initScrollSpy();
