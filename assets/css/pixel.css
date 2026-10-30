@@ -4551,3 +4551,20 @@ body.peek-open .px-taskbar {
 .about-card.is-scratch-ready .about-scratch {
   touch-action: none;
 }
+
+@media (max-width: 600px) {
+  /* Keep the capability list compact on phones: two columns, not nine rows. */
+  .cap-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 14px;
+  }
+
+  .cap-list li {
+    padding-left: 12px;
+    font-size: 11px;
+  }
+
+  .cap-list li::before {
+    font-size: 8px;
+  }
+}
