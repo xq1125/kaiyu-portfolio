@@ -6059,3 +6059,24 @@ body.peek-open .px-taskbar {
 .level-99 {
   top: 26%;
 }
+
+/* The 99 burst belongs above the COINS readout, not in the middle of the level. */
+.level-99 {
+  top: -27px;
+  left: 0;
+  font-size: 15px;
+  transform: none;
+  animation-name: level99PopLeft;
+}
+
+.level-star {
+  top: 2%;
+  left: 8%;
+}
+
+@keyframes level99PopLeft {
+  0% { opacity: 0; transform: translateY(8px) scale(.35); }
+  32% { opacity: 1; transform: translateY(0) scale(1.22); }
+  62% { transform: translateY(0) scale(.92); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}

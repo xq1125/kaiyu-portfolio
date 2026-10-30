@@ -1932,10 +1932,10 @@
         for (let index = 0; index < 18; index += 1) {
           const star = document.createElement("i");
           star.className = "level-star";
-          star.style.left = `${20 + Math.random() * 60}%`;
-          star.style.top = `${35 + Math.random() * 25}%`;
-          star.style.setProperty("--dx", `${(Math.random() * 2 - 1) * 92}px`);
-          star.style.setProperty("--dy", `${-30 - Math.random() * 105}px`);
+          star.style.left = `${Math.random() * 16}%`;
+          star.style.top = `${Math.random() * 7}%`;
+          star.style.setProperty("--dx", `${-30 + Math.random() * 170}px`);
+          star.style.setProperty("--dy", `${-45 - Math.random() * 100}px`);
           star.style.setProperty("--star", colors[index % colors.length]);
           star.style.animationDelay = `${Math.random() * 220}ms`;
           level.appendChild(star);
