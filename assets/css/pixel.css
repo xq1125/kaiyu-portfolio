@@ -6108,7 +6108,8 @@ body.peek-open .px-taskbar {
 }
 
 .loader-level--right .level-platform--a {
-  right: 4%;
+  right: auto;
+  left: 44%;
   bottom: 66px;
   width: 36%;
 }
@@ -6121,14 +6122,22 @@ body.peek-open .px-taskbar {
 
 .loader-level--left .level-pipe {
   right: auto;
-  bottom: 128px;
+  bottom: 140px;
   left: 64%;
 }
 
 .loader-level--right .level-pipe {
   right: auto;
-  bottom: 126px;
+  bottom: 138px;
   left: 14%;
+}
+
+.loader-level--right .level-block--a {
+  left: 62%;
+}
+
+.loader-level--right .level-block--b {
+  left: 80%;
 }
 
 .level-pipe--goal::before {
