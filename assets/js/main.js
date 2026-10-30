@@ -2125,6 +2125,48 @@
   /* Loader                                                             */
   /* ------------------------------------------------------------------ */
 
+  function initFamiliarPlay() {
+    const loader = $("#loader");
+    const figures = Array.from(document.querySelectorAll(".loader-familiar"));
+    if (!loader || !figures.length || prefersReduced) return;
+    if (window.matchMedia("(max-width: 760px)").matches) return;
+
+    let stopped = false;
+    const timers = new Set();
+    const after = (callback, delay) => {
+      const timer = window.setTimeout(() => {
+        timers.delete(timer);
+        callback();
+      }, delay);
+      timers.add(timer);
+    };
+    const stop = () => {
+      if (stopped) return;
+      stopped = true;
+      timers.forEach((timer) => window.clearTimeout(timer));
+      timers.clear();
+      figures.forEach((figure) => figure.classList.remove("is-hopping", "is-bumped"));
+    };
+
+    figures.forEach((figure, index) => {
+      const jump = () => {
+        if (stopped || !document.body.contains(loader) || loader.classList.contains("is-done")) {
+          stop();
+          return;
+        }
+        figure.classList.remove("is-hopping", "is-bumped");
+        void figure.offsetWidth;
+        figure.classList.add("is-hopping");
+        after(() => figure.classList.add("is-bumped"), 70);
+        after(() => figure.classList.remove("is-hopping", "is-bumped"), 900);
+        after(jump, 1600 + Math.random() * 2400);
+      };
+      after(jump, 500 + index * 380 + Math.random() * 500);
+    });
+
+    loader.addEventListener("click", stop, true);
+  }
+
   function initLoader() {
     const loader = $("#loader");
     const number = $("#loadNumber");
@@ -2229,6 +2271,7 @@
   buildFacts();
 
   initLoader();
+  initFamiliarPlay();
   initHeader();
   initScrollSpy();
   initMenu();
