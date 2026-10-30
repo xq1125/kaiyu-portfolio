@@ -4268,3 +4268,254 @@ body.peek-open .px-taskbar {
   transform: translate(1px, 1px);
   box-shadow: none;
 }
+
+/* Ambient motion: a live cursor, idle scan sweeps, and a preview that breathes. */
+.hero-statement h1::after {
+  content: "";
+  display: inline-block;
+  width: .13em;
+  height: .68em;
+  margin-left: .08em;
+  background: var(--px-red);
+  vertical-align: -.02em;
+  animation: heroCursor 1.15s steps(1, end) infinite;
+}
+
+@keyframes heroCursor {
+  0%, 48% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.hero-kicker i {
+  animation: heroDot 2.6s steps(2, end) infinite;
+}
+
+@keyframes heroDot {
+  0%, 100% { box-shadow: 2px 0 0 var(--px-red), 0 2px 0 var(--px-red); }
+  50% { box-shadow: 2px 0 0 var(--px-red), 0 2px 0 var(--px-red), 0 0 0 3px rgba(211, 75, 53, .16); }
+}
+
+.catalogue-card::after {
+  content: "";
+  position: absolute;
+  z-index: 6;
+  top: 15px;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(211, 75, 53, .5), transparent);
+  opacity: 0;
+  pointer-events: none;
+  animation: catalogueIdle 9.5s steps(18, end) infinite;
+}
+
+.catalogue-item:nth-child(2) .catalogue-card::after { animation-delay: 1.35s; }
+.catalogue-item:nth-child(3) .catalogue-card::after { animation-delay: 2.7s; }
+.catalogue-item:nth-child(4) .catalogue-card::after { animation-delay: 4.05s; }
+.catalogue-item:nth-child(5) .catalogue-card::after { animation-delay: 5.4s; }
+.catalogue-item:nth-child(6) .catalogue-card::after { animation-delay: 6.75s; }
+
+.catalogue-card:hover::after,
+.catalogue-card:focus-visible::after,
+.catalogue-item.is-flipped .catalogue-card::after {
+  opacity: 0;
+  animation-play-state: paused;
+}
+
+@keyframes catalogueIdle {
+  0%, 76% { top: 15px; opacity: 0; }
+  78% { opacity: .55; }
+  90% { top: calc(100% - 2px); opacity: 0; }
+  100% { top: calc(100% - 2px); opacity: 0; }
+}
+
+.catalogue-face--back::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: 6px;
+  right: 6px;
+  width: 4px;
+  height: 4px;
+  background: var(--px-red);
+  animation: pxBlink 1.7s steps(1, end) infinite;
+}
+
+.peek-home {
+  animation: peekHomeIn .55s steps(6, end) both;
+}
+
+@keyframes peekHomeIn {
+  0% { opacity: 0; clip-path: inset(0 0 100% 0); }
+  100% { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+
+.peek-home picture {
+  position: relative;
+  isolation: isolate;
+}
+
+.peek-home picture::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  background: repeating-linear-gradient(to bottom, rgba(3, 12, 10, .16) 0 1px, transparent 1px 3px);
+  opacity: .32;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+.peek-home picture::after {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(211, 75, 53, .8), transparent);
+  opacity: 0;
+  pointer-events: none;
+  animation: peekScan 7.5s steps(30, end) infinite;
+}
+
+.peek-home img {
+  animation: peekHomeDrift 15s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+
+@keyframes peekScan {
+  0%, 68% { top: 0; opacity: 0; }
+  70% { opacity: .8; }
+  86% { top: calc(100% - 2px); opacity: 0; }
+  100% { top: calc(100% - 2px); opacity: 0; }
+}
+
+@keyframes peekHomeDrift {
+  0% { transform: scale(1.025) translate3d(-.35%, 0, 0); }
+  100% { transform: scale(1.025) translate3d(.35%, -.35%, 0); }
+}
+
+.peek-home figcaption span::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  margin-right: 4px;
+  background: var(--px-red);
+  vertical-align: 0;
+  animation: pxBlink 1.5s steps(1, end) infinite;
+}
+
+.film-frame {
+  position: relative;
+}
+
+.film-card .film-frame::after {
+  content: "● REC";
+  position: absolute;
+  z-index: 3;
+  top: 8px;
+  right: 9px;
+  padding: 2px 4px;
+  background: rgba(5, 6, 5, .55);
+  color: #e7b08c;
+  font-family: var(--px-en);
+  font-size: 4.5px;
+  line-height: 1;
+  letter-spacing: .06em;
+  pointer-events: none;
+  animation: pxBlink 1.9s steps(1, end) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-statement h1::after,
+  .hero-kicker i,
+  .catalogue-card::after,
+  .catalogue-face--back::after,
+  .peek-home,
+  .peek-home img,
+  .peek-home picture::after,
+  .peek-home figcaption span::before,
+  .film-card .film-frame::after {
+    animation: none;
+  }
+}
+
+/* Keep the motion felt, not shouted. */
+.hero-statement h1::after {
+  content: none;
+}
+
+.hero-bottom span:first-child::after {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 7px;
+  margin-left: 4px;
+  background: var(--px-red);
+  vertical-align: -.08em;
+  animation: pxBlink 1.2s steps(1, end) infinite;
+}
+
+.peek-home picture::before {
+  background: repeating-linear-gradient(to bottom, rgba(3, 12, 10, .08) 0 1px, transparent 1px 3px);
+  opacity: .18;
+}
+
+.film-card .film-frame::after {
+  display: none;
+}
+
+.film-label::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  margin-right: 4px;
+  background: var(--px-red);
+  vertical-align: 0;
+  animation: pxBlink 1.7s steps(1, end) infinite;
+}
+
+.work-photo {
+  position: relative;
+  overflow: hidden;
+}
+
+.work-photo::after {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(211, 75, 53, .72), transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (hover: hover) {
+  .work-card:hover .work-photo::after {
+    animation: workScan .7s steps(10, end);
+  }
+}
+
+@keyframes workScan {
+  0% { top: 0; opacity: 0; }
+  12% { opacity: .8; }
+  100% { top: calc(100% - 2px); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-bottom span:first-child::after,
+  .film-label::before {
+    animation: none;
+  }
+
+  .work-card:hover .work-photo::after {
+    animation: none;
+  }
+}
