@@ -4229,3 +4229,42 @@ body.peek-open .px-taskbar {
     min-height: 228px;
   }
 }
+
+/* Small front/back switch under the portrait. */
+.about-flip-hint {
+  align-items: center;
+}
+
+.about-flip-hint .about-flip-copy {
+  color: var(--px-ink);
+  font-family: var(--px-cn);
+  font-size: 8px;
+  letter-spacing: 0;
+}
+
+.about-face-toggle {
+  flex: 0 0 auto;
+  min-height: 20px;
+  margin-left: auto;
+  padding: 3px 6px 2px;
+  border: 1px solid var(--px-ink);
+  border-radius: 0;
+  background: var(--px-face-hi);
+  color: var(--px-ink);
+  box-shadow: 1px 1px 0 var(--px-shadow);
+  font-family: var(--px-cn);
+  font-size: 8px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.about-face-toggle:hover,
+.about-face-toggle:focus-visible {
+  background: var(--px-ink);
+  color: var(--px-face-hi);
+}
+
+.about-face-toggle:active {
+  transform: translate(1px, 1px);
+  box-shadow: none;
+}

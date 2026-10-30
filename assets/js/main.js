@@ -1673,14 +1673,27 @@
   function initAboutFlip() {
     const card = $("#aboutFlip");
     if (!card) return;
-    const hint = $(".about-flip-hint");
-    card.addEventListener("click", () => {
-      const flipped = card.classList.toggle("is-flipped");
+    const hint = $(".about-flip-copy");
+    const toggle = $("#aboutFaceToggle");
+    const setFlipped = (flipped) => {
+      card.classList.toggle("is-flipped", flipped);
       card.setAttribute("aria-pressed", String(flipped));
-      if (hint && hint.firstChild) {
-        hint.firstChild.textContent = flipped ? "再次翻面 " : "移动擦除 · 点击翻面 ";
+      if (hint) hint.textContent = flipped ? "点击翻回正面 · 可继续擦除" : "移动擦除 · 点击翻面";
+      if (toggle) {
+        toggle.textContent = flipped ? "看正面" : "看背面";
+        toggle.setAttribute("aria-pressed", String(flipped));
+        toggle.setAttribute("aria-label", flipped ? "切换到插画正面" : "切换到艺术家卡片背面");
       }
+    };
+    card.addEventListener("click", () => {
+      setFlipped(!card.classList.contains("is-flipped"));
     });
+    if (toggle) {
+      toggle.addEventListener("click", (event) => {
+        event.stopPropagation();
+        setFlipped(!card.classList.contains("is-flipped"));
+      });
+    }
   }
 
   function initPortraitScratch() {
