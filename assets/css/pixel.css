@@ -3715,3 +3715,20 @@ body.peek-open .px-taskbar {
     font-size: 4.5px;
   }
 }
+
+/* Curated peek crops already choose the detail; keep their centre. */
+.peek-slice--1 img,
+.peek-slice--2 img,
+.peek-slice--3 img {
+  object-position: center;
+}
+
+.peek-slice img {
+  height: auto;
+}
+
+@media (min-width: 761px) {
+  .peek-slice img {
+    aspect-ratio: 1 / 1;
+  }
+}

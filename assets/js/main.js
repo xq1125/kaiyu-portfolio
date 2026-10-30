@@ -213,17 +213,55 @@
     return peek;
   }
 
+  const PEEK_SLICES = {
+    game: [
+      { src: "assets/img/peek/game-1.webp", label: "角色 / 深渊恶魔" },
+      { src: "assets/img/peek/game-2.webp", label: "设定 / 天使与恶魔" },
+      { src: "assets/img/peek/game-3.webp", label: "界面 / 恶魔形态" }
+    ],
+    aigc: [
+      { src: "assets/img/peek/aigc-1.webp", label: "镜头 / 山海一念" },
+      { src: "assets/img/peek/aigc-2.webp", label: "原画 / 墨龙" },
+      { src: "assets/img/peek/aigc-3.webp", label: "概念 / 未发送" }
+    ],
+    uiux: [
+      { src: "assets/img/peek/uiux-1.webp", label: "界面 / HRM 系统" },
+      { src: "assets/img/peek/uiux-2.webp", label: "用户 / 画像" },
+      { src: "assets/img/peek/uiux-3.webp", label: "规范 / 情绪色彩" }
+    ],
+    "three-d": [
+      { src: "assets/img/peek/three-d-1.webp", label: "角色 / 课堂练习" },
+      { src: "assets/img/peek/three-d-2.webp", label: "场景 / 岛屿旅行" },
+      { src: "assets/img/peek/three-d-3.webp", label: "海报 / 立体质感" }
+    ],
+    ip: [
+      { src: "assets/img/peek/ip-1.webp", label: "IP / 森林合唱团" },
+      { src: "assets/img/peek/ip-2.webp", label: "衍生 / 产品陈列" },
+      { src: "assets/img/peek/ip-3.webp", label: "研究 / 色彩结构" }
+    ],
+    lab: [
+      { src: "assets/img/peek/lab-1.webp", label: "手稿 / 表情" },
+      { src: "assets/img/peek/lab-2.webp", label: "角色 / 定格设定" },
+      { src: "assets/img/peek/lab-3.webp", label: "视觉 / BREATH" }
+    ]
+  };
+
   function peekMarkup(category) {
     const filmCount = category.plates.reduce(
       (sum, plate) => sum + (Array.isArray(plate.videos) ? plate.videos.length : 0),
       0
     );
-    const slices = category.plates.slice(0, 3)
-      .map((plate, index) => `
+    const configured = PEEK_SLICES[category.id];
+    const sliceItems = configured || category.plates.slice(0, 3).map((plate) => ({
+      src: `assets/img/thumb/${plate.id}.webp`,
+      label: plate.title
+    }));
+    const slices = sliceItems
+      .map((slice, index) => `
         <figure class="peek-slice peek-slice--${index + 1}">
-          <img src="assets/img/thumb/${plate.id}.webp" alt="" width="900" height="318"
+          <img src="${slice.src}" alt="${category.title}：${slice.label}" width="720" height="315"
                loading="lazy" decoding="async">
-          <figcaption><span>${pad(index + 1)}</span><b>${plate.title}</b></figcaption>
+          <figcaption><span>${pad(index + 1)}</span><b>${slice.label}</b></figcaption>
         </figure>
       `)
       .join("");
