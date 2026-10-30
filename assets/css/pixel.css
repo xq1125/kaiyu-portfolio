@@ -5836,3 +5836,75 @@ body.peek-open .px-taskbar {
   outline: 2px solid var(--lv-light);
   outline-offset: 2px;
 }
+
+/* The levels keep the normal Mario palette; only the two little players differ. */
+.loader-level--left,
+.loader-level--right {
+  --lv-main: #3f8b48;
+  --lv-light: #69b75c;
+  --lv-dark: #286a36;
+  --lv-outline: #173d22;
+  --lv-ground: #a65537;
+  --lv-hill: #2f7549;
+  --lv-hill-dark: #28643e;
+  --lv-block: #c97732;
+  --lv-q: #e5a52f;
+  --lv-cloud: #eee2cc;
+  --lv-goomba: #9b5a2f;
+  --lv-goomba-light: #c9824c;
+}
+
+.level-score {
+  color: #f2e7d5;
+  text-shadow: 1px 1px 0 #173d22;
+}
+
+.level-player {
+  position: absolute;
+  z-index: 12;
+  bottom: 14px;
+  left: 64%;
+  width: 22px;
+  height: 28px;
+  pointer-events: none;
+  image-rendering: pixelated;
+  animation: levelPlayerIdle 1.8s steps(2, end) infinite;
+}
+
+.loader-level--right .level-player {
+  left: 48%;
+}
+
+.level-player--blue {
+  --player: #4a86cf;
+  --player-dark: #1d4777;
+  --player-light: #9cc8f5;
+}
+
+.level-player--orange {
+  --player: #d57b2f;
+  --player-dark: #7c3a13;
+  --player-light: #f3b36a;
+}
+
+@keyframes levelPlayerIdle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .level-player {
+    animation: none;
+  }
+}
+
+.loader-level .level-player {
+  position: absolute;
+  width: 22px;
+  height: 28px;
+}
+
+.loader-level .level-player {
+  width: 24px;
+  height: 30px;
+}
