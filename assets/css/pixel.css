@@ -4149,7 +4149,8 @@ body.peek-open .px-taskbar {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mascot-hand {
+  .mascot-hand,
+  .mascot-hand-art {
     animation: none;
   }
 }
@@ -4801,17 +4802,20 @@ body.peek-open .px-taskbar {
 
 .mascot-hand-art {
   position: absolute;
-  right: auto;
-  bottom: 6%;
-  left: 91%;
-  width: 37%;
+  right: -12%;
+  bottom: 32%;
+  left: auto;
+  width: 43%;
   height: auto;
-  overflow: visible;
+  image-rendering: pixelated;
+  transform-origin: 50% 90%;
+  animation: mascotPalm 1.5s steps(3, end) infinite;
   filter: drop-shadow(3px 3px 0 rgba(0, 0, 0, .2));
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mascot-hand {
+  .mascot-hand,
+  .mascot-hand-art {
     animation: none;
   }
 }
