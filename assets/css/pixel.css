@@ -5095,3 +5095,24 @@ body.peek-open .px-taskbar {
 .mascot-bubble .mascot-heart {
   color: var(--heart, #dd5b4b);
 }
+
+/* CV card: replace the soft gradient wash with a flat pixel lift and press. */
+.resume-flap {
+  background: #741812;
+  border-bottom-color: rgba(242, 231, 216, .24);
+}
+
+.resume-card:hover {
+  border-color: var(--px-face-hi);
+  background: #a12a20;
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 var(--px-shadow);
+  filter: none;
+}
+
+.resume-card:active {
+  background: #b53629;
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 var(--px-shadow);
+  filter: none;
+}
