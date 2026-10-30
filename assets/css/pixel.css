@@ -6327,18 +6327,15 @@ body.resume-open .paper-grain {
   display: none;
 }
 
-/* A short, soft wobble when the cursor lands on the CV envelope. */
-@media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .resume-card:not(.is-opening):hover,
-  .resume-card:not(.is-opening):focus-visible {
-    animation: letterWobble .56s steps(5, end) 1;
+/* A slow, soft idle sway on the CV envelope; hover still lifts the card. */
+@media (prefers-reduced-motion: no-preference) {
+  .resume-card:not(.is-opening) {
+    animation: letterIdle 4.8s ease-in-out infinite;
   }
 }
 
-@keyframes letterWobble {
-  0% { transform: translate(0, 0) rotate(0deg); }
-  20% { transform: translate(-1px, -2px) rotate(-.55deg); }
-  45% { transform: translate(1px, -2px) rotate(.45deg); }
-  70% { transform: translate(-1px, -2px) rotate(-.25deg); }
-  100% { transform: translate(-2px, -2px) rotate(0deg); }
+@keyframes letterIdle {
+  0%, 100% { rotate: 0deg; }
+  25% { rotate: -.5deg; }
+  75% { rotate: .5deg; }
 }
