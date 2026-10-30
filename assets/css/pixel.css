@@ -3748,3 +3748,21 @@ body.peek-open .px-taskbar {
     gap: 5px;
   }
 }
+
+/* Desktop: the CV card shares the portrait's edges and sits on the column baseline. */
+@media (min-width: 761px) {
+  .about-grid {
+    align-items: stretch;
+  }
+
+  .about-left {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .resume-card {
+    width: 100%;
+    min-height: 262px;
+    margin: auto 0 0;
+  }
+}
