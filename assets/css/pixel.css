@@ -2441,3 +2441,55 @@ body.lightbox-open .work-header,
 body.lightbox-open .px-taskbar {
   display: none !important;
 }
+
+/* BGM toggle in the system tray. */
+.px-sound {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 22px;
+  padding: 0;
+  border: 2px solid;
+  border-color: var(--px-face-hi) var(--px-face-lo) var(--px-face-lo) var(--px-face-hi);
+  background: var(--px-face);
+  color: var(--px-ink);
+  font-family: var(--px-cn);
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.px-sound:hover {
+  background: var(--px-ink);
+  color: var(--px-face-hi);
+}
+
+.px-sound.is-muted {
+  color: #837a66;
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+}
+
+.px-sound.is-waiting {
+  color: var(--px-red);
+  animation: pxSoundPulse 1.15s steps(2, end) infinite;
+}
+
+@keyframes pxSoundPulse {
+  50% {
+    background: var(--px-face-hi);
+    color: var(--px-red);
+  }
+}
+
+@media (max-width: 900px) {
+  .px-tray-net {
+    display: none;
+  }
+
+  .px-sound {
+    width: 23px;
+    height: 23px;
+    font-size: 11px;
+  }
+}

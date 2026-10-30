@@ -27,8 +27,10 @@ assets/js/data.js          Categories, plate captions, film sources, facts, cont
 assets/js/main.js          Homepage catalogue, fragment game, menu, copy, clocks
 assets/js/chapter.js       Chapter renderer, native video cards, full-image lightbox
 assets/js/pixel.js         Window wrappers, title bars and the fixed taskbar
+assets/js/audio.js         Original chiptune loop, UI sounds and taskbar mute
 assets/js/cursor.js        Legacy drawn cursor (hidden by the pixel theme on desktop)
 assets/fonts/              Self-hosted Fusion Pixel 12 px subset + Press Start 2P
+assets/audio/              Original chiptune loop and short UI sound effects
 assets/img/thumb/          900px WebP plates (mobile / card thumbnails)
 assets/img/wide/           1800px WebP plates (chapter grids + srcset)
 assets/img/full/           1800–2800px WebP plates (desktop chapter lightbox)
@@ -57,6 +59,7 @@ assets/video/              Compressed H.264 films (faststart)
 - **Desktop cursor** — the old drawn cursor is disabled; desktop uses a small pixel arrow. All interactive controls keep a visible focus ring.
 - **Touch layout** — phones get stacked windows, a compact taskbar, tap ripples, pressed-card scaling and a short vibration on supported Android browsers. Hover-only behaviours are disabled on touch.
 - **Image weight** — desktop keeps the 2800 px full-resolution lightbox files. Phones request 720 px covers through `srcset`, use the 1800 px wide files for the lightbox, and defer the CV image. The old loader raster is no longer downloaded; the boot screen is pure type.
+- **Soundtrack** — an original 42-second chiptune loop (`os95-theme.mp3`) and tiny synthesized UI sounds. Music is off until the first real gesture; the **点击进入** click starts it with a soft boot chime. The taskbar `♪` control mutes or resumes it, the preference is remembered, and a best-effort timestamp is carried between index and chapter pages.
 - **Small things** — live Hangzhou clock in the taskbar, scroll reveals, mobile start menu, window chrome and keyboard focus states.
 - **Keyboard** — `Esc` closes the chapter lightbox; native video controls handle playback, seeking and volume.
 
@@ -104,7 +107,8 @@ videos: [
 - Plates were optimized from the supplied 7073 × 2500 portfolio boards.
 - The boot screen is CSS and type only. The old `loader-cover.webp` is kept in the archive but is no longer requested.
 - The type is self-hosted: a site-text subset of **Fusion Pixel 12 px** (OFL) for Chinese and **Press Start 2P** (OFL, Reserved Font Name) for machine labels. Licenses live in `assets/fonts/`.
+- The soundtrack and UI effects are original synthesized audio, generated for this site. No samples, no third-party music and no licensing dependencies.
 - The site opens at the top unless a chapter hash is present; old `#contact` links and browser scroll restoration are reset so a fresh visit never lands on the contact section.
-- No third-party JavaScript, build step, external font, analytics or cookies.
+- No third-party JavaScript, build step, external font, third-party audio, analytics or cookies.
 - The contact postcard publishes only the details the artist chose to share: email, phone, WeChat and QQ. The full profile-board image with other personal fields is intentionally not published.
 - Edit portfolio copy in `assets/js/data.js`; edit the page-level manifesto and postcard copy in `index.html`.
