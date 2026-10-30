@@ -218,15 +218,6 @@
       0
     );
     const home = category.plates[0];
-    const toc = category.plates
-      .map((plate, index) => `
-        <li>
-          <span class="peek-toc-num">${pad(index + 1)}</span>
-          <span class="peek-toc-title">${plate.title}</span>
-          <span class="peek-toc-role">${plate.role}</span>
-        </li>
-      `)
-      .join("");
 
     return `
       <header class="peek-head">
@@ -251,17 +242,6 @@
           <em>${home.role}</em>
         </figcaption>
       </figure>
-
-      <div class="peek-lower">
-        <section class="peek-toc-wrap" aria-label="本章目录">
-          <div class="peek-section-head"><span>目录 / CONTENTS</span><span>${pad(category.plates.length)} FILES</span></div>
-          <ol class="peek-toc">${toc}</ol>
-        </section>
-        <aside class="peek-note">
-          <span class="peek-note-kicker">CHAPTER HOME</span>
-          <p>这里先放这一章的首页。完整目录在左侧，作品从下方章节卡进入。</p>
-        </aside>
-      </div>
     `;
   }
 
