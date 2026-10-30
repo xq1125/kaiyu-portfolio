@@ -6171,3 +6171,25 @@ body.peek-open .px-taskbar {
     animation: none;
   }
 }
+
+/* Mobile folder labels: black titles, dark-grey tap hint, and no sticky cream hover. */
+@media (max-width: 760px), (hover: none) {
+  .hero-cell .hero-cell-name,
+  .hero-cell:hover .hero-cell-name {
+    color: #111111 !important;
+  }
+
+  .hero-cell .hero-cell-poke,
+  .hero-cell:hover .hero-cell-poke {
+    color: #4a4a4a !important;
+  }
+
+  .hero-cell:hover .hero-cell-back {
+    background: #c8bfa8 !important;
+    color: #17110d !important;
+  }
+
+  .hero-cell:hover .hero-cell-top {
+    color: #5e5747 !important;
+  }
+}
