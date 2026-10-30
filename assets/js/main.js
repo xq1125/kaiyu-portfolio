@@ -1919,14 +1919,41 @@
     $$(".loader-level").forEach((level) => {
       const score = level.querySelector(".level-score");
       let coins = 0;
+      let celebrated = false;
+
+      const celebrate = () => {
+        level.classList.add("is-99");
+        const banner = document.createElement("span");
+        banner.className = "level-99";
+        banner.innerHTML = "<b>★</b> 99";
+        level.appendChild(banner);
+
+        const colors = ["#f4c744", "#f2e7d5", "#9cc8f5", "#ef8a7c"];
+        for (let index = 0; index < 18; index += 1) {
+          const star = document.createElement("i");
+          star.className = "level-star";
+          star.style.left = `${20 + Math.random() * 60}%`;
+          star.style.top = `${35 + Math.random() * 25}%`;
+          star.style.setProperty("--dx", `${(Math.random() * 2 - 1) * 92}px`);
+          star.style.setProperty("--dy", `${-30 - Math.random() * 105}px`);
+          star.style.setProperty("--star", colors[index % colors.length]);
+          star.style.animationDelay = `${Math.random() * 220}ms`;
+          level.appendChild(star);
+          window.setTimeout(() => star.remove(), 1900);
+        }
+      };
 
       const paintScore = (amount) => {
-        coins += amount;
+        coins = Math.min(99, coins + amount);
         if (score) {
           score.textContent = `COINS ${String(coins).padStart(2, "0")}`;
           score.classList.remove("is-scored");
           void score.offsetWidth;
           score.classList.add("is-scored");
+        }
+        if (coins >= 99 && !celebrated) {
+          celebrated = true;
+          celebrate();
         }
       };
 

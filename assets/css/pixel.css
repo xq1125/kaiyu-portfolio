@@ -5996,3 +5996,62 @@ body.peek-open .px-taskbar {
 .level-goomba.is-dead {
   display: none;
 }
+
+/* Reaching 99 coins sets off a little star shower on that side. */
+.level-99 {
+  position: absolute;
+  z-index: 30;
+  top: 43%;
+  left: 50%;
+  color: #f7d35f;
+  font-family: var(--px-en);
+  font-size: 19px;
+  line-height: 1;
+  letter-spacing: -.06em;
+  text-shadow: 2px 2px 0 #4a210b, -1px -1px 0 #fff1b3;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: level99Pop .8s steps(5, end) both;
+}
+
+.level-99 b {
+  color: #fff4c7;
+  font-weight: 400;
+}
+
+.level-star {
+  position: absolute;
+  z-index: 29;
+  top: 48%;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  background: var(--star, #f4c744);
+  clip-path: polygon(50% 0, 62% 34%, 98% 36%, 70% 58%, 80% 94%, 50% 72%, 20% 94%, 30% 58%, 2% 36%, 38% 34%);
+  pointer-events: none;
+  animation: levelStarFly 1.5s steps(8, end) forwards;
+}
+
+.loader-level.is-99 .level-ground {
+  box-shadow: 0 0 0 2px #f4c744, 0 0 0 4px #8a5a10;
+}
+
+@keyframes level99Pop {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.35); }
+  32% { opacity: 1; transform: translate(-50%, -50%) scale(1.22); }
+  62% { transform: translate(-50%, -50%) scale(.92); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes levelStarFly {
+  0% { opacity: 0; transform: translate(0, 0) scale(.4) rotate(0deg); }
+  16% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--dx, 0px), var(--dy, -60px)) scale(1) rotate(150deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .level-99,
+  .level-star {
+    animation: none;
+  }
+}
