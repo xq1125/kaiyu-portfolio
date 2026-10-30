@@ -5939,3 +5939,17 @@ body.peek-open .px-taskbar {
   font-size: 7px;
   letter-spacing: .05em;
 }
+
+/* The decorative familiar layer was click-through; the playable levels must catch clicks. */
+.loader-level {
+  pointer-events: auto;
+}
+
+/* The transparent center column was intercepting game clicks; only its button should. */
+.loader-center {
+  pointer-events: none;
+}
+
+.loader-center .loader-enter {
+  pointer-events: auto;
+}
