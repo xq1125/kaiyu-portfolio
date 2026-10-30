@@ -4101,3 +4101,55 @@ body.peek-open .px-taskbar {
     animation: none;
   }
 }
+
+/* Upper-body KAIYU sits in the bottom-left corner, cut by the taskbar. */
+.desktop-mascot {
+  top: auto;
+  bottom: 0;
+  left: clamp(8px, 1.5vw, 24px);
+  width: clamp(146px, 11vw, 186px);
+  transform: translateY(16px);
+}
+
+.desktop-mascot.is-visible {
+  transform: translateY(0);
+}
+
+.desktop-mascot .mascot-art {
+  margin-top: 6px;
+}
+
+.mascot-arm,
+.mascot-head,
+.mascot-eyes {
+  animation: none;
+}
+
+.mascot-hand {
+  transform-box: fill-box;
+  transform-origin: 50% 86%;
+  animation: mascotPalm 1.5s steps(3, end) infinite;
+}
+
+@keyframes mascotPalm {
+  0%, 100% { transform: rotate(-9deg); }
+  50% { transform: rotate(12deg); }
+}
+
+@media (min-width: 1100px) {
+  .desktop-mascot {
+    display: block;
+  }
+}
+
+@media (max-width: 1099px) {
+  .desktop-mascot {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mascot-hand {
+    animation: none;
+  }
+}

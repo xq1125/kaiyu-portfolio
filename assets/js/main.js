@@ -1914,16 +1914,8 @@
 
   function initDesktopMascot() {
     const mascot = $("#desktopMascot");
-    const works = $("#works");
-    if (!mascot || !works) return;
-    if (!("IntersectionObserver" in window)) {
-      mascot.classList.add("is-visible");
-      return;
-    }
-    const observer = new IntersectionObserver((entries) => {
-      mascot.classList.toggle("is-visible", entries.some((entry) => entry.isIntersecting));
-    }, { threshold: 0.08 });
-    observer.observe(works);
+    if (!mascot) return;
+    mascot.classList.add("is-visible");
   }
 
   function initResumeEnvelope() {
