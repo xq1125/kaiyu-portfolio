@@ -5142,3 +5142,92 @@ body.peek-open .px-taskbar {
     animation: none;
   }
 }
+
+/* Mobile legibility: show revealed copy immediately and strengthen the postcard text. */
+@media (max-width: 760px) {
+  .js [data-reveal] {
+    opacity: 1 !important;
+    translate: none !important;
+    transition: none !important;
+  }
+
+  .postcard {
+    background: #f6ecd9;
+    border-color: #17110d;
+  }
+
+  .postcard .postcard-kicker {
+    padding-right: 72px;
+    color: #584a3c;
+    font-size: 9px;
+    line-height: 1.6;
+    letter-spacing: .02em;
+  }
+
+  .postcard .postcard-hand {
+    margin-top: 28px;
+    color: #8f1b16;
+    font-size: 28px;
+    line-height: 1.15;
+  }
+
+  .postcard .email-copy span {
+    color: #17110d;
+    font-size: clamp(19px, 5.6vw, 25px);
+  }
+
+  .postcard .email-copy em {
+    color: #584a3c;
+    font-size: 9px;
+  }
+
+  .postcard .contact-more {
+    margin-top: 20px;
+    color: #584a3c;
+    font-size: 10px;
+    line-height: 1.6;
+  }
+
+  .postcard .contact-method {
+    grid-template-columns: 48px minmax(0, 1fr) auto;
+    gap: 8px;
+    padding: 12px 0;
+  }
+
+  .postcard .cm-label {
+    color: #8f1b16;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+
+  .postcard .cm-value {
+    color: #17110d;
+    font-size: 14px;
+    line-height: 1.55;
+    letter-spacing: 0;
+  }
+
+  .postcard .cm-action {
+    color: #584a3c;
+    font-size: 10px;
+  }
+
+  .postcard .postcard-send {
+    color: #17110d;
+    font-size: 20px;
+  }
+
+  .postcard .postcard-send span {
+    font-size: 16px;
+  }
+
+  .postcard .postcard-stamp em {
+    font-size: 7px;
+  }
+
+  .contact-bottom {
+    color: #f4e7d5;
+    font-size: 10px;
+    line-height: 1.65;
+  }
+}
