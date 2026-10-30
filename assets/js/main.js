@@ -118,6 +118,7 @@
                   <span class="catalogue-bottom"><span>点击进入 · ENTER</span><span>↗</span></span>
                 </span>
                 <span class="catalogue-face catalogue-face--front" aria-hidden="true">
+                  <span class="catalogue-front-bar">C:\KAIYU\WORKS · COVER</span>
                   <img src="${category.cover}?v=cards"
                        srcset="${mobileCover}?v=cards 720w, ${category.cover}?v=cards 1200w"
                        sizes="(max-width: 620px) 92vw, (max-width: 900px) 46vw, 31vw"
@@ -133,7 +134,7 @@
               </span>
             </a>
             <button class="catalogue-turn" type="button" data-title="${category.title}"
-                    aria-label="翻到《${category.title}》的背面" aria-pressed="false">
+                    aria-label="翻到《${category.title}》的封面" aria-pressed="false">
               <span aria-hidden="true">↻</span>
             </button>
           </div>
@@ -151,7 +152,7 @@
       const flipped = item.classList.toggle("is-flipped");
       turn.setAttribute("aria-pressed", String(flipped));
       const title = turn.dataset.title || "这一本";
-      turn.setAttribute("aria-label", flipped ? `翻回《${title}》的封面` : `翻到《${title}》的背面`);
+      turn.setAttribute("aria-label", flipped ? `翻回《${title}》的章节卡` : `翻到《${title}》的封面`);
     });
   }
 

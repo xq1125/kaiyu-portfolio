@@ -770,7 +770,7 @@ body.is-ready .hero h1 {
     linear-gradient(45deg, rgba(0, 0, 0, .055) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, .055) 75%);
   background-size: 6px 6px;
   color: var(--px-ink);
-  transform: rotateY(180deg);
+  transform: rotateY(0deg);
 }
 
 .catalogue-face--back::before {
@@ -790,7 +790,7 @@ body.is-ready .hero h1 {
 }
 
 .catalogue-face--front {
-  transform: rotateY(0deg);
+  transform: rotateY(180deg);
   background: #080807;
 }
 
@@ -3665,5 +3665,53 @@ body.peek-open .px-taskbar {
   .mascot-eyes,
   .mascot-tail {
     animation: none;
+  }
+}
+
+/* The chapter card rests face-up; the work cover is revealed on hover. */
+@media (hover: hover) {
+  .catalogue-face--back::before {
+    content: "C:\\KAIYU\\CHAPTER  ·  HOVER FOR COVER";
+  }
+
+  .catalogue-face--front::after {
+    content: "C:\\KAIYU\\WORKS  ·  COVER";
+  }
+}
+
+@media (hover: none) {
+  .catalogue-face--back::before {
+    content: "C:\\KAIYU\\CHAPTER  ·  TAP ↻ FOR COVER";
+  }
+
+  .catalogue-face--front::after {
+    content: "C:\\KAIYU\\WORKS  ·  COVER";
+  }
+}
+
+.catalogue-face--front::after {
+  display: none !important;
+}
+
+.catalogue-front-bar {
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 15px;
+  padding: 4px 5px 0;
+  background: var(--px-face);
+  color: var(--px-ink);
+  font-family: var(--px-en);
+  font-size: 5px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  .catalogue-front-bar {
+    height: 14px;
+    font-size: 4.5px;
   }
 }
