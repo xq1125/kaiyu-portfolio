@@ -1925,7 +1925,7 @@
         level.classList.add("is-99");
         const banner = document.createElement("span");
         banner.className = "level-99";
-        banner.innerHTML = "<b>★</b> 99";
+        banner.innerHTML = "<b>★</b> 星邱99";
         level.appendChild(banner);
 
         const colors = ["#f4c744", "#f2e7d5", "#9cc8f5", "#ef8a7c"];

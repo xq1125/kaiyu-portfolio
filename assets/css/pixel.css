@@ -6003,19 +6003,19 @@ body.peek-open .px-taskbar {
   z-index: 30;
   top: 43%;
   left: 50%;
-  color: #f7d35f;
-  font-family: var(--px-en);
-  font-size: 19px;
+  color: #c77dff;
+  font-family: var(--px-cn);
+  font-size: 16px;
   line-height: 1;
-  letter-spacing: -.06em;
-  text-shadow: 2px 2px 0 #4a210b, -1px -1px 0 #fff1b3;
+  letter-spacing: -.04em;
+  text-shadow: 2px 2px 0 #35104f, -1px -1px 0 #ecd9ff;
   transform: translate(-50%, -50%);
   pointer-events: none;
   animation: level99Pop .8s steps(5, end) both;
 }
 
 .level-99 b {
-  color: #fff4c7;
+  color: #f7d35f;
   font-weight: 400;
 }
 
