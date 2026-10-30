@@ -5953,3 +5953,11 @@ body.peek-open .px-taskbar {
 .loader-center .loader-enter {
   pointer-events: auto;
 }
+
+.mascot-hand-art {
+  bottom: 1%;
+}
+
+.mascot-heart {
+  bottom: calc(100% + 7px);
+}
