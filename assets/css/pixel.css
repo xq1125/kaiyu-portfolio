@@ -4532,3 +4532,16 @@ body.peek-open .px-taskbar {
     margin-top: 8px;
   }
 }
+
+@media (max-width: 720px) {
+  /* Phones use the hero folders as the only work index. */
+  #works.index-section {
+    display: none !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .px-frame:has(> #works.index-section) {
+    display: none !important;
+  }
+}

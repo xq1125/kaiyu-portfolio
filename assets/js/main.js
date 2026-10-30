@@ -339,12 +339,15 @@
     const count = $("#heroBoardCount");
     const note = $("#heroBoardNote");
     const reset = $("#heroBoardReset");
-    const coarsePointer = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+    const compactBoard = isNarrowViewport();
     const openCells = [];
 
     const closeCell = (cell) => {
       cell.classList.remove("is-revealed", "is-opening");
-      cell.setAttribute("aria-label", `揭开章节预览：${cell.dataset.title}`);
+      cell.setAttribute(
+        "aria-label",
+        compactBoard ? `揭开章节：${cell.dataset.title}` : `揭开章节预览：${cell.dataset.title}`
+      );
       const index = openCells.indexOf(cell);
       if (index !== -1) openCells.splice(index, 1);
     };
@@ -353,11 +356,15 @@
       const open = openCells.length;
       if (count) count.textContent = `${pad(open)} / 02`;
       if (note) {
-        note.textContent = open === 2
-          ? "再点一张，切换章节预览"
-          : open === 1
-            ? "再点一次，打开章节切片"
-            : "最多同时翻开两张";
+        note.textContent = compactBoard
+          ? open
+            ? "再点一次，直接进入章节"
+            : "点开一张，再点进入章节"
+          : open === 2
+            ? "再点一张，切换章节预览"
+            : open === 1
+              ? "再点一次，打开章节切片"
+              : "最多同时翻开两张";
       }
       if (reset) reset.disabled = open === 0;
       board.classList.toggle("is-pair", open === 2);
@@ -370,14 +377,19 @@
         event.preventDefault();
         if (openCells.length >= 2) closeCell(openCells[0]);
         cell.classList.add("is-revealed", "is-opening");
-        cell.setAttribute("aria-label", `打开《${cell.dataset.title}》章节预览`);
+        cell.setAttribute(
+          "aria-label",
+          compactBoard
+            ? `再次点击进入《${cell.dataset.title}》章节`
+            : `打开《${cell.dataset.title}》章节预览`
+        );
         openCells.push(cell);
         window.setTimeout(() => cell.classList.remove("is-opening"), 650);
         paint();
-        if (coarsePointer) {
-          const category = categoryById.get(cell.dataset.chapter);
-          window.setTimeout(() => openChapterPeek(category, cell), 260);
-        }
+        return;
+      }
+      if (compactBoard) {
+        /* Second tap follows the anchor into the full chapter. */
         return;
       }
       event.preventDefault();
@@ -2016,7 +2028,10 @@
       const href = anchor.getAttribute("href");
       if (!href || href === "#") return;
       const isContactJump = anchor.hasAttribute("data-contact-jump");
-      const target = (isContactJump && $(".postcard")) || doc.querySelector(href);
+      let target = (isContactJump && $(".postcard")) || doc.querySelector(href);
+      if (href === "#works" && isNarrowViewport()) {
+        target = $("#heroBoard") || target;
+      }
       if (!target) return;
       event.preventDefault();
       if (menuOpen && window.__closePaperMenu) window.__closePaperMenu();
