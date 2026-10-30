@@ -6321,3 +6321,8 @@ body.peek-open .px-taskbar {
 .loader-level--right .level-coin--b {
   left: 40%;
 }
+
+/* The live CRT grain sits above dialogs; hide it while reading the CV. */
+body.resume-open .paper-grain {
+  display: none;
+}
