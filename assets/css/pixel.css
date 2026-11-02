@@ -6491,3 +6491,19 @@ body.resume-open .paper-grain {
       -11px 13px 0 var(--tag-spark), 14px 10px 0 var(--tag-spark);
   }
 }
+
+/* Press-and-hold portrait peek: the real photo shows only while held. */
+.about-card.is-scratch-ready .about-face--front {
+  cursor: pointer;
+}
+
+.about-card.is-scratch-ready.is-peeking .about-face--front {
+  cursor: grabbing;
+}
+
+.about-face--front,
+.about-scratch {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
