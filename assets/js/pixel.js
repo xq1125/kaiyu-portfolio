@@ -35,8 +35,8 @@
       taskbar.className = "px-taskbar";
       taskbar.setAttribute("aria-label", "桌面任务栏");
       taskbar.innerHTML = `
-        <a class="px-start" href="${isChapter ? "index.html?from=chapter" : "#top"}">
-          <span class="px-start-flag" aria-hidden="true">▣</span><b>KAIYU</b><em>95</em>
+        <a class="px-start" href="${isChapter ? "index.html?from=chapter" : "#top"}" aria-label="寻找彩蛋">
+          <span class="px-start-flag" aria-hidden="true">▣</span><b>寻找彩蛋</b>
         </a>
         <div class="px-tasklist">
           <a class="px-task is-active" href="${isChapter ? "#top" : "#top"}"><span aria-hidden="true">▤</span>${isChapter ? "CHAPTER.EXE" : "KAIYU.EXE"}</a>
