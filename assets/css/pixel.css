@@ -6507,3 +6507,104 @@ body.resume-open .paper-grain {
   -webkit-user-select: none;
   -webkit-touch-callout: none;
 }
+
+/* Preview and reader tags get the same tactile click language. */
+.peek-tags li,
+.reader-tags li {
+  --tag-spark: var(--px-red);
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  transition: background .1s steps(2, end), color .1s steps(2, end),
+    border-color .1s steps(2, end), transform .1s steps(2, end),
+    box-shadow .1s steps(2, end);
+}
+
+.peek-tags li::after,
+.reader-tags li::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border: 1px solid var(--tag-spark);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.peek-tags li::before,
+.reader-tags li::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  background: var(--tag-spark);
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: none;
+}
+
+.peek-tags li.is-poking::after,
+.reader-tags li.is-poking::after {
+  animation: tagPokeRing .46s steps(4, end);
+}
+
+.peek-tags li.is-poking::before,
+.reader-tags li.is-poking::before {
+  animation: tagPokeSparks .46s steps(4, end);
+}
+
+.peek-tags li.is-poking,
+.reader-tags li.is-poking {
+  animation: tagPokePress .4s steps(3, end);
+}
+
+.peek-tags li.is-active,
+.reader-tags li.is-active {
+  --tag-spark: var(--px-face-hi);
+  background: var(--px-red);
+  border-color: var(--px-red);
+  color: var(--px-face-hi);
+  box-shadow: 2px 2px 0 var(--px-shadow);
+  transform: translate(1px, 1px);
+}
+
+.peek-tags li:active,
+.reader-tags li:active {
+  box-shadow: none;
+  transform: translate(2px, 2px);
+}
+
+@media (hover: hover) {
+  .peek-tags li:hover,
+  .reader-tags li:hover {
+    background: var(--px-ink);
+    border-color: var(--px-ink);
+    color: var(--px-face-hi);
+    box-shadow: 2px 2px 0 var(--px-shadow);
+    transform: translate(-1px, -1px);
+  }
+
+  .peek-tags li.is-active:hover,
+  .reader-tags li.is-active:hover {
+    background: #b73528;
+    border-color: #b73528;
+  }
+}
+
+.peek-tags li:focus-visible,
+.reader-tags li:focus-visible {
+  outline: 2px solid var(--px-ink);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .peek-tags li.is-poking,
+  .peek-tags li.is-poking::after,
+  .peek-tags li.is-poking::before,
+  .reader-tags li.is-poking,
+  .reader-tags li.is-poking::after,
+  .reader-tags li.is-poking::before {
+    animation: none;
+  }
+}

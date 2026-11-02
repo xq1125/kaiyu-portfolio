@@ -227,7 +227,7 @@
           <p class="peek-kicker">${category.en} / ${pad(category.plates.length)} PIECES${filmCount ? ` / ${pad(filmCount)} FILMS` : ""}</p>
           <h2 id="peekTitle">${category.title}</h2>
           <p class="peek-desc">${category.desc}</p>
-          <ul class="peek-tags">${category.tags.slice(0, 5).map((tag) => `<li>${tag}</li>`).join("")}</ul>
+          <ul class="peek-tags">${category.tags.slice(0, 5).map((tag) => `<li tabindex="0" role="button" aria-pressed="false">${tag}</li>`).join("")}</ul>
         </div>
       </header>
 
@@ -446,7 +446,7 @@
 
     const tags = $("#readerTags");
     if (tags) {
-      tags.innerHTML = category.tags.map((tag) => `<li>${tag}</li>`).join("");
+      tags.innerHTML = category.tags.map((tag) => `<li tabindex="0" role="button" aria-pressed="false">${tag}</li>`).join("");
     }
     const grid = $("#readerGrid");
     if (grid) {
@@ -592,7 +592,7 @@
           })
           .join("");
 
-        const tags = category.tags.map((tag) => `<li>${tag}</li>`).join("");
+        const tags = category.tags.map((tag) => `<li tabindex="0" role="button" aria-pressed="false">${tag}</li>`).join("");
 
         return `
           <section class="chapter" id="${category.id}" data-section="${category.id}"
@@ -2574,6 +2574,30 @@
     paint();
   }
 
+  function initTagTaps() {
+    const selector = ".peek-tags li, .reader-tags li, .chapter-tags li";
+
+    doc.addEventListener("click", (event) => {
+      const tag = event.target.closest(selector);
+      if (!tag) return;
+      const active = tag.classList.toggle("is-active");
+      tag.setAttribute("aria-pressed", String(active));
+      tag.classList.remove("is-poking");
+      void tag.offsetWidth;
+      tag.classList.add("is-poking");
+      window.setTimeout(() => tag.classList.remove("is-poking"), 520);
+      if (typeof navigator.vibrate === "function") navigator.vibrate(8);
+    });
+
+    doc.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      const tag = event.target.closest(selector);
+      if (!tag) return;
+      event.preventDefault();
+      tag.click();
+    });
+  }
+
   /* ------------------------------------------------------------------ */
   /* Init                                                               */
   /* ------------------------------------------------------------------ */
@@ -2599,6 +2623,7 @@
   initDesktopMascot();
   initMascotHearts();
   initResumeEnvelope();
+  initTagTaps();
   initTouchFeedback();
   initEmailCopy();
   initContactCopy();
