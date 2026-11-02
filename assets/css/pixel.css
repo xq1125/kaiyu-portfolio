@@ -6608,3 +6608,22 @@ body.resume-open .paper-grain {
     animation: none;
   }
 }
+
+/* The portrait hint is now a real button for pinning the real photo open. */
+.about-peek-button {
+  margin-left: 0;
+}
+
+.about-peek-button[aria-pressed="true"] {
+  background: var(--px-red);
+  border-color: var(--px-red);
+  color: var(--px-face-hi);
+  box-shadow: 1px 1px 0 var(--px-shadow);
+}
+
+.about-peek-button[aria-pressed="true"]:hover,
+.about-peek-button[aria-pressed="true"]:focus-visible {
+  background: #b73528;
+  border-color: #b73528;
+  color: var(--px-face-hi);
+}

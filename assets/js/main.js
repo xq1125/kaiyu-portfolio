@@ -1678,8 +1678,7 @@
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const hint = $(".about-flip-copy");
-    if (hint) hint.textContent = "按住查看 · 松开复原";
+    const peekButton = $("#aboutPeekButton");
 
     let width = 1;
     let height = 1;
@@ -1687,7 +1686,9 @@
     let ready = false;
     let last = null;
     let resizeTimer = 0;
-    let peekPointer = null;
+    let touchScratch = null;
+    let suppressClickUntil = 0;
+    let pinned = false;
 
     const brushSize = () => Math.max(20, Math.min(52, width * 0.105));
 
@@ -1796,38 +1797,75 @@
       last = { x, y };
     };
 
-    const revealPhoto = () => {
+    const setPeekState = (on) => {
       if (!ready || flip.classList.contains("is-flipped")) return;
-      ctx.clearRect(0, 0, width, height);
-      card.classList.add("is-peeking");
+      pinned = on;
+      if (on) {
+        ctx.clearRect(0, 0, width, height);
+      } else {
+        paint();
+      }
+      card.classList.toggle("is-peeking", on);
+      if (peekButton) {
+        peekButton.textContent = on ? "恢复插画" : "按住查看";
+        peekButton.setAttribute("aria-pressed", String(on));
+      }
     };
 
-    const restorePortrait = () => {
-      if (!ready) return;
-      paint();
-      card.classList.remove("is-peeking");
-    };
+    peekButton?.addEventListener("click", () => {
+      setPeekState(!pinned);
+    });
+
+    const isFinePointer = (event) =>
+      !event.pointerType || event.pointerType === "mouse" || event.pointerType === "pen";
 
     face.addEventListener("pointerdown", (event) => {
-      if (!ready || flip.classList.contains("is-flipped")) return;
-      if (event.button !== undefined && event.button !== 0) return;
-      event.preventDefault();
-      peekPointer = event.pointerId;
-      revealPhoto();
+      if (!ready || pinned || isFinePointer(event) || flip.classList.contains("is-flipped")) return;
+      touchScratch = {
+        id: event.pointerId,
+        x: event.clientX,
+        y: event.clientY,
+        moved: false
+      };
+      last = null;
       if (typeof face.setPointerCapture === "function") {
-        try {
-          face.setPointerCapture(event.pointerId);
-        } catch (error) {
-          /* pointer capture is optional */
-        }
+        face.setPointerCapture(event.pointerId);
       }
     });
 
-    const endPeek = (event) => {
-      if (peekPointer === null) return;
-      if (event.pointerId !== undefined && event.pointerId !== peekPointer) return;
-      peekPointer = null;
-      restorePortrait();
+    face.addEventListener("pointerenter", (event) => {
+      if (!ready || pinned || !isFinePointer(event) || flip.classList.contains("is-flipped")) return;
+      last = null;
+      const { x, y } = point(event);
+      eraseTo(x, y);
+    });
+
+    face.addEventListener("pointermove", (event) => {
+      if (!ready || pinned || flip.classList.contains("is-flipped")) return;
+
+      if (isFinePointer(event)) {
+        const { x, y } = point(event);
+        eraseTo(x, y);
+        return;
+      }
+
+      if (!touchScratch || touchScratch.id !== event.pointerId) return;
+      const dx = event.clientX - touchScratch.x;
+      const dy = event.clientY - touchScratch.y;
+      if (!touchScratch.moved && Math.hypot(dx, dy) < 6) return;
+
+      touchScratch.moved = true;
+      suppressClickUntil = Date.now() + 350;
+      if (event.cancelable) event.preventDefault();
+      const { x, y } = point(event);
+      eraseTo(x, y);
+    });
+
+    const endTouchScratch = (event) => {
+      if (!touchScratch || touchScratch.id !== event.pointerId) return;
+      if (touchScratch.moved) suppressClickUntil = Date.now() + 350;
+      touchScratch = null;
+      last = null;
       if (typeof face.releasePointerCapture === "function") {
         try {
           face.releasePointerCapture(event.pointerId);
@@ -1837,8 +1875,32 @@
       }
     };
 
-    face.addEventListener("pointerup", endPeek);
-    face.addEventListener("pointercancel", endPeek);
+    face.addEventListener("pointerup", endTouchScratch);
+    face.addEventListener("pointercancel", endTouchScratch);
+
+    flip.addEventListener(
+      "click",
+      (event) => {
+        if (Date.now() >= suppressClickUntil) return;
+        event.preventDefault();
+        event.stopPropagation();
+      },
+      true
+    );
+
+    face.addEventListener("pointerleave", (event) => {
+      if (!isFinePointer(event) || pinned) return;
+      last = null;
+      if (ready) paint();
+    });
+
+    flip.addEventListener("click", () => {
+      if (pinned) return;
+      window.setTimeout(() => {
+        if (ready && !pinned) paint();
+      }, 360);
+    });
+
     face.addEventListener("contextmenu", (event) => {
       if (ready) event.preventDefault();
     });
@@ -1846,7 +1908,7 @@
     window.addEventListener("resize", () => {
       window.clearTimeout(resizeTimer);
       resizeTimer = window.setTimeout(() => {
-        if (ready) paint();
+        if (ready && !pinned) paint();
       }, 160);
     });
 
