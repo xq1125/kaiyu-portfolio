@@ -6343,3 +6343,151 @@ body.resume-open .paper-grain {
   25% { rotate: -.45deg; }
   75% { rotate: .45deg; }
 }
+
+/* Chapter capability chips: tactile press, pixel burst and a pinned state. */
+.chapter-tags li {
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  transition: background .1s steps(2, end), color .1s steps(2, end),
+    border-color .1s steps(2, end), transform .1s steps(2, end),
+    box-shadow .1s steps(2, end);
+}
+
+.chapter-tags li::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border: 1px solid var(--px-red);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.chapter-tags li::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  background: var(--px-red);
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: none;
+}
+
+.chapter-tags li.is-poking::after {
+  animation: tagPokeRing .46s steps(4, end);
+}
+
+.chapter-tags li.is-poking::before {
+  animation: tagPokeSparks .46s steps(4, end);
+}
+
+.chapter-tags li.is-poking {
+  animation: tagPokePress .4s steps(3, end);
+}
+
+.chapter-tags li.is-active {
+  background: var(--px-red);
+  border-color: var(--px-red);
+  color: var(--px-face-hi);
+  box-shadow: 2px 2px 0 var(--px-shadow);
+  transform: translate(1px, 1px);
+}
+
+.chapter-tags li:active {
+  box-shadow: none;
+  transform: translate(2px, 2px);
+}
+
+@media (hover: hover) {
+  .chapter-tags li:hover {
+    background: var(--px-ink);
+    border-color: var(--px-ink);
+    color: var(--px-face-hi);
+    transform: translate(-1px, -1px);
+    box-shadow: 2px 2px 0 var(--px-shadow);
+  }
+
+  .chapter-tags li.is-active:hover {
+    background: #b73528;
+    border-color: #b73528;
+  }
+}
+
+.chapter-tags li:focus-visible {
+  outline: 2px solid var(--px-face-hi);
+  outline-offset: 2px;
+}
+
+@keyframes tagPokePress {
+  0% { transform: translate(0, 0); }
+  30% { transform: translate(2px, 2px) scale(.96); }
+  65% { transform: translate(-1px, -1px) scale(1.02); }
+  100% { transform: translate(1px, 1px); }
+}
+
+@keyframes tagPokeRing {
+  0% { opacity: .9; transform: scale(.72); }
+  100% { opacity: 0; transform: scale(1.24); }
+}
+
+@keyframes tagPokeSparks {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(.5);
+    box-shadow:
+      -5px -4px 0 var(--px-red), 5px -3px 0 var(--px-red),
+      -4px 5px 0 var(--px-red), 5px 4px 0 var(--px-red);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.5);
+    box-shadow:
+      -14px -11px 0 var(--px-red), 13px -9px 0 var(--px-red),
+      -11px 13px 0 var(--px-red), 14px 10px 0 var(--px-red);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chapter-tags li.is-poking,
+  .chapter-tags li.is-poking::after,
+  .chapter-tags li.is-poking::before {
+    animation: none;
+  }
+}
+
+/* Keep the click sparks visible once the chip turns red. */
+.chapter-tags li {
+  --tag-spark: var(--px-red);
+}
+
+.chapter-tags li.is-active {
+  --tag-spark: var(--px-face-hi);
+}
+
+.chapter-tags li::after {
+  border-color: var(--tag-spark);
+}
+
+.chapter-tags li::before {
+  background: var(--tag-spark);
+}
+
+@keyframes tagPokeSparks {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(.5);
+    box-shadow:
+      -5px -4px 0 var(--tag-spark), 5px -3px 0 var(--tag-spark),
+      -4px 5px 0 var(--tag-spark), 5px 4px 0 var(--tag-spark);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.5);
+    box-shadow:
+      -14px -11px 0 var(--tag-spark), 13px -9px 0 var(--tag-spark),
+      -11px 13px 0 var(--tag-spark), 14px 10px 0 var(--tag-spark);
+  }
+}
