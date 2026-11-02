@@ -16,6 +16,10 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://xq1125.github.io/kaiyu-portfolio/assets/img/og-cover.jpg?v=nocturne">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" as="image" href="assets/img/loader-cover.webp" media="(min-width: 601px)" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/img/loader-cover-mobile.webp" media="(max-width: 600px)" fetchpriority="high">
+  <link rel="preload" as="font" href="assets/fonts/fusion-pixel-zh.woff2" type="font/woff2" crossorigin>
+  <link rel="preload" as="font" href="assets/fonts/press-start-2p.woff2" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add('js');</script>
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/pixel.css?v=70">
@@ -420,7 +424,7 @@
     </svg>
     <div class="mascot-portrait">
       <img class="mascot-photo" src="assets/img/about/mascot-portrait.webp" alt="" width="96" height="112" loading="eager" decoding="async">
-      <img class="mascot-hand-art" src="assets/img/about/cat-paw.webp" alt="" width="439" height="385" loading="eager" decoding="async">
+      <img class="mascot-hand-art" src="assets/img/about/cat-paw.webp?v=2" alt="" width="439" height="385" loading="eager" decoding="async" fetchpriority="low">
     </div>
   </div>
 
@@ -531,8 +535,8 @@
           <div class="about-card" data-reveal>
             <div class="about-flip" id="aboutFlip">
               <span class="about-face about-face--front">
-                <img class="about-photo" src="assets/img/about/portrait-photo.webp" alt="" width="1440" height="1080" loading="lazy" decoding="async">
-                <img class="about-ink" src="assets/img/about/portrait-cutout.webp" alt="郑铠妤的插画头像" width="705" height="825" loading="lazy" decoding="async">
+                <img class="about-photo" src="assets/img/about/portrait-photo.webp?v=2" alt="" width="1440" height="1080" loading="lazy" decoding="async" fetchpriority="low">
+                <img class="about-ink" src="assets/img/about/portrait-cutout.webp?v=2" alt="郑铠妤的插画头像" width="705" height="825" loading="lazy" decoding="async" fetchpriority="low">
                 <canvas class="about-scratch" aria-hidden="true"></canvas>
                 <span class="about-face-caption"><span>me, drawn by me</span><span>2026</span></span>
               </span>
@@ -814,6 +818,6 @@
   <script src="assets/js/pixel.js?v=4" defer></script>
   <script src="assets/js/audio.js?v=2" defer></script>
   <script src="assets/js/data.js?v=2" defer></script>
-  <script src="assets/js/main.js?v=39" defer></script>
+  <script src="assets/js/main.js?v=40" defer></script>
 </body>
 </html>

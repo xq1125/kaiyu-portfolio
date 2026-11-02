@@ -235,7 +235,7 @@
         <picture>
           <source media="(max-width: 600px)" srcset="assets/img/thumb/${home.id}.webp">
           <img src="assets/img/full/${home.id}.webp" alt="${category.title}首页：${home.title}" width="2800" height="991"
-               loading="eager" decoding="async">
+               loading="lazy" decoding="async" fetchpriority="low">
         </picture>
         <figcaption>
           <span>CHAPTER HOME / ${category.num}</span>
@@ -2611,27 +2611,23 @@
 
     const timer = window.setInterval(() => {
       if (ready) return;
-      progress = Math.min(loadFired ? 100 : 91, progress + 2.5 + Math.random() * 5);
+      progress = Math.min(loadFired ? 100 : 91, progress + 3.5 + Math.random() * 6);
       paint();
       if (loadFired && progress > 96) revealEntry();
-    }, 80);
+    }, 70);
 
     const onLoad = () => {
       loadFired = true;
       progress = Math.max(progress, 92);
       paint();
-      window.setTimeout(revealEntry, 450);
+      window.setTimeout(revealEntry, 420);
     };
 
     if (doc.readyState === "complete") onLoad();
     else window.addEventListener("load", onLoad, { once: true });
 
-    window.setTimeout(() => {
-      if (!ready) {
-        loadFired = true;
-        revealEntry();
-      }
-    }, 4800);
+    /* The cover is decorative; never hold the visitor at the gate for it. */
+    const fastEntry = window.setTimeout(revealEntry, 900);
 
     paint();
   }
