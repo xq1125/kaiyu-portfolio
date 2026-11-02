@@ -6627,3 +6627,63 @@ body.resume-open .paper-grain {
   border-color: #b73528;
   color: var(--px-face-hi);
 }
+
+/* WHAT I DO rows: a small red sweep follows the pointer across each skill. */
+.cap-list li {
+  cursor: crosshair;
+  transition: color .14s steps(2, end), background .14s steps(2, end),
+    padding-left .14s steps(2, end);
+}
+
+.cap-list li::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  background: var(--px-red);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform .2s steps(3, end);
+}
+
+.cap-list li:hover {
+  background: linear-gradient(90deg, rgba(169, 47, 36, .2), rgba(169, 47, 36, 0) 72%);
+  color: var(--px-face-hi);
+  padding-left: 20px;
+}
+
+.cap-list li:hover::before {
+  content: "↗";
+  color: var(--px-face-hi);
+  transform: translateY(-1px);
+}
+
+.cap-list li:hover::after {
+  transform: scaleX(1);
+}
+
+@media (hover: none) {
+  .cap-list li:active {
+    background: linear-gradient(90deg, rgba(169, 47, 36, .2), rgba(169, 47, 36, 0) 72%);
+    color: var(--px-face-hi);
+    padding-left: 20px;
+  }
+
+  .cap-list li:active::before {
+    content: "↗";
+    color: var(--px-face-hi);
+  }
+
+  .cap-list li:active::after {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cap-list li,
+  .cap-list li::after {
+    transition: none;
+  }
+}
