@@ -35,14 +35,14 @@
       taskbar.className = "px-taskbar";
       taskbar.setAttribute("aria-label", "桌面任务栏");
       taskbar.innerHTML = `
-        <a class="px-start" href="${isChapter ? "index.html" : "#top"}">
+        <a class="px-start" href="${isChapter ? "index.html?from=chapter" : "#top"}">
           <span class="px-start-flag" aria-hidden="true">▣</span><b>KAIYU</b><em>95</em>
         </a>
         <div class="px-tasklist">
           <a class="px-task is-active" href="${isChapter ? "#top" : "#top"}"><span aria-hidden="true">▤</span>${isChapter ? "CHAPTER.EXE" : "KAIYU.EXE"}</a>
-          <a class="px-task" href="${isChapter ? "index.html#works" : "#works"}"><span aria-hidden="true">▥</span>${isChapter ? "目录" : "作品"}</a>
-          <a class="px-task" href="${isChapter ? "index.html#about" : "#about"}"><span aria-hidden="true">▦</span>${isChapter ? "关于" : "关于"}</a>
-          <a class="px-task" href="${isChapter ? "index.html#contact" : "#contact"}"><span aria-hidden="true">▧</span>${isChapter ? "联系" : "联系"}</a>
+          <a class="px-task" href="${isChapter ? "index.html?from=chapter#works" : "#works"}"><span aria-hidden="true">▥</span>${isChapter ? "目录" : "作品"}</a>
+          <a class="px-task" href="${isChapter ? "index.html?from=chapter#about" : "#about"}"><span aria-hidden="true">▦</span>${isChapter ? "关于" : "关于"}</a>
+          <a class="px-task" href="${isChapter ? "index.html?from=chapter#contact" : "#contact"}"><span aria-hidden="true">▧</span>${isChapter ? "联系" : "联系"}</a>
         </div>
         <div class="px-tray"><span class="px-tray-net" aria-hidden="true">▮▮</span><span data-px-clock>--:--</span></div>
       `;

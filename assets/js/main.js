@@ -41,8 +41,9 @@
   function resetInitialPosition() {
     const initialHash = window.location.hash.slice(1);
     const isChapter = categoryById.has(initialHash);
+    const returning = new URLSearchParams(window.location.search).get("from") === "chapter";
 
-    if (isChapter) return;
+    if (isChapter || returning) return;
 
     if (initialHash === "contact" || initialHash === "about") {
       try {
