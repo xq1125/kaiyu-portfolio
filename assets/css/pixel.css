@@ -6988,3 +6988,17 @@ body.gpa-open .cursor-tag {
     transition: none;
   }
 }
+
+/* The transcript is a plain course list; no headline or summary block. */
+.gpa-sheet {
+  width: min(640px, 94vw);
+}
+
+.gpa-list {
+  margin-top: 0;
+}
+
+.gpa-list li {
+  padding-top: 11px;
+  padding-bottom: 11px;
+}
