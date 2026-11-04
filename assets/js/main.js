@@ -1798,7 +1798,7 @@
     };
 
     const setPeekState = (on) => {
-      if (!ready || flip.classList.contains("is-flipped")) return;
+      if (!ready || pinned === on || flip.classList.contains("is-flipped")) return;
       pinned = on;
       if (on) {
         ctx.clearRect(0, 0, width, height);
@@ -1807,14 +1807,39 @@
       }
       card.classList.toggle("is-peeking", on);
       if (peekButton) {
-        peekButton.textContent = on ? "恢复插画" : "按住查看";
         peekButton.setAttribute("aria-pressed", String(on));
       }
     };
 
-    peekButton?.addEventListener("click", () => {
-      setPeekState(!pinned);
+    const releasePeek = () => setPeekState(false);
+
+    peekButton?.addEventListener("pointerdown", (event) => {
+      if (event.button !== undefined && event.button !== 0) return;
+      setPeekState(true);
+      if (typeof peekButton.setPointerCapture === "function") {
+        try {
+          peekButton.setPointerCapture(event.pointerId);
+        } catch (error) {
+          /* pointer capture is optional */
+        }
+      }
     });
+    peekButton?.addEventListener("pointerup", releasePeek);
+    peekButton?.addEventListener("pointercancel", releasePeek);
+    peekButton?.addEventListener("lostpointercapture", releasePeek);
+    peekButton?.addEventListener("contextmenu", (event) => event.preventDefault());
+    peekButton?.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      setPeekState(true);
+    });
+    peekButton?.addEventListener("keyup", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      releasePeek();
+    });
+    peekButton?.addEventListener("blur", releasePeek);
+    window.addEventListener("blur", releasePeek);
 
     const isFinePointer = (event) =>
       !event.pointerType || event.pointerType === "mouse" || event.pointerType === "pen";
