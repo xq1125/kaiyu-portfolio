@@ -2409,6 +2409,88 @@
     });
   }
 
+  function initGpaModal() {
+    const trigger = $("#gpaStat");
+    const modal = $("#gpaModal");
+    if (!trigger || !modal) return;
+
+    const closeButtons = Array.from(modal.querySelectorAll("[data-gpa-close]"));
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let isOpen = false;
+    let lastFocus = null;
+    let closeTimer = 0;
+
+    const focusables = () =>
+      Array.from(modal.querySelectorAll("button, [href], [tabindex]:not([tabindex='-1'])"))
+        .filter((item) => !item.disabled && item.offsetParent !== null);
+
+    const showModal = () => {
+      modal.hidden = false;
+      window.requestAnimationFrame(() => {
+        modal.classList.add("is-open");
+        document.body.classList.add("gpa-open");
+        trigger.setAttribute("aria-expanded", "true");
+        const closeButton = modal.querySelector(".gpa-close");
+        if (closeButton) closeButton.focus({ preventScroll: true });
+      });
+    };
+
+    const openModal = () => {
+      if (isOpen) return;
+      isOpen = true;
+      lastFocus = document.activeElement;
+      showModal();
+    };
+
+    const closeModal = () => {
+      if (!isOpen) return;
+      isOpen = false;
+      window.clearTimeout(closeTimer);
+      modal.classList.remove("is-open");
+      document.body.classList.remove("gpa-open");
+      trigger.setAttribute("aria-expanded", "false");
+
+      const finish = () => {
+        modal.hidden = true;
+        if (lastFocus && typeof lastFocus.focus === "function") {
+          lastFocus.focus({ preventScroll: true });
+        }
+      };
+
+      if (reducedMotion) finish();
+      else closeTimer = window.setTimeout(finish, 220);
+    };
+
+    trigger.addEventListener("click", openModal);
+    trigger.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      openModal();
+    });
+
+    closeButtons.forEach((button) => button.addEventListener("click", closeModal));
+
+    modal.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeModal();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const items = focusables();
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+  }
+
   function initEmailCopy() {
     const button = $("#emailCopy");
     if (!button) return;
@@ -2706,6 +2788,7 @@
   initDesktopMascot();
   initMascotHearts();
   initResumeEnvelope();
+  initGpaModal();
   initTagTaps();
   initTouchFeedback();
   initEmailCopy();

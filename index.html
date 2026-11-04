@@ -22,7 +22,7 @@
   <link rel="preload" as="font" href="assets/fonts/press-start-2p.woff2" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add('js');</script>
   <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/pixel.css?v=70">
+  <link rel="stylesheet" href="assets/css/pixel.css?v=71">
   <noscript><style>.loader{display:none!important}body.is-loading{overflow:auto!important}</style></noscript>
 </head>
 <body class="is-loading">
@@ -564,7 +564,9 @@
 
           <div class="about-stats" data-reveal>
             <div><b>4<sup>/105</sup></b><span>专业排名 / RANK</span></div>
-            <div><b>3.91<sup>/4</sup></b><span>GPA</span></div>
+            <div class="about-stat--gpa" id="gpaStat" role="button" tabindex="0" aria-haspopup="dialog" aria-controls="gpaModal" aria-expanded="false" aria-label="查看90分以上的专业课">
+              <b>3.91<sup>/4</sup></b><span>GPA <i>90+ 专业课 ↗</i></span>
+            </div>
           </div>
 
           <div class="about-block" data-reveal>
@@ -602,6 +604,44 @@
         <div class="resume-sheet-foot">
           <span>郑铠妤 / KAIYU ZHENG · CV 2026</span>
           <span class="resume-sheet-esc">ESC 关闭</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="gpa-modal" id="gpaModal" hidden>
+      <button class="gpa-modal-scrim" type="button" data-gpa-close aria-label="关闭专业课成绩单"></button>
+      <div class="gpa-sheet" role="dialog" aria-modal="true" aria-labelledby="gpaTitle">
+        <div class="gpa-titlebar">
+          <span>▣ TRANSCRIPT.EXE</span>
+          <span>90+ MAJOR COURSES</span>
+          <button class="gpa-close" type="button" data-gpa-close aria-label="关闭专业课成绩单">关闭 ×</button>
+        </div>
+        <div class="gpa-body">
+          <p class="gpa-kicker">( 90+ / SELECTED GRADES )</p>
+          <h3 id="gpaTitle">八门<br><em>90+ 专业课。</em></h3>
+          <p class="gpa-sub">部分专业课程 · 按分数从高到低</p>
+
+          <div class="gpa-summary">
+            <div><b>08</b><span>门课程</span></div>
+            <div><b>95.5</b><span>平均分</span></div>
+            <div><b>99</b><span>最高分</span></div>
+          </div>
+
+          <ol class="gpa-list">
+            <li><span>01</span><b>游戏设计研讨会</b><em>99</em></li>
+            <li><span>02</span><b>艺术创新</b><em>97</em></li>
+            <li><span>03</span><b>专题综合设计训练</b><em>97</em></li>
+            <li><span>04</span><b>3D 形式与空间</b><em>96</em></li>
+            <li><span>05</span><b>动画研讨会</b><em>96</em></li>
+            <li><span>06</span><b>动画原理</b><em>94</em></li>
+            <li><span>07</span><b>交互艺术设计</b><em>93</em></li>
+            <li><span>08</span><b>智能生成艺术</b><em>92</em></li>
+          </ol>
+
+          <div class="gpa-foot">
+            <span>GPA 3.91 / 4 · 专业排名 4 / 105</span>
+            <span>ESC 关闭</span>
+          </div>
         </div>
       </div>
     </div>
@@ -818,6 +858,6 @@
   <script src="assets/js/pixel.js?v=4" defer></script>
   <script src="assets/js/audio.js?v=2" defer></script>
   <script src="assets/js/data.js?v=2" defer></script>
-  <script src="assets/js/main.js?v=41" defer></script>
+  <script src="assets/js/main.js?v=42" defer></script>
 </body>
 </html>
