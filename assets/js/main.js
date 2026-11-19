@@ -2335,6 +2335,68 @@
     });
   }
 
+  function initFortuneTube() {
+    const widget = $("#fortuneWidget");
+    const tube = $("#fortuneTube");
+    const count = $("#fortuneCount");
+    const results = $("#fortuneResults");
+    const live = $("#fortuneLive");
+    if (!widget || !tube || !count || !results) return;
+
+    const wishes = [
+      "好运",
+      "暴富",
+      "不挂科",
+      "早睡成功",
+      "灵感爆棚",
+      "心想事成",
+      "逢考必过",
+      "情绪稳定",
+      "发量惊人",
+      "论文顺利",
+      "卡里有钱",
+      "桃花朵朵",
+      "准点下班",
+      "OFFER 到手"
+    ];
+
+    let total = 0;
+    let last = -1;
+    let busy = false;
+    widget.classList.add("is-visible");
+
+    tube.addEventListener("click", () => {
+      if (busy) return;
+      busy = true;
+
+      let index = Math.floor(Math.random() * wishes.length);
+      if (index === last) index = (index + 1 + Math.floor(Math.random() * (wishes.length - 1))) % wishes.length;
+      last = index;
+      total += 1;
+
+      count.textContent = `LUCK ${pad(total)}`;
+      tube.classList.remove("is-drawing");
+      void tube.offsetWidth;
+      tube.classList.add("is-drawing");
+
+      const slip = document.createElement("span");
+      slip.className = "fortune-result";
+      const wish = document.createElement("b");
+      wish.textContent = `${wishes[index]}+1`;
+      const note = document.createElement("small");
+      note.textContent = `NO.${pad(total)} · 第 ${total} 签`;
+      slip.append(wish, note);
+      results.appendChild(slip);
+      if (live) live.textContent = `${wishes[index]}加一，已求 ${total} 签。`;
+
+      window.setTimeout(() => slip.remove(), 2250);
+      window.setTimeout(() => {
+        tube.classList.remove("is-drawing");
+        busy = false;
+      }, 640);
+    });
+  }
+
   function initResumeEnvelope() {
     const card = $("#resumeCard");
     const modal = $("#resumeModal");
@@ -2787,6 +2849,7 @@
   initPortraitScratch();
   initDesktopMascot();
   initMascotHearts();
+  initFortuneTube();
   initResumeEnvelope();
   initGpaModal();
   initTagTaps();

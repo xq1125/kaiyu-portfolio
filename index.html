@@ -22,7 +22,7 @@
   <link rel="preload" as="font" href="assets/fonts/press-start-2p.woff2" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add('js');</script>
   <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/pixel.css?v=72">
+  <link rel="stylesheet" href="assets/css/pixel.css?v=73">
   <noscript><style>.loader{display:none!important}body.is-loading{overflow:auto!important}</style></noscript>
 </head>
 <body class="is-loading">
@@ -426,6 +426,21 @@
       <img class="mascot-photo" src="assets/img/about/mascot-portrait.webp" alt="" width="96" height="112" loading="eager" decoding="async">
       <img class="mascot-hand-art" src="assets/img/about/cat-paw.webp?v=2" alt="" width="439" height="385" loading="eager" decoding="async" fetchpriority="low">
     </div>
+  </div>
+
+  <div class="fortune-widget" id="fortuneWidget">
+    <button class="fortune-tube" id="fortuneTube" type="button" aria-label="摇一支好运签">
+      <span class="fortune-sticks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+      <span class="fortune-cup" aria-hidden="true">
+        <span class="fortune-cup-rim"></span>
+        <span class="fortune-cup-label">求签</span>
+        <span class="fortune-cup-mark">LUCK</span>
+      </span>
+      <span class="fortune-pop" aria-hidden="true"></span>
+    </button>
+    <span class="fortune-caption">摇一摇 <em id="fortuneCount">LUCK 00</em></span>
+    <span class="fortune-results" id="fortuneResults" aria-hidden="true"></span>
+    <span class="sr-only" id="fortuneLive" role="status" aria-live="polite"></span>
   </div>
 
   <div class="menu-overlay" id="menuOverlay" aria-hidden="true">
@@ -843,6 +858,6 @@
   <script src="assets/js/pixel.js?v=4" defer></script>
   <script src="assets/js/audio.js?v=2" defer></script>
   <script src="assets/js/data.js?v=2" defer></script>
-  <script src="assets/js/main.js?v=42" defer></script>
+  <script src="assets/js/main.js?v=43" defer></script>
 </body>
 </html>
