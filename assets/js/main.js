@@ -2574,77 +2574,35 @@
     });
   }
 
-  function initStayPrompt() {
+﻿  function initStayPrompt() {
     const modal = $("#stayModal");
-    const close = $("#stayClose");
-    const keep = $("#stayKeep");
-    const hint = $("#stayHint");
-    if (!modal || !close || !keep) return;
+    const works = $("#stayWorks");
+    const about = $("#stayAbout");
+    if (!modal || !works || !about) return;
 
-    const openedAt = performance.now();
     let seen = false;
-    let open = false;
-    let armed = false;
     let readyAt = 0;
-    let pointerSeen = false;
+    let open = false;
+    let idleTimer = 0;
     try {
-      seen = sessionStorage.getItem("kaiyu-stay-prompt") === "1";
+      seen = sessionStorage.getItem("kaiyu-idle-prompt") === "1";
     } catch (error) {
       seen = false;
     }
     if (seen) return;
 
-    const markReady = () => {
-      if (!readyAt && document.body.classList.contains("is-ready")) {
-        readyAt = performance.now();
-      }
-    };
-    markReady();
-    if (!readyAt) {
-      const observer = new MutationObserver(markReady);
-      observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
-    }
-
-    document.addEventListener(
-      "pointermove",
-      (event) => {
-        if (event.pointerType === "touch" || !readyAt) return;
-        pointerSeen = true;
-      },
-      { passive: true }
-    );
-
-    const early = () => performance.now() - openedAt < 60000;
-    const settled = () =>
-      readyAt > 0 && performance.now() - readyAt > 1200 && pointerSeen;
-
-    const hide = () => {
-      if (!open) return;
-      open = false;
-      armed = false;
-      modal.classList.remove("is-open", "is-armed");
-      document.body.classList.remove("stay-open");
-      if (hint) hint.hidden = true;
-      close.textContent = "确定关闭";
-      window.setTimeout(() => {
-        modal.hidden = true;
-      }, 180);
+    const schedule = () => {
+      window.clearTimeout(idleTimer);
+      if (seen || open || !readyAt || document.hidden) return;
+      idleTimer = window.setTimeout(show, 30000);
     };
 
     const show = () => {
-      if (open || seen || !early() || !settled() || !document.body.classList.contains("is-ready")) return;
-      if (
-        document.body.classList.contains("resume-open") ||
-        document.body.classList.contains("gpa-open") ||
-        document.body.classList.contains("menu-open")
-      ) {
-        return;
-      }
+      if (open || seen || !readyAt) return;
       seen = true;
       open = true;
-      armed = false;
       try {
-        sessionStorage.setItem("kaiyu-stay-prompt", "1");
+        sessionStorage.setItem("kaiyu-idle-prompt", "1");
       } catch (error) {
         /* storage is optional */
       }
@@ -2652,55 +2610,67 @@
       window.requestAnimationFrame(() => {
         modal.classList.add("is-open");
         document.body.classList.add("stay-open");
-        keep.focus({ preventScroll: true });
+        works.focus({ preventScroll: true });
       });
     };
 
-    close.addEventListener("click", () => {
-      if (!armed) {
-        armed = true;
-        modal.classList.add("is-armed");
-        if (hint) hint.hidden = false;
-        modal.scrollTop = 0;
-        return;
-      }
-      hide();
-    });
+    const hide = () => {
+      if (!open) return;
+      open = false;
+      window.clearTimeout(idleTimer);
+      modal.classList.remove("is-open");
+      document.body.classList.remove("stay-open");
+      window.setTimeout(() => {
+        modal.hidden = true;
+      }, 180);
+    };
 
-    keep.addEventListener("click", () => {
+    const go = (target, hash) => {
       hide();
-      $("#works")?.scrollIntoView({
+      target?.scrollIntoView({
         behavior: prefersReduced ? "auto" : "smooth",
         block: "start"
       });
-    });
+      try {
+        history.replaceState(null, "", hash);
+      } catch (error) {
+        /* file:// may restrict history */
+      }
+    };
 
-    document.addEventListener("mouseout", (event) => {
-      if (event.target !== document.documentElement) return;
-      if (event.relatedTarget || event.clientY > 0) return;
-      show();
-    });
+    works.addEventListener("click", () => go($("#works"), "#works"));
+    about.addEventListener("click", () => go($("#about"), "#about"));
 
     document.addEventListener("keydown", (event) => {
-      if (!open || event.key !== "Escape") return;
-      event.preventDefault();
-      if (!armed) {
-        armed = true;
-        modal.classList.add("is-armed");
-        if (hint) hint.hidden = false;
-        modal.scrollTop = 0;
-      } else {
+      if (!open) {
+        schedule();
+        return;
+      }
+      if (event.key === "Escape") {
+        event.preventDefault();
         hide();
       }
     });
 
-    /* Browsers do not allow a custom dialog on tab close, only this native prompt. */
-    window.addEventListener("beforeunload", (event) => {
-      if (seen || !early()) return;
-      event.preventDefault();
-      event.returnValue = "";
-      return "";
+    ["pointermove", "pointerdown", "wheel", "scroll", "touchstart"].forEach((type) => {
+      document.addEventListener(type, schedule, { passive: true });
     });
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) window.clearTimeout(idleTimer);
+      else schedule();
+    });
+
+    const markReady = () => {
+      if (readyAt || !document.body.classList.contains("is-ready")) return;
+      readyAt = performance.now();
+      schedule();
+    };
+    markReady();
+    if (!readyAt) {
+      const observer = new MutationObserver(markReady);
+      observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    }
   }
 
   function initEmailCopy() {

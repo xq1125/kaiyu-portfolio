@@ -7888,3 +7888,44 @@ body.stay-open .cursor-tag {
 .stay-card h2 em {
   font-family: "Fusion Pixel Stay", var(--px-cn);
 }
+
+/* Two navigation actions in the idle prompt. */
+.stay-keep,
+.stay-about {
+  min-height: 34px;
+  padding: 8px 12px;
+  border: 1px solid var(--px-ink);
+  border-radius: 0;
+  background: var(--px-ink);
+  color: var(--px-face-hi);
+  font-family: var(--px-cn);
+  font-size: 9px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.stay-keep:hover,
+.stay-keep:focus-visible,
+.stay-about:hover,
+.stay-about:focus-visible {
+  background: var(--px-red);
+  border-color: var(--px-red);
+  color: var(--px-face-hi);
+}
+
+.stay-about {
+  margin-left: auto;
+  background: var(--px-face-hi);
+  color: var(--px-ink);
+}
+
+.stay-about:hover,
+.stay-about:focus-visible {
+  color: var(--px-face-hi);
+}
+
+@media (max-width: 520px) {
+  .stay-about {
+    margin-left: 0;
+  }
+}
