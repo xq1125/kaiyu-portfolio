@@ -2574,6 +2574,110 @@
     });
   }
 
+  function initStayPrompt() {
+    const modal = $("#stayModal");
+    const close = $("#stayClose");
+    const keep = $("#stayKeep");
+    const hint = $("#stayHint");
+    if (!modal || !close || !keep) return;
+
+    const openedAt = performance.now();
+    let seen = false;
+    let open = false;
+    let armed = false;
+    try {
+      seen = sessionStorage.getItem("kaiyu-stay-prompt") === "1";
+    } catch (error) {
+      seen = false;
+    }
+    if (seen) return;
+
+    const early = () => performance.now() - openedAt < 60000;
+
+    const hide = () => {
+      if (!open) return;
+      open = false;
+      armed = false;
+      modal.classList.remove("is-open", "is-armed");
+      document.body.classList.remove("stay-open");
+      if (hint) hint.hidden = true;
+      close.textContent = "关闭 ×";
+      window.setTimeout(() => {
+        modal.hidden = true;
+      }, 180);
+    };
+
+    const show = () => {
+      if (open || seen || !early() || !document.body.classList.contains("is-ready")) return;
+      if (
+        document.body.classList.contains("resume-open") ||
+        document.body.classList.contains("gpa-open") ||
+        document.body.classList.contains("menu-open")
+      ) {
+        return;
+      }
+      seen = true;
+      open = true;
+      armed = false;
+      try {
+        sessionStorage.setItem("kaiyu-stay-prompt", "1");
+      } catch (error) {
+        /* storage is optional */
+      }
+      modal.hidden = false;
+      window.requestAnimationFrame(() => {
+        modal.classList.add("is-open");
+        document.body.classList.add("stay-open");
+        keep.focus({ preventScroll: true });
+      });
+    };
+
+    close.addEventListener("click", () => {
+      if (!armed) {
+        armed = true;
+        modal.classList.add("is-armed");
+        close.textContent = "再点一次 ×";
+        if (hint) hint.hidden = false;
+        return;
+      }
+      hide();
+    });
+
+    keep.addEventListener("click", () => {
+      hide();
+      $("#works")?.scrollIntoView({
+        behavior: prefersReduced ? "auto" : "smooth",
+        block: "start"
+      });
+    });
+
+    document.addEventListener("mouseout", (event) => {
+      if (event.relatedTarget || event.clientY > 0) return;
+      show();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (!open || event.key !== "Escape") return;
+      event.preventDefault();
+      if (!armed) {
+        armed = true;
+        modal.classList.add("is-armed");
+        close.textContent = "再点一次 ×";
+        if (hint) hint.hidden = false;
+      } else {
+        hide();
+      }
+    });
+
+    /* Browsers do not allow a custom dialog on tab close, only this native prompt. */
+    window.addEventListener("beforeunload", (event) => {
+      if (seen || !early()) return;
+      event.preventDefault();
+      event.returnValue = "";
+      return "";
+    });
+  }
+
   function initEmailCopy() {
     const button = $("#emailCopy");
     if (!button) return;
@@ -2873,6 +2977,7 @@
   initFortuneTube();
   initResumeEnvelope();
   initGpaModal();
+  initStayPrompt();
   initTagTaps();
   initTouchFeedback();
   initEmailCopy();

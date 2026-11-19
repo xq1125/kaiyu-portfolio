@@ -7630,3 +7630,163 @@ body.gpa-open .cursor-tag {
     animation: none;
   }
 }
+
+/* A short-visit retention prompt; the close control asks twice. */
+.stay-modal {
+  position: fixed;
+  z-index: 2450;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  opacity: 0;
+  transition: opacity .2s steps(3, end);
+}
+
+.stay-modal[hidden] {
+  display: none;
+}
+
+.stay-modal.is-open {
+  opacity: 1;
+}
+
+.stay-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 28, 25, .86);
+  backdrop-filter: blur(5px);
+}
+
+.stay-card {
+  position: relative;
+  z-index: 1;
+  width: min(520px, 92vw);
+  padding: 26px 26px 22px;
+  border: 2px solid;
+  border-color: var(--px-face-hi) var(--px-face-lo) var(--px-face-lo) var(--px-face-hi);
+  background: var(--px-face);
+  color: var(--px-ink);
+  box-shadow: 8px 8px 0 var(--px-shadow);
+}
+
+.stay-modal.is-open .stay-card {
+  animation: pxDialogIn .25s steps(4, end) both;
+}
+
+.stay-kicker {
+  color: var(--px-red);
+  font-family: var(--px-en);
+  font-size: 6px;
+  letter-spacing: .08em;
+}
+
+.stay-card h2 {
+  margin-top: 14px;
+  font-family: var(--px-cn);
+  font-size: clamp(28px, 4.4vw, 42px);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -.03em;
+}
+
+.stay-card h2 em {
+  color: var(--px-red);
+  font-style: normal;
+}
+
+.stay-copy {
+  max-width: 34ch;
+  margin-top: 14px;
+  color: #6b6250;
+  font-family: var(--px-cn);
+  font-size: 10px;
+  line-height: 1.8;
+}
+
+.stay-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  margin-top: 22px;
+}
+
+.stay-keep,
+.stay-close {
+  min-height: 34px;
+  padding: 8px 12px;
+  border: 1px solid var(--px-ink);
+  border-radius: 0;
+  background: var(--px-ink);
+  color: var(--px-face-hi);
+  font-family: var(--px-cn);
+  font-size: 9px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.stay-keep:hover,
+.stay-keep:focus-visible {
+  background: var(--px-red);
+  border-color: var(--px-red);
+}
+
+.stay-close {
+  margin-left: auto;
+  background: var(--px-face-hi);
+  color: var(--px-ink);
+}
+
+.stay-close:hover,
+.stay-close:focus-visible {
+  background: var(--px-red);
+  border-color: var(--px-red);
+  color: var(--px-face-hi);
+}
+
+.stay-modal.is-armed .stay-close {
+  background: var(--px-red);
+  border-color: var(--px-red);
+  color: var(--px-face-hi);
+}
+
+.stay-hint {
+  margin-top: 10px;
+  color: var(--px-red);
+  font-family: var(--px-cn);
+  font-size: 7px;
+  text-align: right;
+}
+
+body.stay-open {
+  overflow: hidden;
+}
+
+body.stay-open .paper-grain {
+  display: none;
+}
+
+body.stay-open .cursor,
+body.stay-open .cursor-tag {
+  opacity: 0 !important;
+  visibility: hidden;
+}
+
+@media (max-width: 520px) {
+  .stay-card {
+    padding: 20px 18px 18px;
+  }
+
+  .stay-close {
+    margin-left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stay-modal,
+  .stay-modal.is-open .stay-card {
+    animation: none;
+    transition: none;
+  }
+}
