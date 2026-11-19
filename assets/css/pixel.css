@@ -7322,3 +7322,196 @@ body.gpa-open .cursor-tag {
   text-align: right;
 }
 
+
+/* Bigger fortune cup, with wooden 签 slips tucked inside the rim. */
+.fortune-widget {
+  width: 112px;
+}
+
+.fortune-tube {
+  width: 74px;
+  height: 126px;
+}
+
+.fortune-sticks {
+  top: 2px;
+  right: 9px;
+  left: 9px;
+  height: 50px;
+}
+
+.fortune-sticks i {
+  width: 7px;
+  height: 42px;
+  border: 1px solid #5d4328;
+  background: linear-gradient(90deg, #d8b982, #f0d9ae 42%, #c9a66f);
+  clip-path: polygon(0 5px, 50% 0, 100% 5px, 100% 100%, 0 100%);
+  box-shadow: none;
+}
+
+.fortune-sticks i::after {
+  content: "签";
+  top: 7px;
+  right: auto;
+  left: 50%;
+  width: auto;
+  height: auto;
+  background: none;
+  color: #9d3225;
+  font-family: var(--px-cn);
+  font-size: 5px;
+  line-height: 1;
+  transform: translateX(-50%);
+}
+
+.fortune-sticks i:nth-child(1) {
+  left: 4px;
+  height: 36px;
+  transform: rotate(-9deg);
+}
+
+.fortune-sticks i:nth-child(2) {
+  left: 14px;
+  height: 46px;
+  transform: rotate(-5deg);
+  background: linear-gradient(90deg, #d8b982, #f3dfb8 45%, #c9a66f);
+}
+
+.fortune-sticks i:nth-child(3) {
+  left: 25px;
+  height: 41px;
+  transform: rotate(0deg);
+}
+
+.fortune-sticks i:nth-child(4) {
+  left: 37px;
+  height: 48px;
+  transform: rotate(4deg);
+  background: linear-gradient(90deg, #cfae79, #ecd3a5 42%, #bd9962);
+}
+
+.fortune-sticks i:nth-child(5) {
+  left: 48px;
+  height: 35px;
+  transform: rotate(8deg);
+}
+
+.fortune-cup {
+  right: 2px;
+  left: 2px;
+  height: 86px;
+  border-radius: 3px 3px 8px 8px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, .2) 0 10%, transparent 10% 80%, rgba(0, 0, 0, .22) 80% 100%),
+    linear-gradient(90deg, #973326, #d96648 46%, #a83a2b);
+}
+
+.fortune-cup-rim {
+  top: -8px;
+  right: -3px;
+  left: -3px;
+  height: 12px;
+}
+
+.fortune-cup-label {
+  top: 18px;
+  font-size: 11px;
+  letter-spacing: 3px;
+}
+
+.fortune-cup-mark {
+  bottom: 6px;
+  font-size: 5px;
+}
+
+.fortune-pop {
+  bottom: 80px;
+  width: 7px;
+  height: 54px;
+  clip-path: polygon(0 5px, 50% 0, 100% 5px, 100% 100%, 0 100%);
+}
+
+.fortune-pop::after {
+  content: "签";
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  color: #9d3225;
+  font-family: var(--px-cn);
+  font-size: 5px;
+  line-height: 1;
+  transform: translateX(-50%);
+}
+
+.fortune-caption {
+  right: calc(100% + 10px);
+  bottom: 6px;
+  font-size: 8px;
+}
+
+.fortune-caption em {
+  font-size: 5px;
+}
+
+.fortune-results {
+  right: 76px;
+  bottom: 80px;
+  width: 160px;
+}
+
+.fortune-result {
+  min-width: 104px;
+  padding: 8px 9px 7px;
+  font-size: 11px;
+}
+
+.fortune-result small {
+  font-size: 5px;
+}
+
+/* Wider bamboo slips, all tucked inside the rim; no dangling right stick. */
+.fortune-sticks i {
+  width: 9px;
+}
+
+.fortune-sticks i::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  bottom: 5px;
+  left: 2px;
+  width: 1px;
+  background: rgba(107, 75, 42, .32);
+}
+
+.fortune-sticks i::after {
+  font-size: 6px;
+}
+
+.fortune-sticks i:nth-child(1) {
+  left: 5px;
+  height: 38px;
+  transform: rotate(-8deg);
+}
+
+.fortune-sticks i:nth-child(2) {
+  left: 18px;
+  height: 46px;
+  transform: rotate(-4deg);
+}
+
+.fortune-sticks i:nth-child(3) {
+  left: 31px;
+  height: 42px;
+  transform: rotate(1deg);
+}
+
+.fortune-sticks i:nth-child(4) {
+  left: 44px;
+  height: 48px;
+  transform: rotate(6deg);
+}
+
+.fortune-sticks i:nth-child(5) {
+  display: none;
+}
