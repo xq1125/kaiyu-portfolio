@@ -2594,7 +2594,7 @@
     const schedule = () => {
       window.clearTimeout(idleTimer);
       if (seen || open || !readyAt || document.hidden) return;
-      idleTimer = window.setTimeout(show, 30000);
+      idleTimer = window.setTimeout(show, 15000);
     };
 
     const show = () => {
