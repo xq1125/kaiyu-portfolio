@@ -7870,3 +7870,21 @@ body.stay-open .cursor-tag {
     grid-row: 2;
   }
 }
+
+/* Full-coverage pixel subset so every character in the stay headline matches. */
+@font-face {
+  font-family: "Fusion Pixel Stay";
+  src: url("../fonts/fusion-pixel-stay.woff2?v=2") format("woff2");
+  font-display: swap;
+  font-weight: 400;
+}
+
+.stay-card h2 {
+  font-family: "Fusion Pixel Stay", var(--px-cn);
+  font-synthesis: none;
+}
+
+
+.stay-card h2 em {
+  font-family: "Fusion Pixel Stay", var(--px-cn);
+}
