@@ -2601,7 +2601,7 @@
       modal.classList.remove("is-open", "is-armed");
       document.body.classList.remove("stay-open");
       if (hint) hint.hidden = true;
-      close.textContent = "关闭 ×";
+      close.textContent = "确定关闭";
       window.setTimeout(() => {
         modal.hidden = true;
       }, 180);
@@ -2636,8 +2636,8 @@
       if (!armed) {
         armed = true;
         modal.classList.add("is-armed");
-        close.textContent = "再点一次 ×";
         if (hint) hint.hidden = false;
+        modal.scrollTop = 0;
         return;
       }
       hide();
@@ -2662,8 +2662,8 @@
       if (!armed) {
         armed = true;
         modal.classList.add("is-armed");
-        close.textContent = "再点一次 ×";
         if (hint) hint.hidden = false;
+        modal.scrollTop = 0;
       } else {
         hide();
       }

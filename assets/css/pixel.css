@@ -7790,3 +7790,22 @@ body.stay-open .cursor-tag {
     transition: none;
   }
 }
+
+/* First confirmation snaps the card upward with a soft red flash. */
+.stay-modal.is-armed .stay-card {
+  animation: stayFlash .44s steps(4, end);
+}
+
+@keyframes stayFlash {
+  0% { opacity: 1; transform: translateY(0); }
+  22% { opacity: .48; transform: translateY(-8px); border-color: var(--px-red); }
+  48% { opacity: 1; transform: translateY(-3px); border-color: var(--px-red); }
+  72% { opacity: .78; transform: translateY(-6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stay-modal.is-armed .stay-card {
+    animation: none;
+  }
+}
