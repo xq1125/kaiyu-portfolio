@@ -7822,3 +7822,51 @@ body.stay-open .cursor-tag {
   font-size: .82em;
   line-height: 1.45;
 }
+
+/* Stay prompt: text on the left, a pixelated pleading cat on the right. */
+.stay-card {
+  display: grid;
+  width: min(660px, 94vw);
+  grid-template-columns: minmax(0, 1fr) 150px;
+  gap: 20px;
+  align-items: center;
+}
+
+.stay-main {
+  min-width: 0;
+}
+
+.stay-media {
+  width: 100%;
+  margin: 0;
+  padding: 4px;
+  border: 2px solid #5d4328;
+  background: #e6d5b6;
+  box-shadow: 4px 4px 0 var(--px-shadow);
+  transform: rotate(1deg);
+}
+
+.stay-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid #8d846d;
+  image-rendering: pixelated;
+}
+
+@media (max-width: 560px) {
+  .stay-card {
+    grid-template-columns: 1fr;
+    gap: 13px;
+  }
+
+  .stay-media {
+    width: 118px;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  .stay-main {
+    grid-row: 2;
+  }
+}
