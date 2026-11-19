@@ -1,4 +1,4 @@
-/* ==========================================================================
+﻿/* ==========================================================================
    PIXEL DESKTOP THEME — KAIYU.OS 95
    Loaded after style.css so the whole portfolio reads as one old computer.
    ========================================================================== */
@@ -7294,3 +7294,31 @@ body.gpa-open .cursor-tag {
     animation: none;
   }
 }
+
+/* Fortune tube sits in the bottom-right corner, cup bottom aligned with the mascot. */
+.fortune-widget {
+  right: clamp(16px, 2vw, 30px);
+  bottom: 44px;
+  left: auto;
+}
+
+.fortune-caption {
+  position: absolute;
+  right: calc(100% + 8px);
+  bottom: 4px;
+  margin-top: 0;
+  text-align: right;
+}
+
+.fortune-results {
+  right: 58px;
+  left: auto;
+  width: 130px;
+}
+
+.fortune-result {
+  right: 0;
+  left: auto;
+  text-align: right;
+}
+
