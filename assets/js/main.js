@@ -2375,6 +2375,7 @@
     tube.addEventListener("click", () => {
       if (busy) return;
       busy = true;
+      document.dispatchEvent(new CustomEvent("kaiyu:fortune"));
 
       let index = Math.floor(Math.random() * wishes.length);
       if (index === last) index = (index + 1 + Math.floor(Math.random() * (wishes.length - 1))) % wishes.length;

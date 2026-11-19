@@ -15,6 +15,7 @@
     boot: { src: "assets/audio/boot.wav", volume: 0.30 },
     copy: { src: "assets/audio/ui-copy.wav", volume: 0.24 },
     error: { src: "assets/audio/ui-error.wav", volume: 0.22 },
+    fortune: { src: "assets/audio/fortune-shake.wav", volume: 0.34 },
   };
 
   let enabled = true;
@@ -249,6 +250,8 @@
       else if (sound === "close") playSfx("close", 0.20);
     });
 
+    document.addEventListener("kaiyu:fortune", () => playSfx("fortune", 0.34));
+
     const toast = document.querySelector("#toast");
     if (toast) {
       new MutationObserver(() => {
@@ -268,6 +271,7 @@
         );
         if (!target) return;
         if (target.closest(".px-sound")) return;
+        if (target.closest("#fortuneTube")) return;
 
         if (target.closest("#loaderEnter, #loader")) {
           if (enabled && !started) tryPlay(true);
