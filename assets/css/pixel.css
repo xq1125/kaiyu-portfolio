@@ -7809,3 +7809,16 @@ body.stay-open .cursor-tag {
     animation: none;
   }
 }
+
+/* Keep the longer, softer stay-prompt headline readable. */
+.stay-card h2 {
+  font-size: clamp(23px, 3.3vw, 33px);
+  line-height: 1.26;
+}
+
+.stay-card h2 em {
+  display: block;
+  margin-top: .18em;
+  font-size: .82em;
+  line-height: 1.45;
+}
