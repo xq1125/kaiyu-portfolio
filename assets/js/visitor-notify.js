@@ -1,7 +1,7 @@
 ﻿/* KAIYU.OS 95 — optional visit notification.
    Paste the deployed Google Apps Script Web App URL below.
    It must look like https://script.google.com/macros/s/.../exec */
-window.KAIYU_NOTIFY_URL = "";
+window.KAIYU_NOTIFY_URL = "https://script.google.com/macros/s/AKfycbx26uI8MHa51xn3vr-eMDSpyR2tjMJ8l-iK3J-yqoWLOdUUuSmXGcoiCr1DnOa-0o4PgA/exec";
 window.KAIYU_NOTIFY_TOKEN = "kaiyu-95-visit-2026";
 
 (() => {
@@ -58,3 +58,4 @@ window.KAIYU_NOTIFY_TOKEN = "kaiyu-95-visit-2026";
   if (document.readyState === "complete") window.setTimeout(send, 350);
   else window.addEventListener("load", () => window.setTimeout(send, 350), { once: true });
 })();
+
