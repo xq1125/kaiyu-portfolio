@@ -2585,6 +2585,8 @@
     let seen = false;
     let open = false;
     let armed = false;
+    let readyAt = 0;
+    let pointerSeen = false;
     try {
       seen = sessionStorage.getItem("kaiyu-stay-prompt") === "1";
     } catch (error) {
@@ -2592,7 +2594,29 @@
     }
     if (seen) return;
 
+    const markReady = () => {
+      if (!readyAt && document.body.classList.contains("is-ready")) {
+        readyAt = performance.now();
+      }
+    };
+    markReady();
+    if (!readyAt) {
+      const observer = new MutationObserver(markReady);
+      observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    }
+
+    document.addEventListener(
+      "pointermove",
+      (event) => {
+        if (event.pointerType === "touch" || !readyAt) return;
+        pointerSeen = true;
+      },
+      { passive: true }
+    );
+
     const early = () => performance.now() - openedAt < 60000;
+    const settled = () =>
+      readyAt > 0 && performance.now() - readyAt > 1200 && pointerSeen;
 
     const hide = () => {
       if (!open) return;
@@ -2608,7 +2632,7 @@
     };
 
     const show = () => {
-      if (open || seen || !early() || !document.body.classList.contains("is-ready")) return;
+      if (open || seen || !early() || !settled() || !document.body.classList.contains("is-ready")) return;
       if (
         document.body.classList.contains("resume-open") ||
         document.body.classList.contains("gpa-open") ||
@@ -2652,6 +2676,7 @@
     });
 
     document.addEventListener("mouseout", (event) => {
+      if (event.target !== document.documentElement) return;
       if (event.relatedTarget || event.clientY > 0) return;
       show();
     });
