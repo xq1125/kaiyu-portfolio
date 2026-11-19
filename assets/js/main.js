@@ -2344,21 +2344,22 @@
     if (!widget || !tube || !count || !results) return;
 
     const wishes = [
-      "好运",
-      "暴富",
-      "不挂科",
-      "早睡成功",
-      "灵感爆棚",
-      "心想事成",
-      "逢考必过",
-      "情绪稳定",
-      "发量惊人",
-      "论文顺利",
-      "卡里有钱",
-      "桃花朵朵",
-      "准点下班",
-      "OFFER 到手"
+      { text: "好运", tier: "大吉" },
+      { text: "暴富", tier: "大吉" },
+      { text: "不挂科", tier: "中吉" },
+      { text: "早睡成功", tier: "小吉" },
+      { text: "灵感爆棚", tier: "中吉" },
+      { text: "心想事成", tier: "大吉" },
+      { text: "逢考必过", tier: "大吉" },
+      { text: "情绪稳定", tier: "小吉" },
+      { text: "发量惊人", tier: "小吉" },
+      { text: "论文顺利", tier: "中吉" },
+      { text: "卡里有钱", tier: "中吉" },
+      { text: "桃花朵朵", tier: "中吉" },
+      { text: "准点下班", tier: "小吉" },
+      { text: "OFFER 到手", tier: "大吉" }
     ];
+    const tierColors = { 大吉: "#a92f24", 中吉: "#6c4d92", 小吉: "#d7b537" };
 
     let total = 0;
     let last = -1;
@@ -2372,6 +2373,7 @@
       let index = Math.floor(Math.random() * wishes.length);
       if (index === last) index = (index + 1 + Math.floor(Math.random() * (wishes.length - 1))) % wishes.length;
       last = index;
+      const wish = wishes[index];
       total += 1;
 
       count.textContent = `LUCK ${pad(total)}`;
@@ -2379,17 +2381,24 @@
       void tube.offsetWidth;
       tube.classList.add("is-drawing");
 
-      const slip = document.createElement("span");
-      slip.className = "fortune-result";
-      const wish = document.createElement("b");
-      wish.textContent = `${wishes[index]}+1`;
-      const note = document.createElement("small");
-      note.textContent = `NO.${pad(total)} · 第 ${total} 签`;
-      slip.append(wish, note);
-      results.appendChild(slip);
-      if (live) live.textContent = `${wishes[index]}加一，已求 ${total} 签。`;
+      const draw = document.createElement("span");
+      draw.className = "fortune-draw";
+      draw.dataset.tier = wish.tier;
+      draw.style.setProperty("--tier", tierColors[wish.tier]);
+      const head = document.createElement("span");
+      head.className = "fortune-draw-head";
+      head.textContent = wish.tier;
+      const text = document.createElement("span");
+      text.className = "fortune-draw-text";
+      text.textContent = `${wish.text}+1`;
+      const mark = document.createElement("span");
+      mark.className = "fortune-draw-mark";
+      mark.textContent = `NO.${pad(total)} / LUCK`;
+      draw.append(head, text, mark);
+      results.appendChild(draw);
+      if (live) live.textContent = `${wish.tier}，${wish.text}加一，已求 ${total} 签。`;
 
-      window.setTimeout(() => slip.remove(), 2250);
+      window.setTimeout(() => draw.remove(), 3000);
       window.setTimeout(() => {
         tube.classList.remove("is-drawing");
         busy = false;
