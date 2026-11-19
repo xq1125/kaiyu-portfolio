@@ -2362,8 +2362,14 @@
     const tierColors = { 大吉: "#a92f24", 中吉: "#6c4d92", 小吉: "#d7b537" };
 
     let total = 0;
+    try {
+      total = Math.max(0, parseInt(localStorage.getItem("kaiyu-fortune-total") || "0", 10) || 0);
+    } catch (error) {
+      total = 0;
+    }
     let last = -1;
     let busy = false;
+    count.textContent = `LUCK ${pad(total)}`;
     widget.classList.add("is-visible");
 
     tube.addEventListener("click", () => {
@@ -2375,6 +2381,11 @@
       last = index;
       const wish = wishes[index];
       total += 1;
+      try {
+        localStorage.setItem("kaiyu-fortune-total", String(total));
+      } catch (error) {
+        /* private mode may reject storage */
+      }
 
       count.textContent = `LUCK ${pad(total)}`;
       tube.classList.remove("is-drawing");
